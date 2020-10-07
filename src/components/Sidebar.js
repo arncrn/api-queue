@@ -21,7 +21,12 @@ class Sidebar extends Component {
           <button className="tablinks" onClick="">Future</button>
         </div>
 
-        <div class="tabcontent past">
+        <div>
+          <Past/>
+          <Future/>
+        </div>
+
+        {/* <div class="tabcontent past">
           <li>1</li>
           <li>2</li>
           <li>3</li>
@@ -30,7 +35,7 @@ class Sidebar extends Component {
           <li>1</li>
           <li>2</li>
           <li>3</li>
-        </div>
+        </div> */}
       </aside>
     );
   }
