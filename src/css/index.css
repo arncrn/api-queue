@@ -90,3 +90,11 @@ summary::-webkit-details-marker {
   width: 100%;
   height: 600px;
 } */
+
+dd, dt {
+  display: inline-block
+}
+
+dt {
+  margin-right: 5px;
+}
