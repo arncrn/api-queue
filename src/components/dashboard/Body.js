@@ -13,7 +13,7 @@ class Body extends Component {
         <Form.Label as="legend">Body</Form.Label>
 
         <Row>
-          <Col xs={3}>
+          <Col lg={3}>
             <Form.Control as="select" custom>
               <option>CONTENT-TYPE</option>
               <option>JSON</option>

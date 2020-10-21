@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import Past from './Past';
 import Future from './Future';
-
+import {Nav } from "react-bootstrap";
 
 class Sidebar extends Component {
 
@@ -16,44 +16,38 @@ class Sidebar extends Component {
   //   })
   // }
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      page: "past"
-    };
-  }
+  // constructor(props) {
+  //   super(props);
+  //   this.state = {
+  //     page: "past"
+  //   };
+  // }
 
-  futureClick = () => {
-    this.setState({
-      page: "future"
-    });
-  }
+  // futureClick = () => {
+  //   this.setState({
+  //     page: "future"
+  //   });
+  // }
 
-  pastClick = () => {
-    this.setState({
-      page: "past"
-    });
-  }
+  // pastClick = () => {
+  //   this.setState({
+  //     page: "past"
+  //   });
+  // }
 
   render() {
-    let section;
-    if (this.state.page === "past") {
-      section = <Past/>;
-    } else {
-      section = <Future/>;
-    } 
-
     return (
-      <aside className="sidebar">
-        <div className="tabs" style={{backgroundColor:`${this.state.color}`}}>
-          <button className="tablinks" onClick={this.pastClick}>Past</button>
-          <button className="tablinks" onClick={this.futureClick}>Future</button>
-        </div>
-
-        <div>
-          {section}
-        </div>
-      </aside>
+      <>
+      <Nav variant="tabs" defaultActiveKey="/home" className="mt-3">
+        <Nav.Item>
+          <Nav.Link href="/home">Past</Nav.Link>
+        </Nav.Item>
+        <Nav.Item>
+          <Nav.Link eventKey="link-1">Future</Nav.Link>
+        </Nav.Item>
+      </Nav>
+      <Past />
+      </>
     );
   }
 }
