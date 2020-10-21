@@ -15,18 +15,18 @@ class Headers extends Component {
         </Row>
         
         <Row className='mt-3'>
-          <Col xs={5}>Key</Col>
-          <Col xs={5}>Value</Col>
+          <Col lg={5}>Key</Col>
+          <Col lg={5}>Value</Col>
 
-          <Col xs={5}>
+          <Col lg={5}>
             <Form.Control type="text" placeholder="Authorization" />
           </Col>
 
-          <Col xs={5}>
+          <Col lg={5}>
             <Form.Control type="text" placeholder="1234asdf" />
           </Col>
           
-          <Col xs={2}>
+          <Col lg={2}>
             <Button variant="light">+</Button>
           </Col>
         </Row>

@@ -28,8 +28,8 @@ class App extends Component {
     return (
       <Container>
         <Row>
-          <Col xs={3} as={"main"} className="border"><Sidebar/></Col>
-          <Col xs={9} as={"main"} className="border">
+          <Col lg={3} as={"main"} className="border"><Sidebar/></Col>
+          <Col lg={9} as={"main"} className="border">
             <Form>
               <Url/>
                 {/* {this.state.verb !== 'post' && <Parameters/>} */}

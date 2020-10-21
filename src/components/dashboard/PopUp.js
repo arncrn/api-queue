@@ -51,7 +51,7 @@ class PopUp extends Component {
           <Modal.Body>
             <Container>
               <Row>
-                <Col xs={12} as={"main"} className="border">
+                <Col lg={12} as={"main"} className="border">
                   <RequestResponse />
                   <Form>
                     <Url />

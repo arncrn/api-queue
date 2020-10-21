@@ -5,7 +5,7 @@ class Post extends Component {
   render() {
     return (
       <Row>
-        <Col xs={{span:2, offset: 10}}>
+        <Col lg={{span:2, offset: 10}}>
           <Button variant="primary">Send</Button>
         </Col>
       </Row>
