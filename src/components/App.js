@@ -4,7 +4,7 @@ import Parameters from './dashboard/form-top/Parameters.js';
 import Url from './dashboard/form-top/Url.js';
 import Headers from './dashboard/Headers.js';
 import Scheduler from './dashboard/Scheduler.js';
-import Post from './dashboard/Post.js';
+import SubmitButton from './dashboard/SubmitButton.js';
 import Body from './dashboard/Body.js';
 import RequestResponse from './dashboard/RequestResponse.js';
 import PopUp from './dashboard/PopUp.js';
@@ -24,13 +24,17 @@ class App extends Component {
     // };
   }
 
+  handleSubmit = (event) => {
+    event.preventDefault();
+  }
+
   render() {
     return (
       <Container>
         <Row>
           <Col lg={3} as={"main"} className="border"><Sidebar/></Col>
           <Col lg={9} as={"main"} className="border">
-            <Form>
+            <Form onSubmit={this.handleSubmit}>
               <Url/>
                 {/* {this.state.verb !== 'post' && <Parameters/>} */}
                 <Parameters/>
@@ -38,7 +42,7 @@ class App extends Component {
               <Headers/>
               <Body />
               <Scheduler/>
-              <Post />
+              <SubmitButton />
               <PopUp />
             </Form>
           </Col>
