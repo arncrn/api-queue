@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Modal, Button, Container, Row, Col, Form } from "react-bootstrap";
 import Headers from "./Headers.js";
 import Scheduler from "./Scheduler.js";
-import Post from "./Post.js";
+import SubmitButton from "./SubmitButton.js";
 import Body from "./Body.js";
 import Url from "./form-top/Url.js";
 import Parameters from "./form-top/Parameters.js";
@@ -19,17 +19,6 @@ class PopUp extends Component {
   render() {
     return (
       <>
-        <Button
-          variant="primary"
-          onClick={() =>
-            this.setState({
-              show: true,
-            })
-          }
-        >
-          Custom Width Modal
-        </Button>
-
         <Modal
           show={this.state.show}
           onHide={() =>
@@ -60,13 +49,23 @@ class PopUp extends Component {
                     <Headers />
                     <Body />
                     <Scheduler />
-                    <Post />
+                    <SubmitButton />
                   </Form>
                 </Col>
               </Row>
             </Container>
           </Modal.Body>
         </Modal>
+        <Button
+          variant="primary"
+          onClick={() =>
+            this.setState({
+              show: true,
+            })
+          }
+        >
+          Custom Width Modal
+        </Button>
       </>
     );
   }

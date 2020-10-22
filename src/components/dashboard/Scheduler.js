@@ -1,12 +1,22 @@
 import React, { Component } from "react";
-import { Form } from "react-bootstrap";
-import { Col } from "react-bootstrap";
-import { Row } from "react-bootstrap";
-import { Button } from "react-bootstrap";
-import { Accordion } from "react-bootstrap";
-import { Card } from "react-bootstrap";
+import Calendar from 'react-calendar';
+import { Form, Col, Row, Button, Accordion, Card } from "react-bootstrap";
 
 class Scheduler extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      date: null,
+    };
+  }
+
+  onChange = (date) => {
+    console.log(Object.getPrototypeOf(date).constructor.name);
+    console.log(date);
+    this.setState({ date });
+  }
+
   render() {
     return (
       <Form.Group as={"fieldset"}>
@@ -27,7 +37,27 @@ class Scheduler extends Component {
             </Card.Header>
 
             <Accordion.Collapse eventKey="0">
-              <Card.Body>Hello! I'm the body</Card.Body>
+              <Card.Body>
+                <Row className="justify-content-center">
+                  <Col lg={3}>
+                    <Form.Control as="input" type="time"></Form.Control>
+                  </Col>
+                  <Col lg={3}>
+                    <Form.Control as="select" defaultValue="CST" custom>
+                      <option value="ALASKA">Alaska Time</option>
+                      <option value="PT">Pacific Time</option>
+                      <option value="MT">Mountain Time</option>
+                      <option value="CST">Central Time</option>
+                      <option value="EST">Eastern Time</option>
+                    </Form.Control>
+                  </Col>
+                </Row>
+                <Calendar 
+                  onChange={this.onChange}
+                  value={this.state.date}
+                  className="mt-3 mx-auto"
+                />
+              </Card.Body>
             </Accordion.Collapse>
           </Card>
         </Accordion>
