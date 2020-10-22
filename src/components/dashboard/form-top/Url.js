@@ -1,19 +1,17 @@
 import React, { Component } from "react";
-import { Form } from "react-bootstrap";
-import { Col } from "react-bootstrap";
-import { Row } from "react-bootstrap";
+import { Form, Col, Row } from "react-bootstrap";
 
 class Url extends Component {
   render() {
     return (
       <Form.Group as={"fieldset"}>
-        <Row className='mt-3'>
+        <Row className="mt-3">
           <Col>
             Select the type of request to send and the URL where it's going.
           </Col>
         </Row>
 
-        <Row className='mt-3'>
+        <Row className="mt-3">
           <Col xs={2}>
             <Form.Control as="select" custom>
               <option>GET</option>
@@ -29,13 +27,14 @@ class Url extends Component {
           </Col>
         </Row>
 
-        <Row className='mt-3'>
+        <Row className="mt-3">
           <Col>
-          Pick any name you want, maybe something to help you remember what this request is for.
+            Pick any name you want, maybe something to help you remember what
+            this request is for.
           </Col>
         </Row>
-        
-        <Row className='mt-3'>
+
+        <Row className="mt-3">
           <Col>
             <Form.Control type="text" placeholder="Enter your request name" />
           </Col>

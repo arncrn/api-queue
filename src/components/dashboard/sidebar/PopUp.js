@@ -1,19 +1,27 @@
 import React, { Component } from "react";
-import { Modal, Button, Container, Row, Col, Form } from "react-bootstrap";
-import Headers from "./Headers.js";
-import Scheduler from "./Scheduler.js";
-import SubmitButton from "./SubmitButton.js";
-import Body from "./Body.js";
-import Url from "./form-top/Url.js";
-import Parameters from "./form-top/Parameters.js";
-import RequestResponse from "./RequestResponse.js";
+import { Modal, Container, Row, Col, Form } from "react-bootstrap";
+import Headers from "../Headers.js";
+import Scheduler from "../Scheduler.js";
+import SubmitButton from "../SubmitButton.js";
+import Body from "../Body.js";
+import Url from "../form-top/Url.js";
+import Parameters from "../form-top/Parameters.js";
+import RequestResponse from "../RequestResponse.js";
 
 class PopUp extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      show: false,
+      show: true,
     };
+  }
+
+  onHideClick = () => {
+    this.setState({
+      show: false,
+    })
+
+    this.props.hideModalClick();
   }
 
   render() {
@@ -21,11 +29,7 @@ class PopUp extends Component {
       <>
         <Modal
           show={this.state.show}
-          onHide={() =>
-            this.setState({
-              show: false,
-            })
-          }
+          onHide={this.onHideClick}
           dialogClassName="modal-90w"
           aria-labelledby="example-custom-modal-styling-title"
           centered
@@ -56,16 +60,6 @@ class PopUp extends Component {
             </Container>
           </Modal.Body>
         </Modal>
-        <Button
-          variant="primary"
-          onClick={() =>
-            this.setState({
-              show: true,
-            })
-          }
-        >
-          Custom Width Modal
-        </Button>
       </>
     );
   }
