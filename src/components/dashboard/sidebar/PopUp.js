@@ -9,18 +9,7 @@ import Parameters from "../form-top/Parameters.js";
 import RequestResponse from "../RequestResponse.js";
 
 class PopUp extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      show: true,
-    };
-  }
-
   onHideClick = () => {
-    this.setState({
-      show: false,
-    })
-
     this.props.hideModalClick();
   }
 
@@ -28,7 +17,7 @@ class PopUp extends Component {
     return (
       <>
         <Modal
-          show={this.state.show}
+          show={this.props.visibleModal}
           onHide={this.onHideClick}
           dialogClassName="modal-90w"
           aria-labelledby="example-custom-modal-styling-title"

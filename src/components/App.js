@@ -80,9 +80,10 @@ class App extends Component {
               <Body />
               <Scheduler />
               <SubmitButton />
-              {this.state.visibleModal === true && (
-                <PopUp hideModalClick={this.hideModalClick} />
-              )}
+              <PopUp
+                visibleModal={this.state.visibleModal}
+                hideModalClick={this.hideModalClick}
+              />
             </Form>
           </Col>
         </Row>

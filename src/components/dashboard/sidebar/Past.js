@@ -5,9 +5,9 @@ class Past extends Component {
   render() {
     return (
       <ListGroup>
-        {this.props.requestList.map((r) => {
+        {this.props.requestList.map((r, idx) => {
           return (
-          <ListGroup.Item action href="#link1" onClick={this.props.showModalClick}>
+          <ListGroup.Item action href={`#link1${idx}`} onClick={this.props.showModalClick}>
             <Row>
               <Col className="h6">
                 {r.name}
