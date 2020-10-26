@@ -31,8 +31,8 @@ class Scheduler extends Component {
         <Accordion className='mt-3'>
           <Card border="dark">
             <Card.Header>
-              <Accordion.Toggle as={Button} variant="link" eventKey="0">
-                <Button variant="dark">+</Button>
+              <Accordion.Toggle as={Button} variant="dark" eventKey="0">
+                +
               </Accordion.Toggle>
             </Card.Header>
 
@@ -40,7 +40,7 @@ class Scheduler extends Component {
               <Card.Body>
                 <Row className="justify-content-center">
                   <Col lg={3}>
-                    <Form.Control as="input" type="time" value="15:39"></Form.Control>
+                    <Form.Control as="input" type="time" defaultValue="15:39"></Form.Control>
                   </Col>
                   <Col lg={3}>
                     <Form.Control as="select" defaultValue="CST" custom>

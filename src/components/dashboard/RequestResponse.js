@@ -71,17 +71,17 @@ class RequestResponse extends Component {
             <Accordion className="mt-3">
               <Card>
                 <Card.Header>
-                  <Accordion.Toggle as={Button} variant="link" eventKey="0">
-                    <Button variant="dark">Headers</Button>
+                  <Accordion.Toggle as={Button} variant="dark" eventKey="0">
+                    Headers
                   </Accordion.Toggle>
                 </Card.Header>
 
                 <Accordion.Collapse eventKey="0">
                   <Card.Body>
                     <dl>
-                      {Object.entries(this.state.headers).map(([k, v]) => {
+                      {Object.entries(this.state.headers).map(([k, v], idx) => {
                         return (
-                            <div>
+                            <div key={idx}>
                               <dt>{k}:</dt>
                               <dd>{v}</dd>
                             </div>
@@ -96,8 +96,8 @@ class RequestResponse extends Component {
             <Accordion>
               <Card>
                 <Card.Header>
-                  <Accordion.Toggle as={Button} variant="link" eventKey="0">
-                    <Button variant="dark">Body</Button>
+                  <Accordion.Toggle as={Button} variant="dark" eventKey="0">
+                    Body
                   </Accordion.Toggle>
                 </Card.Header>
 
