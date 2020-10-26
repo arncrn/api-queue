@@ -2,6 +2,25 @@ import React, { Component } from "react";
 import { Form, Col, Row } from "react-bootstrap";
 
 class Url extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      hostName: 'https://www.google.com/'
+    }
+  }
+
+  parseUrlParams = () => {
+    let queryString = this.props.parameters.map(param => {
+      return param.key + '=' + param.value
+    }).join('&');
+
+    let joiner = queryString.length === 0 ? '' : '?'
+
+    return (
+      this.state.hostName + joiner + queryString
+    )
+  }
+
   render() {
     return (
       <Form.Group as={"fieldset"}>
@@ -23,7 +42,7 @@ class Url extends Component {
           </Col>
 
           <Col>
-            <Form.Control type="text" placeholder="https://www.google.com" value="https://www.google.com/?product=2"/>
+            <Form.Control type="text" placeholder="https://www.google.com" defaultValue={this.parseUrlParams()}/>
           </Col>
         </Row>
 
@@ -36,7 +55,7 @@ class Url extends Component {
 
         <Row className="mt-3">
           <Col>
-            <Form.Control type="text" placeholder="Enter your request name" value="GET to google"/>
+            <Form.Control type="text" placeholder="Enter your request name" defaultValue="GET to google"/>
           </Col>
         </Row>
       </Form.Group>

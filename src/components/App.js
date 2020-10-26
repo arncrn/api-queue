@@ -6,7 +6,6 @@ import Headers from "./dashboard/Headers.js";
 import Scheduler from "./dashboard/Scheduler.js";
 import SubmitButton from "./dashboard/SubmitButton.js";
 import Body from "./dashboard/Body.js";
-import PopUp from "./dashboard/sidebar/PopUp.js";
 
 // Bootstrap Components
 import { Container, Row, Col, Form } from "react-bootstrap";
@@ -30,7 +29,6 @@ class App extends Component {
           status: "200",
         },
       ],
-      visibleModal: false,
     };
   }
 
@@ -39,51 +37,24 @@ class App extends Component {
     event.preventDefault();
   };
 
-  // When request item is clicked, displays modal
-  showModalClick = (event) => {
-    this.showModal(event);
-  };
-
-  showModal = () => {
-    this.setState({
-      visibleModal: true,
-    });
-  };
-
-  // When request item is clicked, hide modal
-  hideModalClick = () => {
-    this.hideModal();
-  };
-
-  hideModal = () => {
-    this.setState({
-      visibleModal: false,
-    });
-  };
-
   render() {
     return (
       <Container>
         <Row>
           <Col lg={3} as={"main"} className="border">
             <Sidebar
-              showModalClick={this.showModalClick}
               requestList={this.state.req}
             />
           </Col>
           <Col lg={9} as={"main"} className="border">
             <Form onSubmit={this.handleSubmit}>
-              <Url />
+              <Url parameters={[]}/>
               <Parameters />
               <hr />
               <Headers />
               <Body />
               <Scheduler />
               <SubmitButton />
-              <PopUp
-                visibleModal={this.state.visibleModal}
-                hideModalClick={this.hideModalClick}
-              />
             </Form>
           </Col>
         </Row>

@@ -11,6 +11,19 @@ import RequestResponse from "../RequestResponse.js";
 class PopUp extends Component {
   constructor(props){
     super(props);
+
+    this.state = {
+      parameters: [
+        {
+          key: "product",
+          value: "2",
+        },
+        {
+          key: "search",
+          value: "toys",
+        },
+      ],
+    };
   }
   
   onHideClick = () => {
@@ -21,8 +34,8 @@ class PopUp extends Component {
     return (
       <>
         <Modal
-          show={true}
-          // show={this.props.visibleModal}
+          // show={true}
+          show={this.props.visibleModal}
           onHide={this.onHideClick}
           dialogClassName="modal-90w"
           aria-labelledby="example-custom-modal-styling-title"
@@ -41,8 +54,8 @@ class PopUp extends Component {
                 <Col lg={12} as={"main"} className="border">
                   <RequestResponse />
                   <Form>
-                    <Url />
-                    <Parameters />
+                    <Url parameters={this.state.parameters}/>
+                    <Parameters parameters={this.state.parameters} />
                     <hr />
                     <Headers />
                     <Body /> {/* hide this in get request */}

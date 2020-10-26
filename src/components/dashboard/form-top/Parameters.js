@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import { Form, Col, Row, Button } from "react-bootstrap";
 
 class Parameters extends Component {
@@ -32,14 +32,14 @@ class Parameters extends Component {
           <Col xs={5}>Key</Col>
           <Col xs={5}>Value</Col>
           {/* Change buttons here, alignment issues */}
-          {this.state.parameters.map((param) => {
+          {this.state.parameters.map((param, idx) => {
             return (
-              <>
+              <Fragment key={idx}>
                 <Col xs={5} className="mt-3">
                   <Form.Control
                     type="text"
                     placeholder="name"
-                    value={param.key}
+                    defaultValue={param.key}
                   />
                 </Col>
 
@@ -47,13 +47,13 @@ class Parameters extends Component {
                   <Form.Control
                     type="text"
                     placeholder="value"
-                    value={param.value}
+                    defaultValue={param.value}
                   />
                 </Col>
                 <Col xs={2} className="mt-3">
                   <Button variant="light">x</Button>
                 </Col>
-              </>
+              </Fragment>
             );
           })}
 
