@@ -19,15 +19,15 @@ class App extends Component {
       req: [
         {
           name: "Request name",
-          date: "10-10-1900",
-          method: "DELET",
+          date: "10-10",
+          method: "DELETE",
           status: "200",
         },
         {
           name: "Request name 2",
-          date: "10-10-1900 2",
-          method: "DELET 2",
-          status: "200 2",
+          date: "10-10",
+          method: "DELETE",
+          status: "200",
         },
       ],
       visibleModal: false,

@@ -12,27 +12,39 @@ import {
 } from "react-bootstrap";
 
 class RequestResponse extends Component {
-  render() {
-    let ott = {
-      name: 123,
-      age: {
-        t: 555,
+  constructor(props){
+    super(props);
+
+    this.state = {
+      status: "HTTP/1.1 200 OK",
+      headers: {
+        "Accept": "*/*",
+        "Accept-Encoding":"gzip, deflate",
+        "Connection":"keep-adtve",
+        "Host":"httpbin.org",
+        "User-Agent":"HTTPie/2.1.0",
       },
-    };
+      body: {
+        "name": 123,
+        "age": {
+          "t": 555
+        }
+      }
+    }
+  }
 
-    let obj = JSON.stringify(ott, null, 2);
-
-    let ht = `<!DOCTYPE html>
-    <html lang="en">
-    <head>
-      <meta charset="UTF-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <title>Document</title>
-    </head>
-    <body>
+  render() {
+    // let ht = `<!DOCTYPE html>
+    // <html lang="en">
+    // <head>
+    //   <meta charset="UTF-8">
+    //   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    //   <title>Document</title>
+    // </head>
+    // <body>
       
-    </body>
-    </html>`;
+    // </body>
+    // </html>`;
 
     return (
       <>
@@ -55,7 +67,7 @@ class RequestResponse extends Component {
         </Row>
         <Row className="mt-3">
           <Col>
-            <p>HTTP/1.1 200 OK</p>
+            <p>{this.state.status}</p>
             <Accordion className="mt-3">
               <Card>
                 <Card.Header>
@@ -67,30 +79,14 @@ class RequestResponse extends Component {
                 <Accordion.Collapse eventKey="0">
                   <Card.Body>
                     <dl>
-                      <div>
-                        <dt>Accept:</dt>
-                        <dd>*/*</dd>
-                      </div>
-
-                      <div>
-                        <dt>Accept-Encoding:</dt>
-                        <dd>gzip, deflate</dd>
-                      </div>
-
-                      <div>
-                        <dt>Connection:</dt>
-                        <dd>keep-adtve</dd>
-                      </div>
-
-                      <div>
-                        <dt>Host:</dt>
-                        <dd>httpbin.org</dd>
-                      </div>
-
-                      <div>
-                        <dt>User-Agent:</dt>
-                        <dd>HTTPie/2.1.0</dd>
-                      </div>
+                      {Object.entries(this.state.headers).map(([k, v]) => {
+                        return (
+                            <div>
+                              <dt>{k}:</dt>
+                              <dd>{v}</dd>
+                            </div>
+                        )
+                      })}
                     </dl>
                   </Card.Body>
                 </Accordion.Collapse>
@@ -108,8 +104,8 @@ class RequestResponse extends Component {
                 <Accordion.Collapse eventKey="0">
                   <Card.Body>
                     <pre>
-                      {obj}
-                      {html(ht)}
+                      {JSON.stringify(this.state.body, null, 2)}
+                      {/* {html(ht)} */}
                     </pre>
                   </Card.Body>
                 </Accordion.Collapse>

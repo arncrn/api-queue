@@ -23,7 +23,7 @@ class Url extends Component {
           </Col>
 
           <Col>
-            <Form.Control type="text" placeholder="https://www.google.com" />
+            <Form.Control type="text" placeholder="https://www.google.com" value="https://www.google.com/?product=2"/>
           </Col>
         </Row>
 
@@ -36,7 +36,7 @@ class Url extends Component {
 
         <Row className="mt-3">
           <Col>
-            <Form.Control type="text" placeholder="Enter your request name" />
+            <Form.Control type="text" placeholder="Enter your request name" value="GET to google"/>
           </Col>
         </Row>
       </Form.Group>

@@ -6,16 +6,16 @@ class Scheduler extends Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      date: null,
-    };
+    // this.state = {
+    //   date: null,
+    // };
   }
 
-  onChange = (date) => {
-    console.log(Object.getPrototypeOf(date).constructor.name);
-    console.log(date);
-    this.setState({ date });
-  }
+  // onChange = (date) => {
+  //   console.log(Object.getPrototypeOf(date).constructor.name);
+  //   console.log(date);
+  //   this.setState({ date });
+  // }
 
   render() {
     return (
@@ -40,7 +40,7 @@ class Scheduler extends Component {
               <Card.Body>
                 <Row className="justify-content-center">
                   <Col lg={3}>
-                    <Form.Control as="input" type="time"></Form.Control>
+                    <Form.Control as="input" type="time" value="15:39"></Form.Control>
                   </Col>
                   <Col lg={3}>
                     <Form.Control as="select" defaultValue="CST" custom>
@@ -54,7 +54,9 @@ class Scheduler extends Component {
                 </Row>
                 <Calendar 
                   onChange={this.onChange}
-                  value={this.state.date}
+                  // value={this.state.date}
+                  // new Date(year, month, day, hours, minutes, seconds, milliseconds);
+                  value={new Date(2020, 9, 9, 17, 39, 0, 0)}
                   className="mt-3 mx-auto"
                 />
               </Card.Body>

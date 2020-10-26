@@ -20,11 +20,11 @@ class Headers extends Component {
           <Col lg={5}>Value</Col>
 
           <Col lg={5}>
-            <Form.Control type="text" placeholder="Authorization" />
+            <Form.Control type="text" placeholder="Authorization" value="Authorization" />
           </Col>
 
           <Col lg={5}>
-            <Form.Control type="text" placeholder="1234asdf" />
+            <Form.Control type="text" placeholder="1234asdf" value="1234asdf"/>
           </Col>
 
           <Col lg={2}>

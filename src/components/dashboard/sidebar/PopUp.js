@@ -9,6 +9,10 @@ import Parameters from "../form-top/Parameters.js";
 import RequestResponse from "../RequestResponse.js";
 
 class PopUp extends Component {
+  constructor(props){
+    super(props);
+  }
+  
   onHideClick = () => {
     this.props.hideModalClick();
   }
@@ -17,7 +21,8 @@ class PopUp extends Component {
     return (
       <>
         <Modal
-          show={this.props.visibleModal}
+          show={true}
+          // show={this.props.visibleModal}
           onHide={this.onHideClick}
           dialogClassName="modal-90w"
           aria-labelledby="example-custom-modal-styling-title"
@@ -40,7 +45,7 @@ class PopUp extends Component {
                     <Parameters />
                     <hr />
                     <Headers />
-                    <Body />
+                    <Body /> {/* hide this in get request */}
                     <Scheduler />
                     <SubmitButton />
                   </Form>
