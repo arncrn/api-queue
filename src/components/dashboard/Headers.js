@@ -1,7 +1,24 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import { Form, Col, Row, Button } from "react-bootstrap";
 
 class Headers extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      headers: [
+        {
+          key: "Authorization",
+          value: "1234asdf",
+        },
+        {
+          key: "Content-type",
+          value: "text/html",
+        },
+      ],
+    };
+  }
+
   render() {
     return (
       <Form.Group as={"fieldset"}>
@@ -19,15 +36,32 @@ class Headers extends Component {
           <Col lg={5}>Key</Col>
           <Col lg={5}>Value</Col>
 
-          <Col lg={5}>
-            <Form.Control type="text" placeholder="Authorization" defaultValue="Authorization" />
-          </Col>
+          {this.state.headers.map((header, idx) => {
+            return (
+              <Fragment key={idx}>
+                <Col xs={5} className="mt-3">
+                  <Form.Control
+                    type="text"
+                    placeholder="name"
+                    defaultValue={header.key}
+                  />
+                </Col>
 
-          <Col lg={5}>
-            <Form.Control type="text" placeholder="1234asdf" defaultValue="1234asdf"/>
-          </Col>
+                <Col xs={5} className="mt-3">
+                  <Form.Control
+                    type="text"
+                    placeholder="value"
+                    defaultValue={header.value}
+                  />
+                </Col>
+                <Col xs={2} className="mt-3">
+                  <Button variant="light">x</Button>
+                </Col>
+              </Fragment>
+            );
+          })}
 
-          <Col lg={2}>
+          <Col lg={2} className="mt-3">
             <Button variant="light">+</Button>
           </Col>
         </Row>
