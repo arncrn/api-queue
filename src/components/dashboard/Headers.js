@@ -1,6 +1,14 @@
 import React, { Component, Fragment } from "react";
 import { Form, Col, Row, Button } from "react-bootstrap";
 
+const nextId = (function() {
+  let id = 0;
+  return function() {
+    return id += 1;
+  }
+})();
+
+
 class Headers extends Component {
   constructor(props) {
     super(props);
