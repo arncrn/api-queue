@@ -31,6 +31,7 @@ class PopUp extends Component {
   }
 
   render() {
+    console.log(this.props.pastDownData);
     return (
       <>
         <Modal

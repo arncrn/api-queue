@@ -15,15 +15,40 @@ class Headers extends Component {
     this.state = {
       headers: [
         {
+          id: nextId(),
           key: "Authorization",
           value: "1234asdf",
         },
         {
+          id: nextId(),
           key: "Content-type",
           value: "text/html",
         },
       ],
     };
+  }
+
+  addKeyValueFields = () => {
+    this.setState(prevState => ({
+      headers: [...prevState.headers, {id: nextId(), key: "", value: ""}]
+    }));
+  }
+
+  removeKeyValueField = (event) => {
+    let targetHeaderId = event.target.dataset.headerid;
+    let newState;
+
+    if (this.state.headers.length <= 1) {
+      newState = [{id: nextId(), key: "", value: ""}];
+    } else {
+      newState = this.state.headers.filter(header => {
+        return +header.id !== +targetHeaderId;
+      });
+    }
+    console.log(newState);
+    this.setState({
+      headers: newState,
+    })
   }
 
   render() {
@@ -43,9 +68,9 @@ class Headers extends Component {
           <Col lg={5}>Key</Col>
           <Col lg={5}>Value</Col>
 
-          {this.state.headers.map((header, idx) => {
+          {this.state.headers.map(header => {
             return (
-              <Fragment key={idx}>
+              <Fragment key={header.id}>
                 <Col xs={5} className="mt-3">
                   <Form.Control
                     type="text"
@@ -62,14 +87,14 @@ class Headers extends Component {
                   />
                 </Col>
                 <Col xs={2} className="mt-3">
-                  <Button variant="light">x</Button>
+                  <Button variant="light" data-headerid={header.id} onClick={this.removeKeyValueField}>x</Button>
                 </Col>
               </Fragment>
             );
           })}
 
           <Col lg={2} className="mt-3">
-            <Button variant="light">+</Button>
+            <Button variant="light" onClick={this.addKeyValueFields}>+</Button>
           </Col>
         </Row>
       </Form.Group>

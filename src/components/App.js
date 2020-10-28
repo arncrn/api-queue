@@ -11,27 +11,6 @@ import Body from "./dashboard/Body.js";
 import { Container, Row, Col, Form } from "react-bootstrap";
 
 class App extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      req: [
-        {
-          name: "Request name",
-          date: "10-10",
-          method: "DELETE",
-          status: "200",
-        },
-        {
-          name: "Request name 2",
-          date: "10-10",
-          method: "DELETE",
-          status: "200",
-        },
-      ],
-    };
-  }
-
   // Does not refresh form
   handleSubmit = (event) => {
     event.preventDefault();
@@ -42,9 +21,7 @@ class App extends Component {
       <Container>
         <Row>
           <Col lg={3} as={"main"} className="border">
-            <Sidebar
-              requestList={this.state.req}
-            />
+            <Sidebar/>
           </Col>
           <Col lg={9} as={"main"} className="border">
             <Form onSubmit={this.handleSubmit}>

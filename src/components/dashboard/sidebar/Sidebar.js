@@ -2,8 +2,17 @@ import React, { Component } from "react";
 import Past from "./Past";
 import Future from "./Future";
 import { Nav } from "react-bootstrap";
+import testData from "../../../test-data.js"
 
 class Sidebar extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      data: testData
+    }
+  }
+
   render() {
     return (
       <>
@@ -16,7 +25,7 @@ class Sidebar extends Component {
           </Nav.Item>
         </Nav>
 
-        <Past showModalClick={this.props.showModalClick} requestList={this.props.requestList}/>
+        <Past testdata={this.state.data} showModalClick={this.props.showModalClick} />
       </>
     );
   }

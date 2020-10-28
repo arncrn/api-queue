@@ -1,6 +1,13 @@
 import React, { Component } from "react";
-import {ListGroup, Row, Col} from "react-bootstrap";
+import { ListGroup, Row, Col } from "react-bootstrap";
 import PopUp from "./PopUp.js";
+
+const calcDate = function (date) {
+  return `${String(date.getMonth()).padStart(
+    2,
+    "0"
+  )}-${date.getDate()} ${date.getHours()}:${date.getMinutes()}`;
+};
 
 class Past extends Component {
   constructor(props) {
@@ -8,7 +15,8 @@ class Past extends Component {
 
     this.state = {
       visibleModal: false,
-    }
+      clickedReq: null,
+    };
   }
 
   // When request item is clicked, displays modal
@@ -33,38 +41,52 @@ class Past extends Component {
     });
   };
 
+  handleClick = (e) => {
+    let target = e.currentTarget;
+    this.showModalClick();
+
+    this.setState({
+      clickedReq: target.dataset.id,
+    });
+  };
+
+  getData = () => {
+    return this.props.testdata.find((obj) => {
+      return obj.id === this.state.clickedReq;
+    });
+  }
+
   render() {
     return (
       <>
-      <ListGroup>
-        {this.props.requestList.map((r, idx) => {
-          return (
-          <ListGroup.Item action key={idx} href={`#link1${idx}`} onClick={this.showModalClick}>
-            <Row>
-              <Col className="h6">
-                {r.name}
-              </Col>
-            </Row>
-            <Row>
-              <Col lg={4}>
-                {r.date}
-              </Col>
-              <Col lg={4}>
-                {r.method}
-              </Col>
-              <Col lg={4}>
-                {r.status}
-              </Col>
-            </Row>
-          </ListGroup.Item>
-          )
-        })}
-      </ListGroup>
-      <PopUp
-        visibleModal={this.state.visibleModal}
-        hideModalClick={this.hideModalClick}
-      />
-    </>
+        <ListGroup>
+          {this.props.testdata.map((req) => {
+            return (
+              <ListGroup.Item
+                action
+                data-id={req.id}
+                key={req.id}
+                href={`#link1${req.id}`}
+                onClick={this.handleClick}
+              >
+                <Row>
+                  <Col className="h6">{req.name}</Col>
+                </Row>
+                <Row>
+                  <Col lg={6}>{calcDate(req.timestamp)}</Col>
+                  <Col lg={3}>{req.method}</Col>
+                  <Col lg={3}>{req.response.status}</Col>
+                </Row>
+              </ListGroup.Item>
+            );
+          })}
+        </ListGroup>
+        <PopUp
+          visibleModal={this.state.visibleModal}
+          hideModalClick={this.hideModalClick}
+          pastDownData={this.getData()}
+        />
+      </>
     );
   }
 }
