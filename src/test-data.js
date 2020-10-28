@@ -5,7 +5,7 @@ export default [{
   method: "POST",
   hostpath: 'https://www.google.com/',
   timestamp: new Date('August 19, 1975 21:15:30'), // look into timezone (PST)
-  params: [{
+  parameters: [{
     id: "123",
     key: 'search',
     value: 'toys'
@@ -48,7 +48,7 @@ export default [{
   method: "GET",
   hostpath: 'https://www.apple.com/',
   timestamp: new Date('January 25, 1975 21:15:30'),
-  params: [{
+  parameters: [{
     id: "1",
     key: 'search',
     value: 'food'

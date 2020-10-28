@@ -13,18 +13,7 @@ class Parameters extends Component {
     super(props);
 
     this.state = {
-      parameters: [
-        {
-          id: nextId(),
-          key: "product",
-          value: "2",
-        },
-        {
-          id: nextId(),
-          key: "search",
-          value: "toys",
-        },
-      ],
+      parameters: this.props.requestObject.parameters
     };
   }
 
