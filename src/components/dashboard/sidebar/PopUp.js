@@ -9,33 +9,16 @@ import Parameters from "../form-top/Parameters.js";
 import RequestResponse from "../RequestResponse.js";
 
 class PopUp extends Component {
-  constructor(props){
-    super(props);
-
-    this.state = {
-      parameters: [
-        {
-          key: "product",
-          value: "2",
-        },
-        {
-          key: "search",
-          value: "toys",
-        },
-      ],
-    };
-  }
   
   onHideClick = () => {
     this.props.hideModalClick();
   }
 
   render() {
-    console.log(this.props.pastDownData);
+    console.log(this.props)
     return (
       <>
         <Modal
-          // show={true}
           show={this.props.visibleModal}
           onHide={this.onHideClick}
           dialogClassName="modal-90w"
@@ -55,12 +38,16 @@ class PopUp extends Component {
                 <Col lg={12} as={"main"} className="border">
                   <RequestResponse />
                   <Form>
-                    <Url parameters={this.state.parameters}/>
-                    <Parameters parameters={this.state.parameters} />
+                    <Url requestObject={this.props.requestObject}/>
+                    <Parameters parameters={this.props.requestObject} />
                     <hr />
                     <Headers />
-                    <Body /> {/* hide this in get request */}
-                    <Scheduler />
+
+                    {
+                      ["PATCH", "PUT", "POST"].includes(this.props.requestObject.method) && <Body requestObject={this.props.requestObject} />
+                    }
+
+                    <Scheduler requestObject={this.props.requestObject} />
                     <SubmitButton />
                   </Form>
                 </Col>

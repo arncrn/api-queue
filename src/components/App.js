@@ -10,6 +10,35 @@ import Body from "./dashboard/Body.js";
 // Bootstrap Components
 import { Container, Row, Col, Form } from "react-bootstrap";
 
+let emptyData = {
+  id: "",
+  email: "",
+  name: "",
+  method: "",
+  hostpath: "",
+  timestamp: new Date(),
+  params: [],
+  headers: [],
+  body: {
+    contentype: "",
+    payload: "",
+  },
+  response: {
+    headers: {
+      AccessControlAllowCredentials: "",
+      AccessControlAllowOrigin: "",
+      Connection: "",
+      ContentLength: "",
+      ContentType: "",
+      Date: "",
+      Server: "",
+    },
+    status: "",
+    responseLine: "",
+    body: "",
+  }
+}
+
 class App extends Component {
   // Does not refresh form
   handleSubmit = (event) => {
@@ -25,12 +54,12 @@ class App extends Component {
           </Col>
           <Col lg={9} as={"main"} className="border">
             <Form onSubmit={this.handleSubmit}>
-              <Url parameters={[]}/>
+              <Url requestObject={emptyData}/>
               <Parameters />
               <hr />
               <Headers />
-              <Body />
-              <Scheduler />
+              {/* <Body /> */}
+              <Scheduler requestObject={emptyData} />
               <SubmitButton />
             </Form>
           </Col>

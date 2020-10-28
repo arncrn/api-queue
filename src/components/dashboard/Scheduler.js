@@ -2,6 +2,10 @@ import React, { Component } from "react";
 import Calendar from 'react-calendar';
 import { Form, Col, Row, Button, Accordion, Card } from "react-bootstrap";
 
+const calcTime = function (date) {
+  return `${String(date.getHours()).padStart(2, "0")}:${date.getMinutes()}`;
+};
+
 class Scheduler extends Component {
   constructor(props) {
     super(props);
@@ -40,7 +44,7 @@ class Scheduler extends Component {
               <Card.Body>
                 <Row className="justify-content-center">
                   <Col lg={3}>
-                    <Form.Control as="input" type="time" defaultValue="15:39"></Form.Control>
+                    <Form.Control as="input" type="time" defaultValue={calcTime(this.props.requestObject.timestamp)}></Form.Control>
                   </Col>
                   <Col lg={3}>
                     <Form.Control as="select" defaultValue="CST" custom>
@@ -56,7 +60,7 @@ class Scheduler extends Component {
                   onChange={this.onChange}
                   // value={this.state.date}
                   // new Date(year, month, day, hours, minutes, seconds, milliseconds);
-                  value={new Date(2020, 9, 9, 17, 39, 0, 0)}
+                  value={this.props.requestObject.timestamp}
                   className="mt-3 mx-auto"
                 />
               </Card.Body>

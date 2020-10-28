@@ -3,7 +3,7 @@ import { ListGroup, Row, Col } from "react-bootstrap";
 import PopUp from "./PopUp.js";
 
 const calcDate = function (date) {
-  return `${String(date.getMonth()).padStart(
+  return `${String(date.getMonth()+1).padStart(
     2,
     "0"
   )}-${date.getDate()} ${date.getHours()}:${date.getMinutes()}`;
@@ -50,10 +50,10 @@ class Past extends Component {
     });
   };
 
-  getData = () => {
-    return this.props.testdata.find((obj) => {
-      return obj.id === this.state.clickedReq;
-    });
+  getRequestObject = () => {
+    return this.props.testdata.find((req) => {
+      return req.id === this.state.clickedReq;
+    }) || {};
   }
 
   render() {
@@ -84,7 +84,7 @@ class Past extends Component {
         <PopUp
           visibleModal={this.state.visibleModal}
           hideModalClick={this.hideModalClick}
-          pastDownData={this.getData()}
+          requestObject={this.getRequestObject()}
         />
       </>
     );

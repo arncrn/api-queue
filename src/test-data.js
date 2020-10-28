@@ -1,10 +1,10 @@
 export default [{
   id: '1',
   email: 'abc@gmail.com',
-  name: "req to google",
-  method: "GET",
+  name: "POST to google",
+  method: "POST",
   hostpath: 'https://www.google.com/',
-  timestamp: new Date('August 19, 1975 23:15:30 GMT+07:00'),
+  timestamp: new Date('August 19, 1975 21:15:30'), // look into timezone (PST)
   params: [{
     id: "123",
     key: 'search',
@@ -23,7 +23,7 @@ export default [{
     }
   ],
   body: {
-    contentype: 'text/html',
+    contentType: 'text/html',
     payload: '!DOCTYPE ....'
   },
   response: {
@@ -47,7 +47,7 @@ export default [{
   name: "req to apple",
   method: "GET",
   hostpath: 'https://www.apple.com/',
-  timestamp: new Date('January 25, 1975 21:15:30 GMT+07:00'),
+  timestamp: new Date('January 25, 1975 21:15:30'),
   params: [{
     id: "1",
     key: 'search',

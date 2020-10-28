@@ -2,22 +2,17 @@ import React, { Component } from "react";
 import { Form, Col, Row } from "react-bootstrap";
 
 class Url extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      hostName: 'https://www.google.com/'
-    }
-  }
-
   parseUrlParams = () => {
-    let queryString = this.props.parameters.map(param => {
+    let requestObject = this.props.requestObject;
+    
+    let queryString = requestObject.params.map(param => {
       return param.key + '=' + param.value
     }).join('&');
 
-    let joiner = queryString.length === 0 ? '' : '?'
+    let startQuery = queryString.length === 0 ? '' : '?'
 
     return (
-      this.state.hostName + joiner + queryString
+      requestObject.hostpath + startQuery + queryString
     )
   }
 
@@ -32,7 +27,8 @@ class Url extends Component {
 
         <Row className="mt-3">
           <Col xs={2}>
-            <Form.Control as="select" custom>
+            {/* Add an onclick here to manage state of the method to determine whether body component shows*/}
+            <Form.Control as="select" custom defaultValue={this.props.requestObject.method}>
               <option>GET</option>
               <option>POST</option>
               <option>PUT</option>
@@ -55,7 +51,7 @@ class Url extends Component {
 
         <Row className="mt-3">
           <Col>
-            <Form.Control type="text" placeholder="Enter your request name" defaultValue="GET to google"/>
+            <Form.Control type="text" placeholder="Enter your request name" defaultValue={this.props.requestObject.name}/>
           </Col>
         </Row>
       </Form.Group>

@@ -9,20 +9,20 @@ class Body extends Component {
 
         <Row>
           <Col lg={3}>
-            <Form.Control as="select" custom>
+            <Form.Control as="select" custom defaultValue={this.props.requestObject.body.contentType}>
               <option>CONTENT-TYPE</option>
-              <option value="json">JSON</option>
-              <option value="html">HTML</option>
-              <option value="text">TEXT</option>
-              <option>form-url-encoded</option>
-              <option>form-data</option>
+              <option value="application/json">JSON</option>
+              <option value="text/html">HTML</option>
+              <option value="text/plain">TEXT</option>
+              <option value="application/x-www-form-urlencoded">form-url-encoded</option>
+              <option value="multipart/form-data">form-data</option>
             </Form.Control>
           </Col>
         </Row>
 
         <Row className="mt-3">
           <Col>
-            <Form.Control as="textarea" rows={5} />
+            <Form.Control as="textarea" rows={5} defaultValue={this.props.requestObject.body.payload}/>
           </Col>
         </Row>
       </Form.Group>
