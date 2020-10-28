@@ -2,17 +2,27 @@ import React, { Component } from "react";
 import { Form, Col, Row } from "react-bootstrap";
 
 class Url extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      parameters: this.props.requestObject.parameters,
+      hostpath: this.props.requestObject.hostpath
+    }
+  }
+
   parseUrlParams = () => {
-    let requestObject = this.props.requestObject;
-    
-    let queryString = requestObject.params.map(param => {
-      return param.key + '=' + param.value
-    }).join('&');
+    let queryString = '';
+
+    if (this.state.parameters[0].id !== '') {
+      queryString = this.state.parameters.map(param => {
+        return param.key + '=' + param.value
+      }).join('&');
+    }
 
     let startQuery = queryString.length === 0 ? '' : '?'
 
     return (
-      requestObject.hostpath + startQuery + queryString
+      this.state.hostpath + startQuery + queryString
     )
   }
 
@@ -27,8 +37,7 @@ class Url extends Component {
 
         <Row className="mt-3">
           <Col xs={2}>
-            {/* Add an onclick here to manage state of the method to determine whether body component shows*/}
-            <Form.Control as="select" custom defaultValue={this.props.requestObject.method}>
+            <Form.Control as="select" custom defaultValue={this.props.httpVerb} onChange={this.props.getHttpMethod}>
               <option>GET</option>
               <option>POST</option>
               <option>PUT</option>

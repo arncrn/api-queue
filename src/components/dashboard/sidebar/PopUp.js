@@ -9,13 +9,24 @@ import Parameters from "../form-top/Parameters.js";
 import RequestResponse from "../RequestResponse.js";
 
 class PopUp extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      httpVerb: this.props.requestObject.method
+    }
+  }
+
+  getHttpMethod = (event) => {
+    this.setState({
+      httpVerb: event.target.value
+    });
+  }
   
   onHideClick = () => {
     this.props.hideModalClick();
   }
 
   render() {
-    console.log(this.props)
     return (
       <>
         <Modal
@@ -38,13 +49,13 @@ class PopUp extends Component {
                 <Col lg={12} as={"main"} className="border">
                   <RequestResponse />
                   <Form>
-                    <Url requestObject={this.props.requestObject}/>
-                    <Parameters parameters={this.props.requestObject} />
+                    <Url getHttpMethod={this.getHttpMethod} httpVerb={this.state.httpVerb} requestObject={this.props.requestObject}/>
+                    <Parameters requestObject={this.props.requestObject} />
                     <hr />
-                    <Headers />
+                    <Headers requestObject={this.props.requestObject} />
 
                     {
-                      ["PATCH", "PUT", "POST"].includes(this.props.requestObject.method) && <Body requestObject={this.props.requestObject} />
+                      ["PATCH", "PUT", "POST"].includes(this.state.httpVerb) && <Body requestObject={this.props.requestObject} />
                     }
 
                     <Scheduler requestObject={this.props.requestObject} />

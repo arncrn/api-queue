@@ -17,8 +17,16 @@ let emptyData = {
   method: "",
   hostpath: "",
   timestamp: new Date(),
-  params: [],
-  headers: [],
+  parameters: [{
+    id: '',
+    key: '',
+    value: ''
+  }],
+  headers: [{
+    id: '',
+    key: '',
+    value: ''
+  }],
   body: {
     contentype: "",
     payload: "",
@@ -40,6 +48,19 @@ let emptyData = {
 }
 
 class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      httpVerb: 'GET'
+    }
+  }
+
+  getHttpMethod = (event) => {
+    this.setState({
+      httpVerb: event.target.value
+    });
+  }
+
   // Does not refresh form
   handleSubmit = (event) => {
     event.preventDefault();
@@ -54,11 +75,13 @@ class App extends Component {
           </Col>
           <Col lg={9} as={"main"} className="border">
             <Form onSubmit={this.handleSubmit}>
-              <Url requestObject={emptyData}/>
-              <Parameters />
+              <Url getHttpMethod={this.getHttpMethod} httpVerb={this.state.httpVerb} requestObject={emptyData}/>
+              <Parameters requestObject={emptyData} />
               <hr />
-              <Headers />
-              {/* <Body /> */}
+              <Headers requestObject={emptyData} />
+              {
+                ["PATCH", "PUT", "POST"].includes(this.state.httpVerb) && <Body requestObject={emptyData} />
+              }
               <Scheduler requestObject={emptyData} />
               <SubmitButton />
             </Form>

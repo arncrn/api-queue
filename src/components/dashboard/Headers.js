@@ -2,7 +2,7 @@ import React, { Component, Fragment } from "react";
 import { Form, Col, Row, Button } from "react-bootstrap";
 
 const nextId = (function() {
-  let id = 0;
+  let id = 3;
   return function() {
     return id += 1;
   }
@@ -13,18 +13,7 @@ class Headers extends Component {
     super(props);
 
     this.state = {
-      headers: [
-        {
-          id: nextId(),
-          key: "Authorization",
-          value: "1234asdf",
-        },
-        {
-          id: nextId(),
-          key: "Content-type",
-          value: "text/html",
-        },
-      ],
+      headers: this.props.requestObject.headers
     };
   }
 
