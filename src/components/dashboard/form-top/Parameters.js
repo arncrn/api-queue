@@ -13,7 +13,7 @@ class Parameters extends Component {
     super(props);
 
     this.state = {
-      parameters: this.props.requestObject.parameters
+      parameters: this.props.parameters
     };
   }
 
@@ -23,7 +23,59 @@ class Parameters extends Component {
     }));
   }
 
+  editParamKey = (event) => {
+    let target = event.target
+    let value = target.value;
+    let keyId = target.dataset.paramkey;
+
+    let paramsCopy = [...this.state.parameters];
+    let obj = paramsCopy.find(param => +param.id === +keyId);
+    obj.key = value;
+
+    this.setState({
+      parameters: paramsCopy,
+    });
+
+
+
+    console.log(this.state.parameters);
+  }
+
+  editParamValue = (event) => {
+    let target = event.target
+    let value = target.value;
+    let valueId = target.dataset.paramvalue;
+    let keyId = target.dataset.paramkey;
+
+    let paramsCopy = [...this.state.parameters];
+    let obj = paramsCopy.find(param => +param.id === +valueId);
+    obj.value = value;
+
+    this.setState({
+      parameters: paramsCopy,
+    });
+     console.log(this.state.parameters);
+  }
+
+
+  // editParameter = (event) => {
+  //   let target = event.target
+  //   let value = target.value;
+  //   let paramId = target.dataset.paramId;
+
+  //   let paramsCopy = [...this.state.parameters];
+  //   let obj = paramsCopy.find(param => +param.id === +paramId);
+
+  //   obj.value = value;
+
+  //   this.setState({
+  //     parameters: paramsCopy,
+  //   });
+  //    console.log(this.state.parameters);
+  // }
+
   removeKeyValueField = (event) => {
+    // fix this!1!
     let targetParamId = event.target.dataset.paramid;
     let newState;
 
@@ -41,6 +93,7 @@ class Parameters extends Component {
   }
 
   render() {
+    console.log(this.props);
     return (
       <Form.Group as={"fieldset"}>
         <Form.Label as="legend">Parameters</Form.Label>
@@ -58,6 +111,9 @@ class Parameters extends Component {
               <Fragment key={param.id}>
                 <Col xs={5} className="mt-3">
                   <Form.Control
+                    data-paramkey={param.id}
+                    // onChange={this.props.handleChange}
+                    onChange={this.editParamKey}
                     type="text"
                     placeholder="name"
                     defaultValue={param.key}
@@ -66,6 +122,9 @@ class Parameters extends Component {
 
                 <Col xs={5} className="mt-3">
                   <Form.Control
+                    data-paramvalue={param.id}
+                    // onChange={this.props.handleChange}
+                    onChange={this.editParamValue}
                     type="text"
                     placeholder="value"
                     defaultValue={param.value}
