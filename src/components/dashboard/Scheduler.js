@@ -56,7 +56,7 @@ class Scheduler extends Component {
                     </Form.Control>
                   </Col>
                 </Row>
-                <Calendar 
+                <Calendar
                   onChange={this.onChange}
                   // value={this.state.date}
                   // new Date(year, month, day, hours, minutes, seconds, milliseconds);

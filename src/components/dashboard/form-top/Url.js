@@ -5,8 +5,8 @@ class Url extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      parameters: this.props.requestObject.parameters,
-      hostpath: this.props.requestObject.hostpath
+      parameters: this.props.parameters,
+      hostpath: this.props.hostpath
     }
   }
 
@@ -37,7 +37,7 @@ class Url extends Component {
 
         <Row className="mt-3">
           <Col xs={2}>
-            <Form.Control as="select" custom defaultValue={this.props.httpVerb} onChange={this.props.getHttpMethod}>
+            <Form.Control as="select" custom defaultValue={this.props.httpVerb} onChange={this.props.handleChange}>
               <option>GET</option>
               <option>POST</option>
               <option>PUT</option>
@@ -60,7 +60,12 @@ class Url extends Component {
 
         <Row className="mt-3">
           <Col>
-            <Form.Control type="text" placeholder="Enter your request name" defaultValue={this.props.requestObject.name}/>
+            <Form.Control
+              type="text"
+              placeholder="Enter your request name"
+              defaultValue={this.props.name}
+              onChange={this.props.handleChange}
+            />
           </Col>
         </Row>
       </Form.Group>

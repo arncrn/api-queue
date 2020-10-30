@@ -51,14 +51,32 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      httpVerb: 'GET'
-    }
+      httpVerb: 'GET',
+      hostpath: '',
+      timestamp: '',
+      name: '',
+      headers: [{
+                  id: '',
+                  key: '',
+                  value: ''
+                }],
+      parameters: [{
+                    id: '1',
+                    key: 'bob',
+                    value: 'marley'
+                  }],
+    };
   }
 
-  getHttpMethod = (event) => {
-    this.setState({
-      httpVerb: event.target.value
-    });
+  // getHttpMethod = (event) => {
+  //   this.setState({
+  //     httpVerb: event.target.value
+  //   });
+  // }
+
+  handleChange = (event) => {
+    const target = event.target.value;
+    // console.log(target);
   }
 
   // Does not refresh form
@@ -75,8 +93,17 @@ class App extends Component {
           </Col>
           <Col lg={9} as={"main"} className="border">
             <Form onSubmit={this.handleSubmit}>
-              <Url getHttpMethod={this.getHttpMethod} httpVerb={this.state.httpVerb} requestObject={emptyData}/>
-              <Parameters requestObject={emptyData} />
+              <Url
+                hostpath={this.state.hostpath}
+                handleChange={this.handleChange}
+                httpVerb={this.state.httpVerb}
+                parameters={this.state.parameters}
+                name={this.state.name}
+              />
+              <Parameters
+                parameters={this.state.parameters}
+                handleChange={this.handleChange}
+              />
               <hr />
               <Headers requestObject={emptyData} />
               {
