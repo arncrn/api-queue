@@ -2,29 +2,19 @@ import React, { Component } from "react";
 import { Form, Col, Row } from "react-bootstrap";
 
 class Url extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      parameters: this.props.parameters,
-      hostpath: this.props.hostpath
-    }
-  }
+  // parseUrlParams = () => {
+  //   let queryString = '';
+  //   if (this.props.parameters[0].id !== '') {
+  //     queryString = this.props.parameters.map(param => {
+  //       return param.key + '=' + param.value
+  //     }).join('&');
+  //   }
 
-  parseUrlParams = () => {
-    let queryString = '';
-
-    if (this.state.parameters[0].id !== '') {
-      queryString = this.state.parameters.map(param => {
-        return param.key + '=' + param.value
-      }).join('&');
-    }
-
-    let startQuery = queryString.length === 0 ? '' : '?'
-
-    return (
-      this.state.hostpath + startQuery + queryString
-    )
-  }
+  //   let startQuery = queryString.length === 0 ? '' : '?'
+  //   return (
+  //     this.props.hostpath + startQuery + queryString
+  //   )
+  // }
 
   render() {
     return (
@@ -37,7 +27,11 @@ class Url extends Component {
 
         <Row className="mt-3">
           <Col xs={2}>
-            <Form.Control as="select" custom defaultValue={this.props.httpVerb} onChange={this.props.handleChange}>
+            <Form.Control as="select"
+              name="httpVerb"
+              custom defaultValue={this.props.httpVerb}
+              onChange={this.props.handleChange}
+            >
               <option>GET</option>
               <option>POST</option>
               <option>PUT</option>
@@ -47,7 +41,14 @@ class Url extends Component {
           </Col>
 
           <Col>
-            <Form.Control type="text" placeholder="https://www.google.com" defaultValue={this.parseUrlParams()}/>
+            <Form.Control
+              type="text"
+              name="hostpath"
+              placeholder="https://www.example.com"
+              onChange={this.props.handleChange}
+              // defaultValue={this.parseUrlParams()}
+              defaultValue={this.props.hostpath}
+            />
           </Col>
         </Row>
 

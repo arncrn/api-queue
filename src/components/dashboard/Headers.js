@@ -1,45 +1,7 @@
 import React, { Component, Fragment } from "react";
 import { Form, Col, Row, Button } from "react-bootstrap";
 
-const nextId = (function() {
-  let id = 3;
-  return function() {
-    return id += 1;
-  }
-})();
-
 class Headers extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      headers: this.props.requestObject.headers
-    };
-  }
-
-  addKeyValueFields = () => {
-    this.setState(prevState => ({
-      headers: [...prevState.headers, {id: nextId(), key: "", value: ""}]
-    }));
-  }
-
-  removeKeyValueField = (event) => {
-    let targetHeaderId = event.target.dataset.headerid;
-    let newState;
-
-    if (this.state.headers.length <= 1) {
-      newState = [{id: nextId(), key: "", value: ""}];
-    } else {
-      newState = this.state.headers.filter(header => {
-        return +header.id !== +targetHeaderId;
-      });
-    }
-    console.log(newState);
-    this.setState({
-      headers: newState,
-    })
-  }
-
   render() {
     return (
       <Form.Group as={"fieldset"}>
@@ -57,11 +19,13 @@ class Headers extends Component {
           <Col lg={5}>Key</Col>
           <Col lg={5}>Value</Col>
 
-          {this.state.headers.map(header => {
+          {this.props.headers.map(header => {
             return (
               <Fragment key={header.id}>
                 <Col xs={5} className="mt-3">
                   <Form.Control
+                    name="key"
+                    data-row-id={header.id}
                     type="text"
                     placeholder="name"
                     defaultValue={header.key}
@@ -70,20 +34,29 @@ class Headers extends Component {
 
                 <Col xs={5} className="mt-3">
                   <Form.Control
+                    name="value"
+                    data-row-id={header.id}
                     type="text"
                     placeholder="value"
                     defaultValue={header.value}
                   />
                 </Col>
                 <Col xs={2} className="mt-3">
-                  <Button variant="light" data-headerid={header.id} onClick={this.removeKeyValueField}>x</Button>
+                  <Button variant="light"
+                    data-row-id={header.id}
+                    data-name={'headers'}
+                    onClick={this.props.removeKeyValueField}
+                  >x</Button>
                 </Col>
               </Fragment>
             );
           })}
 
           <Col lg={2} className="mt-3">
-            <Button variant="light" onClick={this.addKeyValueFields}>+</Button>
+            <Button variant="light"
+              onClick={this.props.addKeyValueFields}
+              data-name={'headers'}
+            >+</Button>
           </Col>
         </Row>
       </Form.Group>
