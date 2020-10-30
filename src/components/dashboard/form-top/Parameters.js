@@ -1,99 +1,8 @@
 import React, { Component, Fragment } from "react";
 import { Form, Col, Row, Button } from "react-bootstrap";
 
-const nextId = (function() {
-  let id = 0;
-  return function() {
-    return id += 1;
-  }
-})();
-
 class Parameters extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      parameters: this.props.parameters
-    };
-  }
-
-  addKeyValueFields = () => {
-    this.setState(prevState => ({
-      parameters: [...prevState.parameters, {id: nextId(), key: "", value: ""}]
-    }));
-  }
-
-  editParamKey = (event) => {
-    let target = event.target
-    let value = target.value;
-    let keyId = target.dataset.paramkey;
-
-    let paramsCopy = [...this.state.parameters];
-    let obj = paramsCopy.find(param => +param.id === +keyId);
-    obj.key = value;
-
-    this.setState({
-      parameters: paramsCopy,
-    });
-
-
-
-    console.log(this.state.parameters);
-  }
-
-  editParamValue = (event) => {
-    let target = event.target
-    let value = target.value;
-    let valueId = target.dataset.paramvalue;
-    let keyId = target.dataset.paramkey;
-
-    let paramsCopy = [...this.state.parameters];
-    let obj = paramsCopy.find(param => +param.id === +valueId);
-    obj.value = value;
-
-    this.setState({
-      parameters: paramsCopy,
-    });
-     console.log(this.state.parameters);
-  }
-
-
-  // editParameter = (event) => {
-  //   let target = event.target
-  //   let value = target.value;
-  //   let paramId = target.dataset.paramId;
-
-  //   let paramsCopy = [...this.state.parameters];
-  //   let obj = paramsCopy.find(param => +param.id === +paramId);
-
-  //   obj.value = value;
-
-  //   this.setState({
-  //     parameters: paramsCopy,
-  //   });
-  //    console.log(this.state.parameters);
-  // }
-
-  removeKeyValueField = (event) => {
-    // fix this!1!
-    let targetParamId = event.target.dataset.paramid;
-    let newState;
-
-    if (this.state.parameters.length <= 1) {
-      newState = [{id: nextId(), key: "", value: ""}];
-    } else {
-      newState = this.state.parameters.filter(param => {
-        return +param.id !== +targetParamId;
-      });
-    }
-
-    this.setState({
-      parameters: newState,
-    })
-  }
-
   render() {
-    console.log(this.props);
     return (
       <Form.Group as={"fieldset"}>
         <Form.Label as="legend">Parameters</Form.Label>
@@ -106,14 +15,14 @@ class Parameters extends Component {
           <Col xs={5}>Key</Col>
           <Col xs={5}>Value</Col>
           {/* Change buttons here, alignment issues */}
-          {this.state.parameters.map(param => {
+          {this.props.parameters.map(param => {
             return (
               <Fragment key={param.id}>
                 <Col xs={5} className="mt-3">
                   <Form.Control
-                    data-paramkey={param.id}
-                    // onChange={this.props.handleChange}
-                    onChange={this.editParamKey}
+                    name="key"
+                    data-row-id={param.id}
+                    onChange={this.props.editParameter}
                     type="text"
                     placeholder="name"
                     defaultValue={param.key}
@@ -122,23 +31,30 @@ class Parameters extends Component {
 
                 <Col xs={5} className="mt-3">
                   <Form.Control
-                    data-paramvalue={param.id}
-                    // onChange={this.props.handleChange}
-                    onChange={this.editParamValue}
+                    name="value"
+                    data-row-id={param.id}
+                    onChange={this.props.editParameter}
                     type="text"
                     placeholder="value"
                     defaultValue={param.value}
                   />
                 </Col>
                 <Col xs={2} className="mt-3">
-                  <Button variant="light" data-paramid={param.id} onClick={this.removeKeyValueField}>x</Button>
+                  <Button variant="light"
+                    data-row-id={param.id}
+                    data-name={'parameters'}
+                    onClick={this.props.removeKeyValueField}
+                  >x</Button>
                 </Col>
               </Fragment>
             );
           })}
 
           <Col xs={2} className="mt-3">
-            <Button variant="light" onClick={this.addKeyValueFields}>+</Button>
+            <Button variant="light"
+              onClick={this.props.addKeyValueFields}
+              data-name={'parameters'}
+            >+</Button>
           </Col>
         </Row>
       </Form.Group>

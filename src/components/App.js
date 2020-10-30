@@ -10,6 +10,13 @@ import Body from "./dashboard/Body.js";
 // Bootstrap Components
 import { Container, Row, Col, Form } from "react-bootstrap";
 
+const nextId = (function() {
+  let id = 0;
+  return function() {
+    return id += 1;
+  }
+})();
+
 let emptyData = {
   id: "",
   email: "",
@@ -68,21 +75,70 @@ class App extends Component {
     };
   }
 
-  // getHttpMethod = (event) => {
-  //   this.setState({
-  //     httpVerb: event.target.value
-  //   });
-  // }
-
   handleChange = (event) => {
-    const target = event.target.value;
-    // console.log(target);
+    const target = event.target;
+    let value = target.value;
+    let name = target.name;
+
+    this.setState({
+      [name]: value,
+    });
   }
 
   // Does not refresh form
   handleSubmit = (event) => {
     event.preventDefault();
-  };
+  }
+ // =================================== working
+
+
+  addKeyValueFields = (event) => {
+    let name = event.target.dataset.name;
+    this.setState(prevState => ({
+      [name]: [...prevState[name], {id: nextId(), key: "", value: ""}]
+    }));
+  }
+
+  editParameter = (event) => {
+    let target = event.target
+    let value = target.value;
+    let name = target.name;
+    // change dataset name to be more universal
+    let targetId = target.dataset.rowId;
+    let propertyCopy = [...this.state[name]];
+    let targetProperty = propertyCopy.find(property => +property.id === +targetId);
+
+    targetProperty[name] = value;
+
+    this.setState({
+      [name]: propertyCopy,
+    });
+
+    // console.log(this.state.parameters);
+  }
+
+  removeKeyValueField = (event) => {
+    // fix this!1!
+    let target = event.target;
+    let targetId = target.dataset.rowId;
+    let name = target.dataset.name;
+    let newState;
+
+    if (this.state[name].length <= 1) {
+      newState = [{id: nextId(), key: "", value: ""}];
+    } else {
+      newState = this.state[name].filter(property => {
+        return +property.id !== +targetId;
+      });
+    }
+
+    this.setState({
+      [name]: newState,
+    })
+  }
+
+
+  // ===============================
 
   render() {
     return (
@@ -102,10 +158,16 @@ class App extends Component {
               />
               <Parameters
                 parameters={this.state.parameters}
-                handleChange={this.handleChange}
+                addKeyValueFields={this.addKeyValueFields}
+                editParameter={this.editParameter}
+                removeKeyValueField={this.removeKeyValueField}
               />
               <hr />
-              <Headers requestObject={emptyData} />
+              <Headers
+                headers={this.state.headers}
+                addKeyValueFields={this.addKeyValueFields}
+                removeKeyValueField={this.removeKeyValueField}
+              />
               {
                 ["PATCH", "PUT", "POST"].includes(this.state.httpVerb) && <Body requestObject={emptyData} />
               }
