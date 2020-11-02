@@ -1,14 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import Router from './components/Router.js';
 import './css/index.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'react-calendar/dist/Calendar.css';
 
-import App from './components/App.js';
 // import * as serviceWorker from './serviceWorker';
 
 ReactDOM.render(
-  <App />,
+  <Router />,
   document.getElementById('root')
 );
 
