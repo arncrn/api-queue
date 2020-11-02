@@ -17,6 +17,7 @@ class Url extends Component {
   // }
 
   render() {
+    console.log(this.props.name)
     return (
       <Form.Group as={"fieldset"}>
         <Row className="mt-3">
@@ -63,6 +64,7 @@ class Url extends Component {
           <Col>
             <Form.Control
               type="text"
+              name="name"
               placeholder="Enter your request name"
               defaultValue={this.props.name}
               onChange={this.props.handleChange}
