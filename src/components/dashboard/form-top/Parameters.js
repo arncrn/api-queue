@@ -20,9 +20,10 @@ class Parameters extends Component {
               <Fragment key={param.id}>
                 <Col xs={5} className="mt-3">
                   <Form.Control
+                    data-type='parameters'
                     name="key"
                     data-row-id={param.id}
-                    onChange={this.props.editParameter}
+                    onChange={this.props.editProperty}
                     type="text"
                     placeholder="name"
                     defaultValue={param.key}
@@ -31,9 +32,10 @@ class Parameters extends Component {
 
                 <Col xs={5} className="mt-3">
                   <Form.Control
+                    data-type='parameters'
                     name="value"
                     data-row-id={param.id}
-                    onChange={this.props.editParameter}
+                    onChange={this.props.editProperty}
                     type="text"
                     placeholder="value"
                     defaultValue={param.value}

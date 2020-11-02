@@ -24,8 +24,10 @@ class Headers extends Component {
               <Fragment key={header.id}>
                 <Col xs={5} className="mt-3">
                   <Form.Control
+                    data-type='headers'
                     name="key"
                     data-row-id={header.id}
+                    onChange={this.props.editProperty}
                     type="text"
                     placeholder="name"
                     defaultValue={header.key}
@@ -34,8 +36,10 @@ class Headers extends Component {
 
                 <Col xs={5} className="mt-3">
                   <Form.Control
+                    data-type='headers'
                     name="value"
                     data-row-id={header.id}
+                    onChange={this.props.editProperty}
                     type="text"
                     placeholder="value"
                     defaultValue={header.value}
