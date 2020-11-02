@@ -17,7 +17,6 @@ class Url extends Component {
   // }
 
   render() {
-    console.log(this.props.name)
     return (
       <Form.Group as={"fieldset"}>
         <Row className="mt-3">
