@@ -8,25 +8,114 @@ import Url from "../form-top/Url.js";
 import Parameters from "../form-top/Parameters.js";
 import RequestResponse from "../RequestResponse.js";
 
+const nextId = (function() {
+  let id = 1;
+  return function() {
+    return id += 1;
+  }
+})();
+
 class PopUp extends Component {
   constructor(props) {
     super(props);
+
     this.state = {
-      httpVerb: this.props.requestObject.method
+      httpVerb: '',
+      hostpath: '',
+      timestamp: '',
+      name: '',
+      headers: [{
+                  id: '',
+                  key: '',
+                  value: ''
+                }],
+      parameters: [{
+                    id: '',
+                    key: '',
+                    value: ''
+                  }],
+    };
+  }
+
+
+  static getDerivedStateFromProps(props, state) {
+    let requestObject = props.requestObject;
+    return {
+      httpVerb: requestObject.method,
+      hostpath: requestObject.hostpath,
+      timestamp: requestObject.timestamp,
+      name: requestObject.name,
+      headers: requestObject.headers,
+      parameters: requestObject.parameters,
     }
   }
 
-  getHttpMethod = (event) => {
-    this.setState({
-      httpVerb: event.target.value
-    });
-  }
-  
   onHideClick = () => {
     this.props.hideModalClick();
   }
 
+  handleChange = (event) => {
+    const target = event.target;
+    let value = target.value;
+    let name = target.name;
+
+    this.setState({
+      [name]: value,
+    });
+  }
+
+  // Does not refresh form
+  handleSubmit = (event) => {
+    event.preventDefault();
+  }
+ // =================================== working
+
+
+  addKeyValueFields = (event) => {
+    let name = event.target.dataset.name;
+    this.setState(prevState => ({
+      [name]: [...prevState[name], {id: nextId(), key: "", value: ""}]
+    }));
+  }
+
+  editProperty = (event) => {
+    let target = event.target
+    let value = target.value;
+    let name = target.name;
+    let targetId = target.dataset.rowId;
+    let type = target.dataset.type;
+    let propertyCopy = [...this.state[type]];
+    let targetProperty = propertyCopy.find(property => +property.id === +targetId);
+
+    targetProperty[name] = value;
+
+    this.setState({
+      [name]: propertyCopy,
+    });
+  }
+
+  removeKeyValueField = (event) => {
+    let target = event.target;
+    let targetId = target.dataset.rowId;
+    let name = target.dataset.name;
+    let newState;
+
+    if (this.state[name].length <= 1) {
+      newState = [{id: nextId(), key: "", value: ""}];
+    } else {
+      newState = this.state[name].filter(property => {
+        return +property.id !== +targetId;
+      });
+    }
+
+    this.setState({
+      [name]: newState,
+    })
+  }
+
   render() {
+
+    console.log(this.props);
     return (
       <>
         <Modal
@@ -48,16 +137,30 @@ class PopUp extends Component {
               <Row>
                 <Col lg={12} as={"main"} className="border">
                   <RequestResponse />
-                  <Form>
-                    <Url getHttpMethod={this.getHttpMethod} httpVerb={this.state.httpVerb} requestObject={this.props.requestObject}/>
-                    <Parameters requestObject={this.props.requestObject} />
+                  <Form onSubmit={this.handleSubmit}>
+                    <Url
+                      hostpath={this.state.hostpath}
+                      handleChange={this.handleChange}
+                      httpVerb={this.state.httpVerb}
+                      parameters={this.state.parameters}
+                      name={this.state.name}
+                    />
+                    <Parameters
+                      parameters={this.state.parameters}
+                      addKeyValueFields={this.addKeyValueFields}
+                      editProperty={this.editProperty}
+                      removeKeyValueField={this.removeKeyValueField}
+                    />
                     <hr />
-                    <Headers requestObject={this.props.requestObject} />
-
+                    <Headers
+                      headers={this.state.headers}
+                      addKeyValueFields={this.addKeyValueFields}
+                      editProperty={this.editProperty}
+                      removeKeyValueField={this.removeKeyValueField}
+                    />
                     {
                       ["PATCH", "PUT", "POST"].includes(this.state.httpVerb) && <Body requestObject={this.props.requestObject} />
                     }
-
                     <Scheduler requestObject={this.props.requestObject} />
                     <SubmitButton />
                   </Form>
