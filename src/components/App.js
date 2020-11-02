@@ -11,7 +11,7 @@ import Body from "./dashboard/Body.js";
 import { Container, Row, Col, Form } from "react-bootstrap";
 
 const nextId = (function() {
-  let id = 0;
+  let id = 1;
   return function() {
     return id += 1;
   }
@@ -99,13 +99,13 @@ class App extends Component {
     }));
   }
 
-  editParameter = (event) => {
+  editProperty = (event) => {
     let target = event.target
     let value = target.value;
     let name = target.name;
-    // change dataset name to be more universal
     let targetId = target.dataset.rowId;
-    let propertyCopy = [...this.state[name]];
+    let type = target.dataset.type;
+    let propertyCopy = [...this.state[type]];
     let targetProperty = propertyCopy.find(property => +property.id === +targetId);
 
     targetProperty[name] = value;
@@ -113,12 +113,9 @@ class App extends Component {
     this.setState({
       [name]: propertyCopy,
     });
-
-    // console.log(this.state.parameters);
   }
 
   removeKeyValueField = (event) => {
-    // fix this!1!
     let target = event.target;
     let targetId = target.dataset.rowId;
     let name = target.dataset.name;
@@ -159,13 +156,14 @@ class App extends Component {
               <Parameters
                 parameters={this.state.parameters}
                 addKeyValueFields={this.addKeyValueFields}
-                editParameter={this.editParameter}
+                editProperty={this.editProperty}
                 removeKeyValueField={this.removeKeyValueField}
               />
               <hr />
               <Headers
                 headers={this.state.headers}
                 addKeyValueFields={this.addKeyValueFields}
+                editProperty={this.editProperty}
                 removeKeyValueField={this.removeKeyValueField}
               />
               {
