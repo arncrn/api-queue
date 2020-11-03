@@ -6,12 +6,10 @@ import Headers from "./dashboard/Headers.js";
 import Scheduler from "./dashboard/Scheduler.js";
 import SubmitButton from "./dashboard/SubmitButton.js";
 import Body from "./dashboard/Body.js";
-
-// Bootstrap Components
 import { Container, Row, Col, Form } from "react-bootstrap";
 
 const nextId = (function() {
-  let id = 1;
+  let id = 0;
   return function() {
     return id += 1;
   }
@@ -35,7 +33,7 @@ let emptyData = {
     value: ''
   }],
   body: {
-    contentype: "",
+    contentType: "",
     payload: "",
   },
   response: {
@@ -68,10 +66,14 @@ class App extends Component {
                   value: ''
                 }],
       parameters: [{
-                    id: '1',
-                    key: 'bob',
-                    value: 'marley'
+                    id: '',
+                    key: '',
+                    value: ''
                   }],
+      body: {
+        contentType: '',
+        payload: ''
+      }
     };
   }
 
@@ -80,9 +82,17 @@ class App extends Component {
     let value = target.value;
     let name = target.name;
 
-    this.setState({
-      [name]: value,
-    });
+    if (target.name === 'contentType' || target.name === 'payload') {
+      let newBody = Object.assign({...this.state.body}, {[name]:value});
+
+      this.setState({
+        body: newBody
+      });  
+    } else {
+      this.setState({
+        [name]: value,
+      });  
+    }
   }
 
   // Does not refresh form
@@ -167,7 +177,7 @@ class App extends Component {
                 removeKeyValueField={this.removeKeyValueField}
               />
               {
-                ["PATCH", "PUT", "POST"].includes(this.state.httpVerb) && <Body requestObject={emptyData} />
+                ["PATCH", "PUT", "POST"].includes(this.state.httpVerb) && <Body body={this.state.body} handleChange={this.handleChange} />
               }
               <Scheduler requestObject={emptyData} />
               <SubmitButton />

@@ -9,7 +9,7 @@ class Body extends Component {
 
         <Row>
           <Col lg={3}>
-            <Form.Control as="select" custom defaultValue={this.props.requestObject.body.contentType}>
+            <Form.Control onChange={this.props.handleChange} as="select" name="contentType" custom defaultValue={this.props.body.contentType}>
               <option>CONTENT-TYPE</option>
               <option value="application/json">JSON</option>
               <option value="text/html">HTML</option>
@@ -22,7 +22,7 @@ class Body extends Component {
 
         <Row className="mt-3">
           <Col>
-            <Form.Control as="textarea" rows={5} defaultValue={this.props.requestObject.body.payload}/>
+            <Form.Control onChange={this.props.handleChange} as="textarea" name="payload" rows={5} defaultValue={this.props.body.payload}/>
           </Col>
         </Row>
       </Form.Group>

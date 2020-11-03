@@ -9,7 +9,7 @@ import Parameters from "../form-top/Parameters.js";
 import RequestResponse from "../RequestResponse.js";
 
 const nextId = (function() {
-  let id = 1;
+  let id = 2;
   return function() {
     return id += 1;
   }
@@ -34,6 +34,10 @@ class PopUp extends Component {
                     key: '',
                     value: ''
                   }],
+      body: {
+        contentType: "",
+        payload: "",
+      }
     };
   }
 
@@ -59,9 +63,17 @@ class PopUp extends Component {
     let value = target.value;
     let name = target.name;
 
-    this.setState({
-      [name]: value,
-    });
+    if (target.name === 'contentType' || target.name === 'payload') {
+      let newBody = Object.assign({...this.state.body}, {[name]:value});
+
+      this.setState({
+        body: newBody
+      });  
+    } else {
+      this.setState({
+        [name]: value,
+      });  
+    }
   }
 
   // Does not refresh form
@@ -114,8 +126,6 @@ class PopUp extends Component {
   }
 
   render() {
-
-    console.log(this.props);
     return (
       <>
         <Modal
@@ -159,7 +169,7 @@ class PopUp extends Component {
                       removeKeyValueField={this.removeKeyValueField}
                     />
                     {
-                      ["PATCH", "PUT", "POST"].includes(this.state.httpVerb) && <Body requestObject={this.props.requestObject} />
+                      ["PATCH", "PUT", "POST"].includes(this.state.httpVerb) && <Body requestObject={this.props.requestObject} body={this.state.body} handleChange={this.handleChange} />
                     }
                     <Scheduler requestObject={this.props.requestObject} />
                     <SubmitButton />
