@@ -83,4 +83,48 @@ export default [{
     responseLine: 'HTTP/1.1 200 OK',
     body: '{}'
   }
+},
+{
+  id: '3',
+  email: 'jimmy@gmail.com',
+  name: "req to twitter",
+  method: "GET",
+  hostpath: 'https://www.twitter.com/',
+  timestamp: new Date('January 25, 1975 21:15:30'),
+  parameters: [{
+    id: "1",
+    key: 'search',
+    value: 'food'
+  }],
+  headers: [
+    {
+      id: "1",
+      key: "Authorization",
+      value: "1234asdf",
+    },
+    {
+      id: "2",
+      key: "Content-type",
+      value: "text/html",
+    }
+  ],
+  body: {
+    contentype: 'text/html',
+    payload: '!DOCTYPE ....'
+  },
+  // Get back to this later, need more details on response object
+  response: {
+    headers: {
+      AccessControlAllowCredentials: '',
+      AccessControlAllowOrigin: '',
+      Connection: '',
+      ContentLength: '',
+      ContentType: '',
+      Date: '',
+      Server: '',
+    },
+    status: '',
+    responseLine: '',
+    body: '',
+  }
 }]

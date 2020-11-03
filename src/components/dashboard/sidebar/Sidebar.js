@@ -9,23 +9,49 @@ class Sidebar extends Component {
     super(props);
 
     this.state = {
-      data: testData
+      data: testData,
+      currentTab: 'past'
     }
   }
 
+  getPastRequests = () => {
+    return this.state.data.filter(request => {
+      return request.response.status;
+    })
+  }
+
+  getFutureRequests = () => {
+    return this.state.data.filter(request => {
+      return !request.response.status;
+    })
+  }
+
+  changeTab = (event) => {
+    let target = event.target;
+    let value = target.textContent.toLowerCase();
+
+    this.setState({
+      currentTab: value
+    })
+  }
+
   render() {
+    let currentTab = this.state.currentTab === 'past' ?
+     <Past testdata={this.getPastRequests()} showModalClick={this.props.showModalClick} /> : 
+     <Future testdata={this.getFutureRequests()} showModalClick={this.props.showModalClick} />
+
     return (
       <>
-        <Nav variant="tabs" defaultActiveKey="/home" className="mt-3">
+        <Nav variant="tabs" defaultActiveKey="link-1" className="mt-3">
           <Nav.Item>
-            <Nav.Link href="/home">Past</Nav.Link>
+            <Nav.Link onClick={this.changeTab} eventKey="link-1">Past</Nav.Link>
           </Nav.Item>
           <Nav.Item>
-            <Nav.Link eventKey="link-1">Future</Nav.Link>
+            <Nav.Link onClick={this.changeTab} eventKey="link-2">Future</Nav.Link>
           </Nav.Item>
         </Nav>
 
-        <Past testdata={this.state.data} showModalClick={this.props.showModalClick} />
+        { currentTab }
       </>
     );
   }

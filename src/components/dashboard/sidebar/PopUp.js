@@ -41,18 +41,18 @@ class PopUp extends Component {
     };
   }
 
-
-  static getDerivedStateFromProps(props, state) {
-    let requestObject = props.requestObject;
-    return {
-      httpVerb: requestObject.method,
-      hostpath: requestObject.hostpath,
-      timestamp: requestObject.timestamp,
-      name: requestObject.name,
-      headers: requestObject.headers,
-      parameters: requestObject.parameters,
-    }
-  }
+  // We gotta fix this, its not populating the PopUp inputs
+  // static getDerivedStateFromProps(props, state) {
+  //   let requestObject = props.requestObject;
+  //   return {
+  //     httpVerb: requestObject.method,
+  //     hostpath: requestObject.hostpath,
+  //     timestamp: requestObject.timestamp,
+  //     name: requestObject.name,
+  //     headers: requestObject.headers,
+  //     parameters: requestObject.parameters,
+  //   }
+  // }
 
   onHideClick = () => {
     this.props.hideModalClick();
@@ -72,6 +72,8 @@ class PopUp extends Component {
     } else {
       this.setState({
         [name]: value,
+      }, () => {
+        console.log(this.state.httpVerb);
       });  
     }
   }
@@ -126,6 +128,7 @@ class PopUp extends Component {
   }
 
   render() {
+    console.log(this.state.httpVerb, 'im in render()');
     return (
       <>
         <Modal
@@ -169,7 +172,7 @@ class PopUp extends Component {
                       removeKeyValueField={this.removeKeyValueField}
                     />
                     {
-                      ["PATCH", "PUT", "POST"].includes(this.state.httpVerb) && <Body requestObject={this.props.requestObject} body={this.state.body} handleChange={this.handleChange} />
+                      ["PATCH", "PUT", "POST"].includes(this.state.httpVerb) && <Body body={this.state.body} handleChange={this.handleChange} />
                     }
                     <Scheduler requestObject={this.props.requestObject} />
                     <SubmitButton />
