@@ -57,7 +57,6 @@ class Past extends Component {
   }
 
   render() {
-    console.log(this.state.clickedReq);
     return (
       <>
         <ListGroup>
@@ -74,7 +73,7 @@ class Past extends Component {
                   <Col className="h6">{req.name}</Col>
                 </Row>
                 <Row>
-                  <Col lg={6}>{calcDate(req.timestamp)}</Col>
+                  <Col lg={6}>{calcDate(req.date)}</Col>
                   <Col lg={3}>{req.method}</Col>
                   <Col lg={3}>{req.response.status}</Col>
                 </Row>

@@ -15,42 +15,9 @@ const nextId = (function() {
   }
 })();
 
-let emptyData = {
-  id: "",
-  email: "",
-  name: "",
-  method: "",
-  hostpath: "",
-  timestamp: new Date(),
-  parameters: [{
-    id: '',
-    key: '',
-    value: ''
-  }],
-  headers: [{
-    id: '',
-    key: '',
-    value: ''
-  }],
-  body: {
-    contentType: "",
-    payload: "",
-  },
-  response: {
-    headers: {
-      AccessControlAllowCredentials: "",
-      AccessControlAllowOrigin: "",
-      Connection: "",
-      ContentLength: "",
-      ContentType: "",
-      Date: "",
-      Server: "",
-    },
-    status: "",
-    responseLine: "",
-    body: "",
-  }
-}
+const calcTime = function (date) {
+  return `${String(date.getHours()).padStart(2, "0")}:${date.getMinutes()}`;
+};
 
 class App extends Component {
   constructor(props) {
@@ -58,7 +25,9 @@ class App extends Component {
     this.state = {
       httpVerb: 'GET',
       hostpath: '',
-      timestamp: '',
+      time: calcTime(new Date()),
+      timeZone: '', // this will be set to user's default timezone.
+      date: new Date(),
       name: '',
       headers: [{
                   id: '',
@@ -93,6 +62,12 @@ class App extends Component {
         [name]: value,
       });  
     }
+  }
+
+  onCalendarChange = (date) => {
+    this.setState({
+      date: date
+    });
   }
 
   // Does not refresh form
@@ -179,7 +154,7 @@ class App extends Component {
               {
                 ["PATCH", "PUT", "POST"].includes(this.state.httpVerb) && <Body body={this.state.body} handleChange={this.handleChange} />
               }
-              <Scheduler requestObject={emptyData} />
+              <Scheduler handleChange={this.handleChange} onCalendarChange={this.onCalendarChange} time={this.state.time} timezone={this.state.timezone} date={this.state.date}/>
               <SubmitButton />
             </Form>
           </Col>

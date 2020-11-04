@@ -2,25 +2,9 @@ import React, { Component } from "react";
 import Calendar from 'react-calendar';
 import { Form, Col, Row, Button, Accordion, Card } from "react-bootstrap";
 
-const calcTime = function (date) {
-  return `${String(date.getHours()).padStart(2, "0")}:${date.getMinutes()}`;
-};
+
 
 class Scheduler extends Component {
-  constructor(props) {
-    super(props);
-
-    // this.state = {
-    //   date: null,
-    // };
-  }
-
-  // onChange = (date) => {
-  //   console.log(Object.getPrototypeOf(date).constructor.name);
-  //   console.log(date);
-  //   this.setState({ date });
-  // }
-
   render() {
     return (
       <Form.Group as={"fieldset"}>
@@ -35,6 +19,7 @@ class Scheduler extends Component {
         <Accordion className='mt-3'>
           <Card border="dark">
             <Card.Header>
+              {/* Add logic to manage scheduler data based on open and closed scheduler */}
               <Accordion.Toggle as={Button} variant="dark" eventKey="0">
                 +
               </Accordion.Toggle>
@@ -44,10 +29,10 @@ class Scheduler extends Component {
               <Card.Body>
                 <Row className="justify-content-center">
                   <Col lg={3}>
-                    <Form.Control as="input" type="time" defaultValue={calcTime(this.props.requestObject.timestamp)}></Form.Control>
+                    <Form.Control as="input" type="time" name='time' defaultValue={this.props.time} onChange={this.props.handleChange}></Form.Control>
                   </Col>
                   <Col lg={3}>
-                    <Form.Control as="select" defaultValue="CST" custom>
+                    <Form.Control as="select" defaultValue={this.props.timeZone} name='timeZone' onChange={this.props.handleChange} custom>
                       <option value="ALASKA">Alaska Time</option>
                       <option value="PT">Pacific Time</option>
                       <option value="MT">Mountain Time</option>
@@ -57,10 +42,8 @@ class Scheduler extends Component {
                   </Col>
                 </Row>
                 <Calendar
-                  onChange={this.onChange}
-                  // value={this.state.date}
-                  // new Date(year, month, day, hours, minutes, seconds, milliseconds);
-                  value={this.props.requestObject.timestamp}
+                  onChange={this.props.onCalendarChange}
+                  defaultValue={this.props.date}
                   className="mt-3 mx-auto"
                 />
               </Card.Body>

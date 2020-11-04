@@ -15,6 +15,10 @@ const nextId = (function() {
   }
 })();
 
+const calcTime = function (date) {
+  return `${String(date.getHours()).padStart(2, "0")}:${date.getMinutes()}`;
+};
+
 class PopUp extends Component {
   constructor(props) {
     super(props);
@@ -23,7 +27,9 @@ class PopUp extends Component {
       requestId: '',
       httpVerb: '',
       hostpath: '',
-      timestamp: '',
+      time: calcTime(new Date()),
+      timeZone: '', // this will be set to user's default timezone.
+      date: new Date(),
       name: '',
       headers: [{
                   id: '',
@@ -51,7 +57,9 @@ class PopUp extends Component {
         requestId: props.requestId,
         httpVerb: requestObject.method,
         hostpath: requestObject.hostpath,
-        timestamp: requestObject.timestamp,
+        time: requestObject.time,
+        timeZone: requestObject.timeZone,
+        date: requestObject.date,
         name: requestObject.name,
         headers: requestObject.headers,
         parameters: requestObject.parameters,
@@ -81,6 +89,12 @@ class PopUp extends Component {
         [name]: value,
       });
     }
+  }
+
+  onCalendarChange = (date) => {
+    this.setState({
+      date: date
+    });
   }
 
   // Does not refresh form
@@ -133,6 +147,7 @@ class PopUp extends Component {
   }
 
   render() {
+    console.log(this.state);
     return (
       <>
         <Modal
@@ -178,7 +193,7 @@ class PopUp extends Component {
                     {
                       ["PATCH", "PUT", "POST"].includes(this.state.httpVerb) && <Body body={this.state.body} handleChange={this.handleChange} />
                     }
-                    <Scheduler requestObject={this.props.requestObject} />
+                    <Scheduler handleChange={this.handleChange} onCalendarChange={this.onCalendarChange} time={this.state.time} timezone={this.state.timezone} date={this.state.date}/>
                     <SubmitButton />
                   </Form>
                 </Col>
