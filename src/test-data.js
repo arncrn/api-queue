@@ -4,7 +4,9 @@ export default [{
   name: "POST to google",
   method: "POST",
   hostpath: 'https://www.google.com/',
-  timestamp: new Date('August 19, 1975 21:15:30'), // look into timezone (PST)
+  time: '21:15',
+  timeZone: 'PST',
+  date: new Date('August 19, 1975'),
   parameters: [{
     id: "123",
     key: 'search',
@@ -47,7 +49,9 @@ export default [{
   name: "req to apple",
   method: "GET",
   hostpath: 'https://www.apple.com/',
-  timestamp: new Date('January 25, 1975 21:15:30'),
+  time: '15:15',
+  timeZone: 'PST',
+  date: new Date('January 25, 1982'),
   parameters: [{
     id: "1",
     key: 'search',
@@ -90,7 +94,9 @@ export default [{
   name: "req to twitter",
   method: "GET",
   hostpath: 'https://www.twitter.com/',
-  timestamp: new Date('January 25, 1975 21:15:30'),
+  time: '12:15',
+  timeZone: 'CST',
+  date: new Date('January 30, 1999'),
   parameters: [{
     id: "1",
     key: 'search',
