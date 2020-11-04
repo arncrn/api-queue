@@ -57,6 +57,7 @@ class Past extends Component {
   }
 
   render() {
+    console.log(this.state.clickedReq);
     return (
       <>
         <ListGroup>
@@ -85,6 +86,7 @@ class Past extends Component {
           visibleModal={this.state.visibleModal}
           hideModalClick={this.hideModalClick}
           requestObject={this.getRequestObject()}
+          requestId={this.state.clickedReq}
         />
       </>
     );
