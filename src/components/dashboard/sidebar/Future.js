@@ -84,6 +84,7 @@ class Future extends Component {
           visibleModal={this.state.visibleModal}
           hideModalClick={this.hideModalClick}
           requestObject={this.getRequestObject()}
+          requestId={this.state.clickedReq}
         />
       </>
     );

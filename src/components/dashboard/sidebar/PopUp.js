@@ -20,6 +20,7 @@ class PopUp extends Component {
     super(props);
 
     this.state = {
+      requestId: '',
       httpVerb: '',
       hostpath: '',
       timestamp: '',
@@ -42,17 +43,23 @@ class PopUp extends Component {
   }
 
   // We gotta fix this, its not populating the PopUp inputs
-  // static getDerivedStateFromProps(props, state) {
-  //   let requestObject = props.requestObject;
-  //   return {
-  //     httpVerb: requestObject.method,
-  //     hostpath: requestObject.hostpath,
-  //     timestamp: requestObject.timestamp,
-  //     name: requestObject.name,
-  //     headers: requestObject.headers,
-  //     parameters: requestObject.parameters,
-  //   }
-  // }
+  static getDerivedStateFromProps(props, state) {
+
+    if (props.requestId !== state.requestId) {
+      let requestObject = props.requestObject;
+      return {
+        requestId: props.requestId,
+        httpVerb: requestObject.method,
+        hostpath: requestObject.hostpath,
+        timestamp: requestObject.timestamp,
+        name: requestObject.name,
+        headers: requestObject.headers,
+        parameters: requestObject.parameters,
+      };
+    }
+
+    return null;
+  }
 
   onHideClick = () => {
     this.props.hideModalClick();
@@ -68,13 +75,11 @@ class PopUp extends Component {
 
       this.setState({
         body: newBody
-      });  
+      });
     } else {
       this.setState({
         [name]: value,
-      }, () => {
-        console.log(this.state.httpVerb);
-      });  
+      });
     }
   }
 
@@ -128,7 +133,6 @@ class PopUp extends Component {
   }
 
   render() {
-    console.log(this.state.httpVerb, 'im in render()');
     return (
       <>
         <Modal
