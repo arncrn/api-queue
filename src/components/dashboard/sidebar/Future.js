@@ -89,6 +89,7 @@ class Future extends Component {
         requestId={this.state.clickedReq}
         />
       </>
+      // 
     );
   }
 }
