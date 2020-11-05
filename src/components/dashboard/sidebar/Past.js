@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { ListGroup, Row, Col } from "react-bootstrap";
 import PopUp from "./PopUp.js";
+import HOC from "../../HOC.js";
 
 const calcDate = function (date) {
   return `${String(date.getMonth()+1).padStart(
@@ -57,6 +58,7 @@ class Past extends Component {
   }
 
   render() {
+    let PopUpHOC = HOC(PopUp, this.getRequestObject());
     return (
       <>
         <ListGroup>
@@ -81,11 +83,11 @@ class Past extends Component {
             );
           })}
         </ListGroup>
-        <PopUp
-          visibleModal={this.state.visibleModal}
-          hideModalClick={this.hideModalClick}
-          requestObject={this.getRequestObject()}
-          requestId={this.state.clickedReq}
+        <PopUpHOC
+        visibleModal={this.state.visibleModal}
+        hideModalClick={this.hideModalClick}
+        requestObject={this.getRequestObject()}
+        requestId={this.state.clickedReq}
         />
       </>
     );
