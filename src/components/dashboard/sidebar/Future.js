@@ -15,6 +15,7 @@ class Future extends Component {
     super(props);
 
     this.state = {
+      buttonText: 'Save',
       visibleModal: false,
       clickedReq: null,
     };
@@ -86,7 +87,7 @@ class Future extends Component {
         visibleModal={this.state.visibleModal}
         hideModalClick={this.hideModalClick}
         requestObject={this.getRequestObject()}
-        requestId={this.state.clickedReq}
+        buttonText={this.state.buttonText}
         />
       </>
       // 
