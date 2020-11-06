@@ -41,7 +41,7 @@ class SharedForm extends Component {
         timezone={this.props.timezone}
         date={this.props.date}
       />
-      <SubmitButton />
+      <SubmitButton buttonText={this.props.buttonText} />
     </Form>
     )
   }

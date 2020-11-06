@@ -5,6 +5,13 @@ import SharedForm from "./dashboard/SharedForm.js";
 import HOC from "./HOC.js";
 
 class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      buttonText: 'Send',
+    }
+  }
+
   render() {
     return (
       <Container>
@@ -29,6 +36,7 @@ class App extends Component {
               time={this.props.time}
               timezone={this.props.timezone}
               date={this.props.date}
+              buttonText={this.state.buttonText}
             />
           </Col>
         </Row>

@@ -16,36 +16,19 @@ class RequestResponse extends Component {
     super(props);
 
     this.state = {
-      status: "HTTP/1.1 200 OK",
-      headers: {
-        "Accept": "*/*",
-        "Accept-Encoding":"gzip, deflate",
-        "Connection":"keep-adtve",
-        "Host":"httpbin.org",
-        "User-Agent":"HTTPie/2.1.0",
-      },
-      body: {
-        "name": 123,
-        "age": {
-          "t": 555
-        }
-      }
+      currentTab: 'response'
     }
   }
 
-  render() {
-    // let ht = `<!DOCTYPE html>
-    // <html lang="en">
-    // <head>
-    //   <meta charset="UTF-8">
-    //   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    //   <title>Document</title>
-    // </head>
-    // <body>
-      
-    // </body>
-    // </html>`;
+  getCurrentData = () => {
+    let data = this.props.requestObject;
 
+    return data[this.state.currentTab];
+  }
+
+  render() {
+    let currentData = this.getCurrentData()
+    console.log(currentData);
     return (
       <>
         <Row>
@@ -58,16 +41,16 @@ class RequestResponse extends Component {
             <ToggleButtonGroup
               type="radio"
               name="options"
-              defaultValue="request"
+              defaultValue="response"
             >
-              <ToggleButton value="request">Request</ToggleButton>
-              <ToggleButton value="response">Response</ToggleButton>
+              <ToggleButton value="request" onClick={() => {this.setState({currentTab: 'request'})}} >Request</ToggleButton>
+              <ToggleButton value="response" onClick={() => {this.setState({currentTab: 'response'})}}  >Response</ToggleButton>
             </ToggleButtonGroup>
           </Col>
         </Row>
         <Row className="mt-3">
           <Col>
-            <p>{this.state.status}</p>
+            <p>{currentData.responseLine}</p>
             <Accordion className="mt-3">
               <Card>
                 <Card.Header>
@@ -79,7 +62,7 @@ class RequestResponse extends Component {
                 <Accordion.Collapse eventKey="0">
                   <Card.Body>
                     <dl>
-                      {Object.entries(this.state.headers).map(([k, v], idx) => {
+                      {Object.entries(currentData.headers).map(([k, v], idx) => {
                         return (
                             <div key={idx}>
                               <dt>{k}:</dt>
@@ -104,7 +87,7 @@ class RequestResponse extends Component {
                 <Accordion.Collapse eventKey="0">
                   <Card.Body>
                     <pre>
-                      {JSON.stringify(this.state.body, null, 2)}
+                      {JSON.stringify(currentData.body, null, 2)}
                       {/* {html(ht)} */}
                     </pre>
                   </Card.Body>

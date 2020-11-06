@@ -8,7 +8,7 @@ class SubmitButton extends Component {
         <Col lg={{span:2, offset: 10}}>
           <Button 
           	type="submit" 
-          	variant="primary">Send</Button>
+          	variant="primary">{this.props.buttonText}</Button>
         </Col>
       </Row>
     );

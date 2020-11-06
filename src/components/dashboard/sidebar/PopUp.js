@@ -29,7 +29,7 @@ class PopUp extends Component {
             <Container>
               <Row>
                 <Col lg={12} as={"main"} className="border">
-                  <RequestResponse />
+                  {(this.props.requestObject.response && this.props.requestObject.response.status) &&<RequestResponse requestObject={this.props.requestObject} />}
                   <SharedForm
                     onSubmit={this.props.handleSubmit}
                     hostpath={this.props.hostpath}
@@ -46,6 +46,7 @@ class PopUp extends Component {
                     time={this.props.time}
                     timezone={this.props.timezone}
                     date={this.props.date}
+                    buttonText={this.props.buttonText}
                   />
                 </Col>
               </Row>
