@@ -3,11 +3,11 @@ import {ListGroup, Row, Col} from "react-bootstrap";
 import PopUp from "./PopUp.js";
 import HOC from "../../HOC.js";
 
-const calcDate = function (date) {
+const calcDate = function (date, time) {
   return `${String(date.getMonth()+1).padStart(
     2,
     "0"
-  )}-${date.getDate()} ${date.getHours()}:${date.getMinutes()}`;
+  )}-${date.getDate()} ${time}`;
 };
 
 class Future extends Component {
@@ -76,7 +76,7 @@ class Future extends Component {
                   <Col className="h6">{req.name}</Col>
                 </Row>
                 <Row>
-                  <Col lg={6}>{calcDate(req.date)}</Col>
+                  <Col lg={6}>{calcDate(req.date, req.time)}</Col>
                   <Col lg={3}>{req.method}</Col>
                 </Row>
               </ListGroup.Item>
@@ -90,7 +90,6 @@ class Future extends Component {
         buttonText={this.state.buttonText}
         />
       </>
-      // 
     );
   }
 }
