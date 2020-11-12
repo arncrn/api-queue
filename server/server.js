@@ -32,33 +32,50 @@ let data = {
     },
     {
       id: "2",
-      key: "Content-Type",
-      value: "text/html",
-    }
+      key: "content-type",
+      value: "application/json",
+    },
   ],
   body: {
     contentype: 'text/html',
     payload: '!DOCTYPE ....'
   }};
 
-function buildParameters (data) {
+function buildParameters (paramData) {
   let parameters = {};
 
-  data.parameters.forEach(parameter => {
+  paramData.forEach(parameter => {
     parameters[parameter["key"]] = parameter["value"];
   })
 
   return parameters;
 }
 
-function buildHeaders (data) {
+function buildHeaders (headerData) {
   let headers = {};
 
-  data.headers.forEach(header => {
+  headerData.forEach(header => {
     headers[header["key"]] = header["value"];
   })
 
   return headers;
+}
+
+function buildRequestHeaders (headerString) {
+  let headers = {};
+
+  headerString.split('\r\n').forEach(header => {
+    let parts = header.split(': ');
+    let prop = parts[0] + ':';
+    let value = parts[1];
+    headers[prop] = value;
+  });
+
+  return headers;
+}
+
+function getRequestLine(headerString) {
+  return headerString.split('\r\n')[0];
 }
 
 app.get('/', (req, res) => {
@@ -66,25 +83,54 @@ app.get('/', (req, res) => {
     method: data.httpverb,
     url: data.hostpath,
     params: buildParameters(data.parameters),
-    headers: buildHeaders(data.headers)
+    headers: buildHeaders(data.headers),
+    responseType: 'json'
   };
-
   axios(options)
-    .then(function (response) {
-      // for GET request:
-      // let requestHeaders = response.request._header;
-      // let responseHeaders = response.headers;
-      // let responsePayload = response.data;
-      // let responseStatus = response.status;
-      // let responseStatusText = response.statusText;
-      // console.log(requestHeaders)
-      // console.log(responseHeaders)
-      // console.log(responsePayload)
-      // console.log(responseStatus)
-      // console.log(responseStatusText)
+  .then(function (response) {
+    // 1. send response to database
+    // if successful: 
 
-      // res.send();
-    });
+    // for GET request:
+    // let requestHeaders = response.request._header;
+    let requestHeaders = buildRequestHeaders(response.request._header);
+    let responseHeaders = response.headers;
+    let responsePayload = response.data;
+    let responseStatus = response.status;
+    let responseStatusText = response.statusText;
+    let requestLine = `${getRequestLine(response.request._header)}`;
+    let responseLine = `${requestLine.split(' ').slice(-1)[0]} ${responseStatus} ${responseStatusText}`
+    // console.log(responseHeaders)
+    // console.log(responsePayload)
+    // console.log(responseStatus)
+    // console.log(responseStatusText)
+
+    
+
+    let toTheFrontEnd = {
+      request: {
+         headers: requestHeaders,
+         requestLine: requestLine,
+      },
+      response: {
+        headers: responseHeaders,
+        status: responseStatus,
+        responseLine: `${responseStatus} ${responseStatusText}`,
+        payload: responsePayload,
+      }
+
+    }
+
+    // res.status(200).send(Object.assign({}, data, toTheFrontEnd));
+    res.status(200).send(`<p>${requestLine}</p><p>${responseLine}</p>`);
+  }).catch((err) => {
+    console.log(err);
+  });
+})
+
+app.use((err, req, res, next) => {
+  console.log(err);
+  res.status(404).send(err.message);
 })
 
 app.listen(port, () => {
