@@ -10,19 +10,15 @@ let data = {
   id: '2',
   email: 'frank@gmail.com',
   name: "req to apple",
-  httpverb: "GET",
-  hostpath: 'https://www.google.com/search',
+  httpverb: "POST",
+  hostpath: 'http://dummy.restapiexample.com/api/v1/create',
   time: '15:15',
   timeZone: 'PST',
   date: new Date('January 25, 1982'),
   parameters: [{
-    id: "1",
-    key: 'oq',
-    value: 'sports'
-  }, {
-    id: "2",
-    key: 'q',
-    value: "tennis"
+    id: "",
+    key: '',
+    value: ''
   }],
   headers: [
     {
@@ -32,16 +28,18 @@ let data = {
     },
     {
       id: "2",
-      key: "content-type",
+      key: "Content-Type",
       value: "application/json",
     },
   ],
   body: {
-    contentype: 'text/html',
-    payload: '!DOCTYPE ....'
+    contentType: 'application/json',
+    payload: '{"name":"test","salary":"123","age":"23"}'
   }};
 
 function buildParameters (paramData) {
+  if (!paramData[0].id) return {};
+
   let parameters = {};
 
   paramData.forEach(parameter => {
@@ -52,6 +50,8 @@ function buildParameters (paramData) {
 }
 
 function buildHeaders (headerData) {
+  if (!headerData[0].id) return {};
+
   let headers = {};
 
   headerData.forEach(header => {
@@ -78,21 +78,24 @@ function getRequestLine(headerString) {
   return headerString.split('\r\n')[0];
 }
 
-app.get('/', (req, res) => {
+function makeRequest(res) {
+  let bodyHeader = {};
+  let customHeaders = buildHeaders(data.headers);
+
+  if (data.body.contentType) {
+    bodyHeader['Content-Type'] = data.body.contentType
+  }
+
   let options = {
     method: data.httpverb,
     url: data.hostpath,
     params: buildParameters(data.parameters),
-    headers: buildHeaders(data.headers),
-    responseType: 'json'
+    headers: Object.assign(bodyHeader, customHeaders),
+    data: data.body.payload,
   };
+
   axios(options)
   .then(function (response) {
-    // 1. send response to database
-    // if successful: 
-
-    // for GET request:
-    // let requestHeaders = response.request._header;
     let requestHeaders = buildRequestHeaders(response.request._header);
     let responseHeaders = response.headers;
     let responsePayload = response.data;
@@ -100,14 +103,8 @@ app.get('/', (req, res) => {
     let responseStatusText = response.statusText;
     let requestLine = `${getRequestLine(response.request._header)}`;
     let responseLine = `${requestLine.split(' ').slice(-1)[0]} ${responseStatus} ${responseStatusText}`
-    // console.log(responseHeaders)
-    // console.log(responsePayload)
-    // console.log(responseStatus)
-    // console.log(responseStatusText)
 
-    
-
-    let toTheFrontEnd = {
+    let dataForFrontEnd = {
       request: {
          headers: requestHeaders,
          requestLine: requestLine,
@@ -115,18 +112,20 @@ app.get('/', (req, res) => {
       response: {
         headers: responseHeaders,
         status: responseStatus,
-        responseLine: `${responseStatus} ${responseStatusText}`,
+        responseLine: responseLine,
         payload: responsePayload,
       }
-
     }
 
-    // res.status(200).send(Object.assign({}, data, toTheFrontEnd));
-    res.status(200).send(`<p>${requestLine}</p><p>${responseLine}</p>`);
+    res.status(200).send(Object.assign({}, data, dataForFrontEnd));
   }).catch((err) => {
     console.log(err);
   });
-})
+}
+
+app.get('/', (req, res) => {
+    makeRequest(res);
+});
 
 app.use((err, req, res, next) => {
   console.log(err);
