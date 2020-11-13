@@ -10,8 +10,8 @@ let data = {
   id: '2',
   email: 'frank@gmail.com',
   name: "req to apple",
-  httpverb: "POST",
-  hostpath: 'http://dummy.restapiexample.com/api/v1/create',
+  httpverb: "GET",
+  hostpath: 'http://www.google.com',
   time: '15:15',
   timeZone: 'PST',
   date: new Date('January 25, 1982'),
@@ -34,7 +34,7 @@ let data = {
   ],
   body: {
     contentType: 'application/json',
-    payload: '{"name":"test","salary":"123","age":"23"}'
+    payload: ''
   }};
 
 function buildParameters (paramData) {
@@ -117,7 +117,9 @@ function makeRequest(res) {
       }
     }
 
-    res.status(200).send(Object.assign({}, data, dataForFrontEnd));
+    // res.send(response.request._header);
+    console.log(response);
+    // res.status(200).send(Object.assign({}, data, dataForFrontEnd));
   }).catch((err) => {
     console.log(err);
   });
