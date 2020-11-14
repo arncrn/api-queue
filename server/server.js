@@ -1,72 +1,51 @@
-const express = require('express');
-const morgan = require('morgan');
-const axios = require('axios');
-const app = express()
-const port = 3000
+const express = require("express");
+const cors = require('cors');
+const morgan = require("morgan");
+const axios = require("axios");
+const { Client } = require("pg");
+
+const app = express();
+const port = 3001;
+const client = new Client({
+  database: "apiqdb",
+});
 
 app.use(morgan("dev"));
+app.use(cors());
+app.options('*', cors());
+app.use(express.urlencoded({extended: true}));
+app.use(express.json());
 
-let data = {
-  id: '2',
-  email: 'frank@gmail.com',
-  name: "req to apple",
-  httpverb: "GET",
-  hostpath: 'http://www.google.com',
-  time: '15:15',
-  timeZone: 'PST',
-  date: new Date('January 25, 1982'),
-  parameters: [{
-    id: "",
-    key: '',
-    value: ''
-  }],
-  headers: [
-    {
-      id: "1",
-      key: "Authorization",
-      value: "1234asdf",
-    },
-    {
-      id: "2",
-      key: "Content-Type",
-      value: "application/json",
-    },
-  ],
-  body: {
-    contentType: 'application/json',
-    payload: ''
-  }};
-
-function buildParameters (paramData) {
+function buildParameters(paramData) {
   if (!paramData[0].id) return {};
 
   let parameters = {};
 
-  paramData.forEach(parameter => {
+  paramData.forEach((parameter) => {
     parameters[parameter["key"]] = parameter["value"];
-  })
+  });
 
   return parameters;
 }
 
-function buildHeaders (headerData) {
+function buildHeaders(headerData) {
   if (!headerData[0].id) return {};
 
   let headers = {};
 
-  headerData.forEach(header => {
+  headerData.forEach((header) => {
     headers[header["key"]] = header["value"];
-  })
+  });
 
   return headers;
 }
 
-function buildRequestHeaders (headerString) {
+function buildRequestHeaders(headerString) {
   let headers = {};
 
-  headerString.split('\r\n').forEach(header => {
-    let parts = header.split(': ');
-    let prop = parts[0] + ':';
+  headerString.split("\r\n").forEach((header) => {
+    let parts = header.split(": ");
+    let prop = parts[0] + ":";
     let value = parts[1];
     headers[prop] = value;
   });
@@ -75,65 +54,112 @@ function buildRequestHeaders (headerString) {
 }
 
 function getRequestLine(headerString) {
-  return headerString.split('\r\n')[0];
+  return headerString.split("\r\n")[0];
 }
 
-function makeRequest(res) {
-  let bodyHeader = {};
-  let customHeaders = buildHeaders(data.headers);
+function parseResponse(responseData) {
+  let requestHeaders = buildRequestHeaders(responseData.request._header);
+  let responseHeaders = responseData.headers;
+  let responsePayload = responseData.data;
+  let responseStatus = responseData.status;
+  let responseStatusText = responseData.statusText;
+  let requestLine = `${getRequestLine(responseData.request._header)}`;
+  let responseLine = `${
+    requestLine.split(" ").slice(-1)[0]
+  } ${responseStatus} ${responseStatusText}`;
 
-  if (data.body.contentType) {
-    bodyHeader['Content-Type'] = data.body.contentType
+  let dataForFrontEnd = {
+    request: {
+      headers: requestHeaders,
+      requestLine: requestLine,
+    },
+    response: {
+      headers: responseHeaders,
+      status: responseStatus,
+      responseLine: responseLine,
+      payload: responsePayload,
+    },
+  };
+
+  return dataForFrontEnd;
+}
+
+function makeRequest(userRequest) {
+  let bodyHeader = {};
+  let customHeaders = buildHeaders(userRequest.headers);
+
+  if (userRequest.body.contentType) {
+    bodyHeader["Content-Type"] = userRequest.body.contentType;
   }
 
   let options = {
-    method: data.httpverb,
-    url: data.hostpath,
-    params: buildParameters(data.parameters),
+    method: userRequest.httpverb,
+    url: userRequest.hostpath,
+    params: buildParameters(userRequest.parameters),
     headers: Object.assign(bodyHeader, customHeaders),
-    data: data.body.payload,
+    data: userRequest.body.payload,
   };
 
   axios(options)
-  .then(function (response) {
-    let requestHeaders = buildRequestHeaders(response.request._header);
-    let responseHeaders = response.headers;
-    let responsePayload = response.data;
-    let responseStatus = response.status;
-    let responseStatusText = response.statusText;
-    let requestLine = `${getRequestLine(response.request._header)}`;
-    let responseLine = `${requestLine.split(' ').slice(-1)[0]} ${responseStatus} ${responseStatusText}`
+    .then(function (responseData) {
+      let dataForFrontEnd = parseResponse(responseData);
+      console.log(dataForFrontEnd);
 
-    let dataForFrontEnd = {
-      request: {
-         headers: requestHeaders,
-         requestLine: requestLine,
-      },
-      response: {
-        headers: responseHeaders,
-        status: responseStatus,
-        responseLine: responseLine,
-        payload: responsePayload,
-      }
-    }
+      // Continue on Tuesday:
+      // Store the raw response (responseData) to our DB
+      // Store the raw request (responseData.request._header) to our DB
+      // Send dataForFrontEnd back to frontend to update sidebar state
 
-    // res.send(response.request._header);
-    console.log(response);
-    // res.status(200).send(Object.assign({}, data, dataForFrontEnd));
-  }).catch((err) => {
-    console.log(err);
-  });
+      // res.send("Hello world");
+      // res.status(200).send(Object.assign({}, data, dataForFrontEnd));
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 }
 
-app.get('/', (req, res) => {
-    makeRequest(res);
+// Make this endpoint private later
+app.post("/makerequest", async (req, res) => {
+  let userRequest = req.body;
+
+  // Insert user request to DB
+  await client.connect();
+  const queryResult = await client.query(`INSERT INTO requests (user_id, user_request) VALUES ($1, $2)`, [1, userRequest]);
+  await client.end();
+
+  // Response back to frontend with request DB insertion status
+  res.send(queryResult.rowCount > 0);
+
+  // Make the actual user request
+  if (queryResult.rowCount > 0) {
+    // Run some conditionals to check if request is to be sent now or later
+    makeRequest(userRequest)
+
+  }
+})
+
+// Render React App here
+app.get("/", async (req, res) => {
+  res.send("Hello World");
+  // await client.connect();
+
+  // let data = makeRequest(res);
+
+  // const user_data = await client.query("SELECT user_request FROM requests");
+  // const raw_request = await client.query("SELECT raw_request FROM requests");
+  // const raw_response = await client.query("SELECT raw_response FROM requests");
+
+  // console.log(parseResponse(raw_response[0]));
+  // console.log(query.rows[0], query.rowCount);
+
+  // await client.end();
 });
 
 app.use((err, req, res, next) => {
   console.log(err);
   res.status(404).send(err.message);
-})
+});
 
 app.listen(port, () => {
-  console.log(`Example app listening at http://localhost:${port}`)
-})
+  console.log(`Example app listening at http://localhost:${port}`);
+});

@@ -67,16 +67,35 @@ const FormStateAndMethods = (WrappedComponent, extraData = {}) => {
       });
     };
 
-    // Does not refresh form
+    // 1. Update frontend state in sidebar (done automatically on submit)
+    // 2. Receive boolean from server
+    //  - if true, do nothing
+    //  - if false, do manage the error
     handleSubmit = (event) => {
       event.preventDefault();
+      
+      // Change URL in production
+      fetch('http://localhost:3001/makerequest', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(this.state)
+      }).then(response => {
+        // Log the response from server
+        console.log(response.json());
+      });
     };
 
     addKeyValueFields = (event) => {
       let name = event.target.dataset.name;
       this.setState((prevState) => ({
         [name]: [...prevState[name], { id: this.nextId(), key: "", value: "" }],
-      }));
+      }), () => {
+        // Deal with issue
+        // Extra key value pairs created if user hits "+" button
+        // console.log(this.state);
+      });
     };
 
     editProperty = (event) => {
@@ -91,9 +110,8 @@ const FormStateAndMethods = (WrappedComponent, extraData = {}) => {
       );
 
       targetProperty[name] = value;
-
       this.setState({
-        [name]: propertyCopy,
+        [type]: propertyCopy,
       });
     };
 
@@ -120,7 +138,7 @@ const FormStateAndMethods = (WrappedComponent, extraData = {}) => {
       return (
         <WrappedComponent
           {...this.props}
-          onSubmit={this.handleSubmit}
+          handleSubmit={this.handleSubmit}
           hostpath={this.state.hostpath}
           handleChange={this.handleChange}
           httpVerb={this.state.httpVerb}

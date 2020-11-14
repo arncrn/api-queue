@@ -21,7 +21,7 @@ class App extends Component {
           </Col>
           <Col lg={9} as={"main"} className="border">
             <SharedForm
-              onSubmit={this.props.handleSubmit}
+              handleSubmit={this.props.handleSubmit}
               hostpath={this.props.hostpath}
               handleChange={this.props.handleChange}
               httpVerb={this.props.httpVerb}

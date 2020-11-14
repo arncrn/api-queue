@@ -1,5 +1,5 @@
--- INSERT INTO users (email, name, password, timezone)
--- VALUES ('joshua@gmail.com', 'Joshua Tree', 'josh', 'PST');
+INSERT INTO users (email, name, password, timezone)
+VALUES ('joshua@gmail.com', 'Joshua Tree', 'josh', 'PST');
 
 INSERT INTO requests (user_id, user_request, raw_request, raw_response)
 VALUES (
