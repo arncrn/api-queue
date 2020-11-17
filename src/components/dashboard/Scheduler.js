@@ -20,7 +20,7 @@ class Scheduler extends Component {
           <Card border="dark">
             <Card.Header>
               {/* Add logic to manage scheduler data based on open and closed scheduler */}
-              <Accordion.Toggle as={Button} variant="dark" eventKey="0">
+              <Accordion.Toggle as={Button} variant="dark" eventKey="0" onClick={this.props.toggleScheduler}>
                 +
               </Accordion.Toggle>
             </Card.Header>

@@ -80,6 +80,13 @@ export default [{
     contentype: 'text/html',
     payload: '!DOCTYPE ....'
   },
+  request: {
+    headers: {
+      Authorization: '1234asdf',
+      ContentType: 'text/html',
+    },
+    body: '!DOCTYPE ....'
+  },
   response: {
     headers: {
       AccessControlAllowCredentials: 'true',

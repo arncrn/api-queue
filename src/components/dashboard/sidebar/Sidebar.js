@@ -10,7 +10,9 @@ class Sidebar extends Component {
 
     this.state = {
       data: testData,
-      currentTab: 'past'
+      currentTab: 'past',
+      buttonText: 'Send',
+      formUrl: 'http://localhost:3001/makerequest',
     }
   }
 
@@ -29,16 +31,37 @@ class Sidebar extends Component {
   changeTab = (event) => {
     let target = event.target;
     let value = target.textContent.toLowerCase();
+    let buttonText;
+    let formUrl;
+    if (value === 'past') {
+      buttonText = 'Send';
+      formUrl = 'http://localhost:3001/makerequest';
+    } else {
+      buttonText = 'Save';
+      formUrl = 'http://localhost:3001/updaterequest';
+    }
 
     this.setState({
-      currentTab: value
+      currentTab: value,
+      buttonText: buttonText,
+      formUrl: formUrl,
     })
   }
 
   render() {
     let currentTab = this.state.currentTab === 'past' ?
-     <Past testdata={this.getPastRequests()} showModalClick={this.props.showModalClick} /> : 
-     <Future testdata={this.getFutureRequests()} showModalClick={this.props.showModalClick} />
+     <Past 
+      testdata={this.getPastRequests()} 
+      showModalClick={this.props.showModalClick} 
+      buttonText={this.state.buttonText}
+      formUrl={this.state.formUrl}
+    /> : 
+     <Future 
+      testdata={this.getFutureRequests()} 
+      showModalClick={this.props.showModalClick} 
+      buttonText={this.state.buttonText}
+      formUrl={this.state.formUrl}
+    />
 
     return (
       <>

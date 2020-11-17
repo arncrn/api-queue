@@ -47,6 +47,8 @@ class PopUp extends Component {
                     timezone={this.props.timezone}
                     date={this.props.date}
                     buttonText={this.props.buttonText}
+                    formUrl={this.props.formUrl}
+                    toggleScheduler={this.toggleScheduler}
                   />
                 </Col>
               </Row>

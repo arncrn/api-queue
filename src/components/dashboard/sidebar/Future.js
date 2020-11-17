@@ -15,7 +15,6 @@ class Future extends Component {
     super(props);
 
     this.state = {
-      buttonText: 'Save',
       visibleModal: false,
       clickedReq: null,
     };
@@ -84,10 +83,11 @@ class Future extends Component {
           })}
         </ListGroup>
         <PopUpHOC
-        visibleModal={this.state.visibleModal}
-        hideModalClick={this.hideModalClick}
-        requestObject={this.getRequestObject()}
-        buttonText={this.state.buttonText}
+          formUrl={this.props.formUrl}
+          visibleModal={this.state.visibleModal}
+          hideModalClick={this.hideModalClick}
+          requestObject={this.getRequestObject()}
+          buttonText={this.props.buttonText}
         />
       </>
     );

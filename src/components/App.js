@@ -9,7 +9,16 @@ class App extends Component {
     super(props);
     this.state = {
       buttonText: 'Send',
+      formUrl: 'http://localhost:3001/makerequest',
+      scheduler: false,
     }
+  }
+
+  toggleScheduler = () => {
+    this.setState((prevState) => ({
+      scheduler: !prevState.scheduler,
+      buttonText: !prevState.scheduler === false ? 'Send' : 'Schedule later',
+    }))
   }
 
   render() {
@@ -37,6 +46,8 @@ class App extends Component {
               timezone={this.props.timezone}
               date={this.props.date}
               buttonText={this.state.buttonText}
+              formUrl={this.state.formUrl}
+              toggleScheduler={this.toggleScheduler}
             />
           </Col>
         </Row>
