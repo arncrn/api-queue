@@ -71,11 +71,11 @@ const FormStateAndMethods = (WrappedComponent, extraData = {}) => {
     // 2. Receive boolean from server
     //  - if true, do nothing
     //  - if false, do manage the error
-    handleSubmit = (event) => {
+    handleSubmit = (event, formUrl) => {
       event.preventDefault();
-      
+
       // Change URL in production
-      fetch('http://localhost:3001/makerequest', {
+      fetch(formUrl, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

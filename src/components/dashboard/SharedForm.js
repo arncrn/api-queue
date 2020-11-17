@@ -8,9 +8,13 @@ import Parameters from "./form-top/Parameters.js";
 import { Form } from "react-bootstrap";
 
 class SharedForm extends Component {
+  handleSubmit = (event) => {
+    this.props.handleSubmit(event, this.props.formUrl);
+  }
+
   render() {
     return (
-    <Form onSubmit={this.props.handleSubmit}>
+    <Form onSubmit={this.handleSubmit}>
       <Url
         hostpath={this.props.hostpath}
         handleChange={this.props.handleChange}
@@ -40,6 +44,7 @@ class SharedForm extends Component {
         time={this.props.time}
         timezone={this.props.timezone}
         date={this.props.date}
+        toggleScheduler={this.props.toggleScheduler}
       />
       <SubmitButton buttonText={this.props.buttonText} />
     </Form>
