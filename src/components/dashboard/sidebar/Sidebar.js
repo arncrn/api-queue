@@ -16,6 +16,15 @@ class Sidebar extends Component {
     }
   }
 
+  // componentDidMount() {
+  //   fetch('http://localhost:3001/allrequests').then(response => {
+  //     // Log the response from server
+  //     return response.json();
+  //   }).then(data => {
+  //     this.setState({ data: data });
+  //   });
+  // }
+
   getPastRequests = () => {
     return this.state.data.filter(request => {
       return request.response.status;

@@ -140,19 +140,29 @@ app.post("/makerequest", async (req, res) => {
 
 // Render React App here
 app.get("/", async (req, res) => {
-  res.send("Hello World");
-  // await client.connect();
+  // res.send("Hello World");
+  await client.connect();
 
   // let data = makeRequest(res);
+
+  let allData = await client.query("SELECT * FROM requests");
 
   // const user_data = await client.query("SELECT user_request FROM requests");
   // const raw_request = await client.query("SELECT raw_request FROM requests");
   // const raw_response = await client.query("SELECT raw_response FROM requests");
+  // const time_sent = await client.query("")
 
   // console.log(parseResponse(raw_response[0]));
   // console.log(query.rows[0], query.rowCount);
+  res.send(allData.rows);
+  await client.end();
+});
 
-  // await client.end();
+app.get("/allrequests", async(req, res) => {
+  await client.connect();
+  let allData = await client.query("SELECT * FROM requests");
+  res.status(200).send(JSON.stringify(allData.rows));
+  await client.end();
 });
 
 app.use((err, req, res, next) => {
