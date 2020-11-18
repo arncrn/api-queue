@@ -82,7 +82,7 @@ function parseResponse(responseData) {
   return dataForFrontEnd;
 }
 
-function makeRequest(userRequest) {
+function makeRequest(userRequest, newlyCreatedRequestId) {
   let bodyHeader = {};
   let customHeaders = buildHeaders(userRequest.headers);
 
@@ -98,13 +98,18 @@ function makeRequest(userRequest) {
     data: userRequest.body.payload,
   };
 
+  // Make the request
   axios(options)
     .then(function (responseData) {
-      let dataForFrontEnd = parseResponse(responseData);
-      console.log(dataForFrontEnd);
+      // let dataForFrontEnd = parseResponse(responseData);
+      // console.log(dataForFrontEnd);
+
+      insertRawRequestResponse(responseData, newlyCreatedRequestId);
 
       // Continue on Tuesday:
       // Store the raw response (responseData) to our DB
+
+
       // Store the raw request (responseData.request._header) to our DB
       // Send dataForFrontEnd back to frontend to update sidebar state
 
@@ -114,6 +119,51 @@ function makeRequest(userRequest) {
     .catch((err) => {
       console.log(err);
     });
+}
+
+// function simpleStringify (object){
+//   var simpleObject = {};
+//   for (var prop in object ){
+//       if (!object.hasOwnProperty(prop)){
+//           continue;
+//       }
+//       if (typeof(object[prop]) == 'object'){
+//           continue;
+//       }
+//       if (typeof(object[prop]) == 'function'){
+//           continue;
+//       }
+//       simpleObject[prop] = object[prop];
+//   }
+//   return JSON.stringify(simpleObject); // returns cleaned up JSON
+// };
+
+async function insertRawRequestResponse(responseData, newlyCreatedRequestId) {
+  let rawRequest = responseData.request._header;
+  let rawResponse = Object.assign({}, {
+    ...responseData.headers,
+    data: responseData.data,
+    status: responseData.status,
+    statusText: responseData.statusText
+  })
+  
+  // let rawResponse = simpleStringify(responseData);
+
+  const client = new Client({
+    database: "apiqdb",
+  });
+
+  // Insert user request to DB
+  await client.connect();
+
+  const queryResult = await client.query(
+    `UPDATE requests SET raw_request=$2, raw_response=$3 WHERE id=$1`,
+    [ newlyCreatedRequestId, rawRequest, rawResponse ]
+  );
+
+  await client.end();
+
+  console.log(rawResponse);
 }
 
 function formatQueryData(data) {
@@ -128,6 +178,7 @@ function formatQueryData(data) {
 }
 
 // Make this endpoint private later
+// Send the request received from user (either now or scheduled later)
 app.post("/makerequest", async (req, res) => {
   let userRequest = req.body;
 
@@ -138,18 +189,19 @@ app.post("/makerequest", async (req, res) => {
   // Insert user request to DB
   await client.connect();
   const queryResult = await client.query(
-    `INSERT INTO requests (user_id, user_request) VALUES ($1, $2)`,
+    `INSERT INTO requests (user_id, user_request) VALUES ($1, $2) RETURNING id`,
     [1, userRequest]
   );
+  let newlyCreatedRequestId = queryResult.rows[0].id;
   await client.end();
 
   // Response back to frontend with request DB insertion status
-  res.send(queryResult.rowCount > 0);
+  // res.send(queryResult.rowCount > 0);
 
   // Make the actual user request
   if (queryResult.rowCount > 0) {
     // Run some conditionals to check if request is to be sent now or later
-    makeRequest(userRequest);
+    makeRequest(userRequest, newlyCreatedRequestId);
   }
 });
 
@@ -175,6 +227,7 @@ app.get("/", async (req, res) => {
   // console.log(query.rows[0], query.rowCount);
 });
 
+// Returns a list of all past & future request scheduled || already sent
 app.get("/allrequests", async (req, res, next) => {
   try {
     const client = new Client({
