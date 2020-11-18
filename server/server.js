@@ -1,19 +1,17 @@
 const express = require("express");
-const cors = require('cors');
+const cors = require("cors");
 const morgan = require("morgan");
 const axios = require("axios");
 const { Client } = require("pg");
+const { request } = require("express");
 
 const app = express();
 const port = 3001;
-const client = new Client({
-  database: "apiqdb",
-});
 
 app.use(morgan("dev"));
 app.use(cors());
-app.options('*', cors());
-app.use(express.urlencoded({extended: true}));
+app.options("*", cors());
+app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 function buildParameters(paramData) {
@@ -118,13 +116,31 @@ function makeRequest(userRequest) {
     });
 }
 
+function formatQueryData(data) {
+  return data.map((request) => {
+    return {
+      id: request.id,
+      ...request.user_request,
+      request: request.raw_request || {},
+      response: request.raw_response || {},
+    }
+  });
+}
+
 // Make this endpoint private later
 app.post("/makerequest", async (req, res) => {
   let userRequest = req.body;
 
+  const client = new Client({
+    database: "apiqdb",
+  });
+
   // Insert user request to DB
   await client.connect();
-  const queryResult = await client.query(`INSERT INTO requests (user_id, user_request) VALUES ($1, $2)`, [1, userRequest]);
+  const queryResult = await client.query(
+    `INSERT INTO requests (user_id, user_request) VALUES ($1, $2)`,
+    [1, userRequest]
+  );
   await client.end();
 
   // Response back to frontend with request DB insertion status
@@ -133,19 +149,22 @@ app.post("/makerequest", async (req, res) => {
   // Make the actual user request
   if (queryResult.rowCount > 0) {
     // Run some conditionals to check if request is to be sent now or later
-    makeRequest(userRequest)
-
+    makeRequest(userRequest);
   }
-})
+});
 
 // Render React App here
 app.get("/", async (req, res) => {
-  // res.send("Hello World");
-  await client.connect();
+  try {
+    await client.connect();
+    let allData = await client.query("SELECT * FROM requests");
+    await client.end();
+    res.send(allData.rows);
+  } catch (err) {
+    console.log(err);
+  }
 
   // let data = makeRequest(res);
-
-  let allData = await client.query("SELECT * FROM requests");
 
   // const user_data = await client.query("SELECT user_request FROM requests");
   // const raw_request = await client.query("SELECT raw_request FROM requests");
@@ -154,15 +173,22 @@ app.get("/", async (req, res) => {
 
   // console.log(parseResponse(raw_response[0]));
   // console.log(query.rows[0], query.rowCount);
-  res.send(allData.rows);
-  await client.end();
 });
 
-app.get("/allrequests", async(req, res) => {
-  await client.connect();
-  let allData = await client.query("SELECT * FROM requests");
-  res.status(200).send(JSON.stringify(allData.rows));
-  await client.end();
+app.get("/allrequests", async (req, res, next) => {
+  try {
+    const client = new Client({
+      database: "apiqdb",
+    });
+
+    await client.connect();
+    let allData = await client.query("SELECT * FROM requests");
+    await client.end();
+
+    res.status(200).send(JSON.stringify(formatQueryData(allData.rows)));
+  } catch (err) {
+    next(err);
+  }
 });
 
 app.use((err, req, res, next) => {

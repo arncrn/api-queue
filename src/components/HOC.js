@@ -40,7 +40,7 @@ const FormStateAndMethods = (WrappedComponent, extraData = {}) => {
     })();
 
     calcTime = (date) => {
-      return `${String(date.getHours()).padStart(2, "0")}:${date.getMinutes()}`;
+      return `${String(date.getHours()).padStart(2, "0")}:${String(date.getMinutes()).padStart(2, "0")}`;
     };
 
     handleChange = (event) => {

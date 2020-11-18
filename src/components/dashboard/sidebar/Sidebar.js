@@ -9,21 +9,24 @@ class Sidebar extends Component {
     super(props);
 
     this.state = {
-      data: testData,
+      data: [],
       currentTab: 'past',
       buttonText: 'Send',
       formUrl: 'http://localhost:3001/makerequest',
     }
   }
 
-  // componentDidMount() {
-  //   fetch('http://localhost:3001/allrequests').then(response => {
-  //     // Log the response from server
-  //     return response.json();
-  //   }).then(data => {
-  //     this.setState({ data: data });
-  //   });
-  // }
+  componentDidMount() {
+    fetch('http://localhost:3001/allrequests').then(response => {
+      // Log the response from server
+      return response.json();
+    }).then(data => {
+
+      this.setState({ data: data }, () => {
+        console.log(this.state.data[0].date, typeof this.state.data[0].date);
+      });
+    });
+  }
 
   getPastRequests = () => {
     return this.state.data.filter(request => {
