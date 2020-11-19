@@ -72,14 +72,14 @@ class Sidebar extends Component {
   render() {
     let currentTab = this.state.currentTab === 'past' ?
      <Past 
+      updateData={this.props.updateData}
       testdata={this.getPastRequests()} 
-      showModalClick={this.props.showModalClick} 
       buttonText={this.state.buttonText}
       formUrl={this.state.formUrl}
     /> : 
      <Future 
+      updateData={this.props.updateData}
       testdata={this.getFutureRequests()} 
-      showModalClick={this.props.showModalClick} 
       buttonText={this.state.buttonText}
       formUrl={this.state.formUrl}
     />

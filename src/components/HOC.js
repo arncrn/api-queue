@@ -77,26 +77,29 @@ const FormStateAndMethods = (WrappedComponent, extraData = {}) => {
     handleSubmit = (event, formUrl) => {
       event.preventDefault();
 
-      let { data, updateData } = this.context;
+      let newData = Object.assign({}, this.state, {response: {}});
+      this.props.updateData(newData);
 
-      // Change URL in production
-      fetch(formUrl, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(this.state)
-      }).then(response => {
-        return response.json();
-      }).then(response => {
-        // get the response and inject it to the sidebar to display list of requests
-        console.log(response.id);
-        response.key = response.id;
+      // let { data, updateData } = this.context;
 
-        updateData(data.push(response))
+      // // Change URL in production
+      // fetch(formUrl, {
+      //   method: 'POST',
+      //   headers: {
+      //     'Content-Type': 'application/json'
+      //   },
+      //   body: JSON.stringify(this.state)
+      // }).then(response => {
+      //   return response.json();
+      // }).then(response => {
+      //   // get the response and inject it to the sidebar to display list of requests
+      //   console.log(response.id);
+      //   response.key = response.id;
 
-        console.log(data);
-      });
+      //   updateData(data.push(response))
+
+      //   console.log(data);
+      // });
     };
 
     addKeyValueFields = (event) => {

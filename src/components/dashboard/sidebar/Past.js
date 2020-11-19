@@ -86,6 +86,7 @@ class Past extends Component {
           })}
         </ListGroup>
         <PopUpHOC
+          updateData={this.props.updateData}
           formUrl={this.props.formUrl}
           visibleModal={this.state.visibleModal}
           hideModalClick={this.hideModalClick}
