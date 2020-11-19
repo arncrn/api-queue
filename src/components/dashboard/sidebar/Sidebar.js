@@ -19,32 +19,32 @@ class Sidebar extends Component {
 
   static contextType = DataContext;
 
-  componentDidMount() {
-    fetch('http://localhost:3001/allrequests').then(response => {
-      return response.json();
-    }).then(response => {
-      let responseWithKeys = response.map(request => {
-        return {
-          ...request,
-          key: request.id 
-        }
-      })
+  // componentDidMount() {
+  //   fetch('http://localhost:3001/allrequests').then(response => {
+  //     return response.json();
+  //   }).then(response => {
+  //     let responseWithKeys = response.map(request => {
+  //       return {
+  //         ...request,
+  //         key: request.id 
+  //       }
+  //     })
 
-      let { data, updateData } = this.context;
-      updateData(data = responseWithKeys);
+  //     let { data, updateData } = this.context;
+  //     updateData(data = responseWithKeys);
 
-      this.setState({ data });
-    });
-  }
+  //     this.setState({ data });
+  //   });
+  // }
 
   getPastRequests = () => {
-    return this.state.data.filter(request => {
+    return this.props.appData.filter(request => {
       return request.response.status;
     })
   }
 
   getFutureRequests = () => {
-    return this.state.data.filter(request => {
+    return this.props.appData.filter(request => {
       return !request.response.status;
     })
   }
