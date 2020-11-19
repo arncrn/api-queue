@@ -26,7 +26,10 @@ class App extends Component {
       <Container>
         <Row>
           <Col lg={3} as={"main"} className="border">
-            <Sidebar />
+            <Sidebar 
+              appData={this.props.appData} 
+              updateData={this.props.updateData}
+            />
           </Col>
           <Col lg={9} as={"main"} className="border">
             <SharedForm
