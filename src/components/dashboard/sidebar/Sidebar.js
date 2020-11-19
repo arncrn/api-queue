@@ -3,6 +3,7 @@ import Past from "./Past";
 import Future from "./Future";
 import { Nav } from "react-bootstrap";
 import testData from "../../../test-data.js"
+import { DataContext } from '../../data-context'
 
 class Sidebar extends Component {
   constructor(props) {
@@ -16,15 +17,23 @@ class Sidebar extends Component {
     }
   }
 
+  static contextType = DataContext;
+
   componentDidMount() {
     fetch('http://localhost:3001/allrequests').then(response => {
-      // Log the response from server
       return response.json();
-    }).then(data => {
+    }).then(response => {
+      let responseWithKeys = response.map(request => {
+        return {
+          ...request,
+          key: request.id 
+        }
+      })
 
-      this.setState({ data: data }, () => {
-        console.log(this.state.data[0].date, typeof this.state.data[0].date);
-      });
+      let { data, updateData } = this.context;
+      updateData(data = responseWithKeys);
+
+      this.setState({ data });
     });
   }
 

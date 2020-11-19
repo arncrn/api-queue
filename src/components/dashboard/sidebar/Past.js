@@ -4,6 +4,8 @@ import PopUp from "./PopUp.js";
 import HOC from "../../HOC.js";
 
 const calcDate = function (date, time) {
+  date = new Date(date);
+  
   return `${String(date.getMonth()+1).padStart(
     2,
     "0"
@@ -58,6 +60,9 @@ class Past extends Component {
   }
 
   render() {
+    let somevar = this.getRequestObject();
+    console.log(somevar);
+    
     let PopUpHOC = HOC(PopUp, this.getRequestObject());
     return (
       <>

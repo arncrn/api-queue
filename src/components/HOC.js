@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { DataContext } from './data-context'
 
 const FormStateAndMethods = (WrappedComponent, extraData = {}) => {
   return class extends Component {
@@ -31,6 +32,8 @@ const FormStateAndMethods = (WrappedComponent, extraData = {}) => {
         },
       };
     }
+
+    static contextType = DataContext;
 
     nextId = (() => {
       let id = 3;
@@ -74,6 +77,8 @@ const FormStateAndMethods = (WrappedComponent, extraData = {}) => {
     handleSubmit = (event, formUrl) => {
       event.preventDefault();
 
+      let { data, updateData } = this.context;
+
       // Change URL in production
       fetch(formUrl, {
         method: 'POST',
@@ -82,8 +87,15 @@ const FormStateAndMethods = (WrappedComponent, extraData = {}) => {
         },
         body: JSON.stringify(this.state)
       }).then(response => {
-        // Log the response from server
-        console.log(response.json());
+        return response.json();
+      }).then(response => {
+        // get the response and inject it to the sidebar to display list of requests
+        console.log(response.id);
+        response.key = response.id;
+
+        updateData(data.push(response))
+
+        console.log(data);
       });
     };
 

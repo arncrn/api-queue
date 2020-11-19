@@ -82,7 +82,7 @@ function parseResponse(responseData) {
   return dataForFrontEnd;
 }
 
-function makeRequest(userRequest, newlyCreatedRequestId) {
+function makeRequest(userRequest, newlyCreatedRequestId, res) {
   let bodyHeader = {};
   let customHeaders = buildHeaders(userRequest.headers);
 
@@ -101,20 +101,11 @@ function makeRequest(userRequest, newlyCreatedRequestId) {
   // Make the request
   axios(options)
     .then(function (responseData) {
-      // let dataForFrontEnd = parseResponse(responseData);
-      // console.log(dataForFrontEnd);
+      let dataForFrontEnd = parseResponse(responseData);
 
       insertRawRequestResponse(responseData, newlyCreatedRequestId);
 
-      // Continue on Tuesday:
-      // Store the raw response (responseData) to our DB
-
-
-      // Store the raw request (responseData.request._header) to our DB
-      // Send dataForFrontEnd back to frontend to update sidebar state
-
-      // res.send("Hello world");
-      // res.status(200).send(Object.assign({}, data, dataForFrontEnd));
+      res.status(200).send(Object.assign({}, userRequest, dataForFrontEnd, { id: newlyCreatedRequestId }));
     })
     .catch((err) => {
       console.log(err);
@@ -153,7 +144,6 @@ async function insertRawRequestResponse(responseData, newlyCreatedRequestId) {
     database: "apiqdb",
   });
 
-  // Insert user request to DB
   await client.connect();
 
   const queryResult = await client.query(
@@ -162,12 +152,11 @@ async function insertRawRequestResponse(responseData, newlyCreatedRequestId) {
   );
 
   await client.end();
-
-  console.log(rawResponse);
 }
 
 function formatQueryData(data) {
   return data.map((request) => {
+    console.log(request.raw_request, request.id, request.user_request.name);
     return {
       id: request.id,
       ...request.user_request,
@@ -195,13 +184,10 @@ app.post("/makerequest", async (req, res) => {
   let newlyCreatedRequestId = queryResult.rows[0].id;
   await client.end();
 
-  // Response back to frontend with request DB insertion status
-  // res.send(queryResult.rowCount > 0);
-
   // Make the actual user request
   if (queryResult.rowCount > 0) {
     // Run some conditionals to check if request is to be sent now or later
-    makeRequest(userRequest, newlyCreatedRequestId);
+    makeRequest(userRequest, newlyCreatedRequestId, res);
   }
 });
 
