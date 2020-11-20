@@ -54,7 +54,7 @@ class Past extends Component {
   };
 
   getRequestObject = () => {
-    return this.props.testdata.find((req) => {
+    return this.props.appData.find((req) => {
       return req.id === this.state.clickedReq;
     }) || {};
   }
@@ -64,7 +64,7 @@ class Past extends Component {
     return (
       <>
         <ListGroup>
-          {this.props.testdata.map((req) => {
+          {this.props.appData.map((req) => {
             return (
               <ListGroup.Item
                 action
@@ -78,7 +78,7 @@ class Past extends Component {
                 </Row>
                 <Row>
                   <Col lg={6}>{calcDate(req.date, req.time)}</Col>
-                  <Col lg={3}>{req.method}</Col>
+                  <Col lg={3}>{req.httpVerb}</Col>
                   <Col lg={3}>{req.response.status}</Col>
                 </Row>
               </ListGroup.Item>

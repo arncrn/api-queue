@@ -43,7 +43,8 @@ class Scheduler extends Component {
                 </Row>
                 <Calendar
                   onChange={this.props.onCalendarChange}
-                  defaultValue={this.props.date}
+                  defaultValue={new Date(this.props.date)}
+                  // defaultValue={this.props.date}
                   className="mt-3 mx-auto"
                 />
               </Card.Body>

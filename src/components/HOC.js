@@ -6,7 +6,7 @@ const FormStateAndMethods = (WrappedComponent, extraData = {}) => {
     constructor(props) {
       super(props);
       this.state = {
-        httpVerb: extraData.method || "GET",
+        httpVerb: extraData.httpVerb || "GET",
         hostpath: extraData.hostpath || "",
         time: extraData.time || this.calcTime(new Date()),
         timeZone: extraData.timeZone || "", // this will be set to user's default timezone.
@@ -70,36 +70,33 @@ const FormStateAndMethods = (WrappedComponent, extraData = {}) => {
       });
     };
 
-    // 1. Update frontend state in sidebar (done automatically on submit)
-    // 2. Receive boolean from server
-    //  - if true, do nothing
-    //  - if false, do manage the error
     handleSubmit = (event, formUrl) => {
       event.preventDefault();
 
       let newData = Object.assign({}, this.state, {response: {}});
-      this.props.updateData(newData);
+      // this.props.updateData(newData);
 
       // let { data, updateData } = this.context;
 
-      // // Change URL in production
-      // fetch(formUrl, {
-      //   method: 'POST',
-      //   headers: {
-      //     'Content-Type': 'application/json'
-      //   },
-      //   body: JSON.stringify(this.state)
-      // }).then(response => {
-      //   return response.json();
-      // }).then(response => {
-      //   // get the response and inject it to the sidebar to display list of requests
-      //   console.log(response.id);
-      //   response.key = response.id;
+      // Change URL in production
+      fetch(formUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(this.state)
+      }).then(response => {
+        return response.json();
+      }).then(response => {
+        // get the response and inject it to the sidebar to display list of requests
+        // console.log(response.id);
+        // response.key = response.id;
 
-      //   updateData(data.push(response))
+        // updateData(data.push(response))
+        this.props.updateData(newData);
 
-      //   console.log(data);
-      // });
+        // console.log(data);
+      });
     };
 
     addKeyValueFields = (event) => {

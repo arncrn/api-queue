@@ -28,7 +28,7 @@ class RequestResponse extends Component {
 
   render() {
     let currentData = this.getCurrentData()
-    console.log(currentData);
+    console.log(this.props);
     return (
       <>
         <Row>

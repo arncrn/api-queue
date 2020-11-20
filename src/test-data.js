@@ -1,18 +1,18 @@
 export default [{
-  id: '1',
+  id: '1', //
   email: 'abc@gmail.com',
-  name: "POST to google",
-  method: "POST",
-  hostpath: 'https://www.google.com/',
-  time: '21:15',
-  timeZone: 'PST',
-  date: new Date('August 19, 1975'),
-  parameters: [{
+  name: "POST to google", //
+  httpVerb: "POST", //db name is called httpverb ***
+  hostpath: 'https://www.google.com/', //
+  time: '21:15', //
+  timeZone: 'PST', //
+  date: new Date('August 19, 1975'), //db returns string
+  parameters: [{ //
     id: "123",
     key: 'search',
     value: 'toys'
   }],
-  headers: [
+  headers: [ //
     {
       id: "1",
       key: "Authorization",
@@ -24,19 +24,19 @@ export default [{
       value: "text/html",
     }
   ],
-  body: {
-    contentType: 'text/html',
-    payload: '!DOCTYPE ....'
+  body: { //
+    contentType: 'text/html', //
+    payload: '!DOCTYPE ....' //
   },
-  request: {
+  request: { // db returns a single string with requestline + headers
     headers: {
       Authorization: '1234asdf',
       ContentType: 'text/html',
     },
     body: '!DOCTYPE ....'
   },
-  response: {
-    headers: {
+  response: { //
+    headers: { // db returns no headers
       AccessControlAllowCredentials: 'true',
       AccessControlAllowOrigin: '*',
       Connection: 'keep-alive',
@@ -45,16 +45,16 @@ export default [{
       Date: 'Thu, 15 Oct 2020 02:22:44 GMT',
       Server: 'gunicorn/19.9.0',
     },
-    status: "200",
-    responseLine: 'HTTP/1.1 200 OK',
-    body: '{}'
+    status: "200", //
+    responseLine: 'HTTP/1.1 200 OK', // db returns no responseLine
+    body: '{}' // this is called 'data'
   }
 },
 {
   id: '2',
   email: 'frank@gmail.com',
   name: "req to apple",
-  method: "GET",
+  httpVerb: "GET",
   hostpath: 'https://www.apple.com/',
   time: '15:15',
   timeZone: 'PST',
@@ -106,7 +106,7 @@ export default [{
   id: '3',
   email: 'jimmy@gmail.com',
   name: "req to twitter",
-  method: "GET",
+  httpVerb: "GET",
   hostpath: 'https://www.twitter.com/',
   time: '12:15',
   timeZone: 'CST',

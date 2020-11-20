@@ -73,13 +73,13 @@ class Sidebar extends Component {
     let currentTab = this.state.currentTab === 'past' ?
      <Past 
       updateData={this.props.updateData}
-      testdata={this.getPastRequests()} 
+      appData={this.getPastRequests()} 
       buttonText={this.state.buttonText}
       formUrl={this.state.formUrl}
     /> : 
      <Future 
       updateData={this.props.updateData}
-      testdata={this.getFutureRequests()} 
+      appData={this.getFutureRequests()} 
       buttonText={this.state.buttonText}
       formUrl={this.state.formUrl}
     />

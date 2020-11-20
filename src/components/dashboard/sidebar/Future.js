@@ -54,8 +54,12 @@ class Future extends Component {
   };
 
   getRequestObject = () => {
-    return this.props.testdata.find((req) => {
-      return req.id === this.state.clickedReq;
+    // console.log(this.props.appData.find((req) => {
+    //   return req.id === this.state.clickedReq;
+    // }));
+    console.log(this.props.appData, this.state.clickedReq);
+    return this.props.appData.find((req) => {
+      return Number(req.id) === Number(this.state.clickedReq);
     }) || {};
   }
 
@@ -64,7 +68,7 @@ class Future extends Component {
     return (
       <>
         <ListGroup>
-          {this.props.testdata.map((req) => {
+          {this.props.appData.map((req) => {
             return (
               <ListGroup.Item
                 action
@@ -78,7 +82,7 @@ class Future extends Component {
                 </Row>
                 <Row>
                   <Col lg={6}>{calcDate(req.date, req.time)}</Col>
-                  <Col lg={3}>{req.method}</Col>
+                  <Col lg={3}>{req.httpVerb}</Col>
                 </Row>
               </ListGroup.Item>
             );
