@@ -54,10 +54,6 @@ class Future extends Component {
   };
 
   getRequestObject = () => {
-    // console.log(this.props.appData.find((req) => {
-    //   return req.id === this.state.clickedReq;
-    // }));
-    console.log(this.props.appData, this.state.clickedReq);
     return this.props.appData.find((req) => {
       return Number(req.id) === Number(this.state.clickedReq);
     }) || {};

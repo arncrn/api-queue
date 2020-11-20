@@ -79,24 +79,18 @@ const FormStateAndMethods = (WrappedComponent, extraData = {}) => {
       // let { data, updateData } = this.context;
 
       // Change URL in production
+      console.log("1. Frontend form sends user request to OUR server", Date.now());
+      
       fetch(formUrl, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify(this.state)
-      }).then(response => {
-        return response.json();
-      }).then(response => {
-        // get the response and inject it to the sidebar to display list of requests
-        // console.log(response.id);
-        // response.key = response.id;
-
-        // updateData(data.push(response))
+      }).then( () => {
+        console.log("7. Frontend receives response from server", Date.now());
         this.props.updateData(newData);
-
-        // console.log(data);
-      });
+      })
     };
 
     addKeyValueFields = (event) => {
@@ -106,7 +100,6 @@ const FormStateAndMethods = (WrappedComponent, extraData = {}) => {
       }), () => {
         // Deal with issue
         // Extra key value pairs created if user hits "+" button
-        // console.log(this.state);
       });
     };
 

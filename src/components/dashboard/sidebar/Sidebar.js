@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import Past from "./Past";
 import Future from "./Future";
 import { Nav } from "react-bootstrap";
-import testData from "../../../test-data.js"
+// import testData from "../../../test-data.js"
 import { DataContext } from '../../data-context'
 
 class Sidebar extends Component {
@@ -10,7 +10,7 @@ class Sidebar extends Component {
     super(props);
 
     this.state = {
-      data: [],
+      // data: [],
       currentTab: 'past',
       buttonText: 'Send',
       formUrl: 'http://localhost:3001/makerequest',

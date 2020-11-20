@@ -2,8 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const morgan = require("morgan");
 const axios = require("axios");
-const { Client } = require("pg");
-const { request } = require("express");
+const dbquery = require("./db-query.js");
 
 const app = express();
 const port = 3001;
@@ -19,131 +18,92 @@ app.use((err, req, res, next) => {
 
 app.options("*", cors());
 
-function buildParameters(paramData) {
-  if (!paramData[0].id) return {};
-
-  let parameters = {};
-
-  paramData.forEach((parameter) => {
-    parameters[parameter["key"]] = parameter["value"];
-  });
-
-  return parameters;
-}
-
-function buildHeaders(headerData) {
-  if (!headerData[0].id) return {};
-
-  let headers = {};
-
-  headerData.forEach((header) => {
-    headers[header["key"]] = header["value"];
-  });
-
-  return headers;
-}
-
-function buildRequestHeaders(headerString) {
-  let headers = {};
-
-  headerString.split("\r\n").forEach((header) => {
-    let parts = header.split(": ");
-    let prop = parts[0] + ":";
-    let value = parts[1];
-    headers[prop] = value;
-  });
-
-  return headers;
-}
-
 function getRequestLine(headerString) {
   return headerString.split("\r\n")[0];
 }
 
-function parseDatabaseResponse(data) {
-  let requestHeaders = buildRequestHeaders(data.request);
+function createResponseLine(rawResponse, requestLine) {
+  return `${requestLine.split(" ").slice(-1)[0]} ${rawResponse.status} ${
+    rawResponse.statusText
+  }`;
 }
 
-function parseResponse(responseData) {
-  let requestHeaders = buildRequestHeaders(responseData.request._header);
-  let responseHeaders = responseData.headers;
-  let responsePayload = responseData.data;
-  let responseStatus = responseData.status;
-  let responseStatusText = responseData.statusText;
-  let requestLine = `${getRequestLine(responseData.request._header)}`;
-  let responseLine = `${
-    requestLine.split(" ").slice(-1)[0]
-  } ${responseStatus} ${responseStatusText}`;
+function buildParamsOrHeaders(data) {
+  // This needs to be fixed later, always returns {} because first input id is always ''
+  // headers: [ { id: '', key: 'h', value: '1' }, { id: 5, key: 'h1', value: '2' } ],
+  // parameters: [ { id: '', key: 't', value: '1' }, { id: 4, key: 't2', value: '2' } ],
+  if (!data[0].id) return {};
 
-  let dataForFrontEnd = {
-    request: {
-      headers: requestHeaders,
-      requestLine: requestLine,
-    },
-    response: {
-      headers: responseHeaders,
-      status: responseStatus,
-      responseLine: responseLine,
-      body: responsePayload,
-    },
+  let result = {};
+
+  data.forEach(({ key, value }) => (result[key] = value));
+
+  return result;
+}
+
+function buildRawResponseHeaders(rawResponse, responseLine) {
+  let { status = "", data: body = "", ...headers } = rawResponse;
+
+  return {
+    headers,
+    status,
+    body,
+    responseLine,
   };
-
-  return dataForFrontEnd;
 }
 
-function makeRequest(userRequest, newlyCreatedRequestId, res) {
+function buildRawRequestHeaders(rawRequest) {
+  let headers = {};
+
+  let headersArray = rawRequest
+    .split("\r\n")
+    .slice(1)
+    .filter((header) => header);
+
+  headersArray.forEach((header) => {
+    let [key, val] = header.split(": ");
+    headers[`${key}:`] = val;
+  });
+
+  return { headers };
+}
+
+function generateRequestOptions(userRequest) {
   let bodyHeader = {};
-  let customHeaders = buildHeaders(userRequest.headers);
+  let customHeaders = buildParamsOrHeaders(userRequest.headers);
 
   if (userRequest.body.contentType) {
     bodyHeader["Content-Type"] = userRequest.body.contentType;
   }
 
-  let options = {
+  return {
     method: userRequest.httpverb,
     url: userRequest.hostpath,
-    params: buildParameters(userRequest.parameters),
+    params: buildParamsOrHeaders(userRequest.parameters),
     headers: Object.assign(bodyHeader, customHeaders),
     data: userRequest.body.payload,
   };
+}
 
-  // Make the request
+function sendRequest(userRequest, newlyCreatedRequestId, res) {
+  let options = generateRequestOptions(userRequest);
+
+  console.log("3. Server sends API call on behalf of users", Date.now())
   axios(options)
     .then(function (responseData) {
-      console.log(responseData);
-      let dataForFrontEnd = parseResponse(responseData);
-
-      insertRawRequestResponse(responseData, newlyCreatedRequestId);
-
-      res
-        .status(200)
-        .send(
-          Object.assign({}, userRequest, dataForFrontEnd, {
-            id: newlyCreatedRequestId,
-          })
-        );
+      console.log("4. Server receives response from that API call", Date.now())
+      // insertRawRequestResponse(responseData, newlyCreatedRequestId);
+      let successfulResponse = insertRawRequestResponse(responseData, newlyCreatedRequestId);
+      // if(!successfulResponse) throw Error;
+    })
+    .then(function () {
+      console.log("8. Sends back response to the Frontend", Date.now())
+      res.status(200).send("OK");
     })
     .catch((err) => {
       console.log(err);
     });
 }
-
-// function simpleStringify (object){
-//   var simpleObject = {};
-//   for (var prop in object ){
-//       if (!object.hasOwnProperty(prop)){
-//           continue;
-//       }
-//       if (typeof(object[prop]) == 'object'){
-//           continue;
-//       }
-//       if (typeof(object[prop]) == 'function'){
-//           continue;
-//       }
-//       simpleObject[prop] = object[prop];
-//   }
-//   return JSON.stringify(simpleObject); // returns cleaned up JSON
-// };
 
 async function insertRawRequestResponse(responseData, newlyCreatedRequestId) {
   let rawRequest = responseData.request._header;
@@ -157,54 +117,28 @@ async function insertRawRequestResponse(responseData, newlyCreatedRequestId) {
     }
   );
 
-  // let rawResponse = simpleStringify(responseData);
-
-  const client = new Client({
-    database: "apiqdb",
-  });
-
-  await client.connect();
-
-  const queryResult = await client.query(
+  console.log("5. Inserts the response data into the database", Date.now());
+  // await dbquery(
+  //   `UPDATE requests SET raw_request=$2, raw_response=$3 WHERE id=$1`,
+  //   [newlyCreatedRequestId, rawRequest, rawResponse]
+  // );
+  
+  let queryResponse = await dbquery(
     `UPDATE requests SET raw_request=$2, raw_response=$3 WHERE id=$1`,
     [newlyCreatedRequestId, rawRequest, rawResponse]
   );
-
-  await client.end();
+  console.log("6. Database updated", Date.now());
+  return queryResponse.rowCount > 0;
 }
 
 function formatQueryData(data) {
-  let dataToSend = data.map((request) => {
-    // console.log(request.raw_request, request.id, request.user_request.name);
+  return data.map((request) => {
+    let rawRequest = request.raw_request || "";
+    let rawResponse = request.raw_response || {};
 
-    // {
-    //   httpVerb: extraData.method || "GET",
-    //   hostpath: extraData.hostpath || "",
-    //   time: extraData.time || this.calcTime(new Date()),
-    //   timeZone: extraData.timeZone || "", // this will be set to user's default timezone.
-    //   date: extraData.date || new Date(),
-    //   name: extraData.name || "",
-    //   headers: extraData.headers || [
-    //     {
-    //       id: "",
-    //       key: "",
-    //       value: "",
-    //     },
-    //   ],
-    //   parameters: extraData.parameters || [
-    //     {
-    //       id: "",
-    //       key: "",
-    //       value: "",
-    //     },
-    //   ],
-    //   body: extraData.body || {
-    //     contentType: "",
-    //     payload: "",
-    //   },
-    // };
+    let requestLine = getRequestLine(rawRequest);
+    let responseLine = createResponseLine(rawResponse, requestLine);
 
-    let {rawRequest, rawResponse} = parseDatabaseResponse(request);
     return {
       id: request.id,
       httpVerb: request.user_request.httpVerb,
@@ -216,77 +150,71 @@ function formatQueryData(data) {
       headers: request.user_request.headers,
       parameters: request.user_request.parameters,
       body: request.user_request.body,
-      request: rawRequest || {},
-      response: rawResponse || {},
-      // request: request.raw_request || {},
-      // response: request.raw_response || {},
+      request: buildRawRequestHeaders(rawRequest),
+      response: buildRawResponseHeaders(rawResponse, responseLine),
     };
   });
-
-  // console.log(dataToSend[23]);
-  return dataToSend;
 }
 
 // Render React App
 app.get("/", async (req, res) => {
-  // try {
-  //   await client.connect();
-  //   let allData = await client.query("SELECT * FROM requests");
-  //   await client.end();
-  //   res.send(allData.rows);
-  // } catch (err) {
-  //   console.log(err);
-  // }
-  // let data = makeRequest(res);
-  // const user_data = await client.query("SELECT user_request FROM requests");
-  // const raw_request = await client.query("SELECT raw_request FROM requests");
-  // const raw_response = await client.query("SELECT raw_response FROM requests");
-  // const time_sent = await client.query("")
-  // console.log(parseResponse(raw_response[0]));
-  // console.log(query.rows[0], query.rowCount);
+  res.redirect(200, "/allrequests");
 });
 
-// Returns a list of all past & future request
+// Make endpoint private
+// Returns a list of ALL request
 app.get("/allrequests", async (req, res, next) => {
   try {
-    const client = new Client({
-      database: "apiqdb",
-    });
+    let allData = await dbquery("SELECT * FROM requests");
+    let allRequests = formatQueryData(allData.rows);
 
-    await client.connect();
-    let allData = await client.query("SELECT * FROM requests");
-    await client.end();
-
-    res.status(200).send(JSON.stringify(formatQueryData(allData.rows)));
+    res.status(200).send(JSON.stringify(allRequests));
   } catch (err) {
     next(err);
   }
 });
 
-// Make this endpoint private
+// Make endpoint private
 // Send the request received from user (either now or later)
 app.post("/makerequest", async (req, res) => {
   try {
+    // let userRequest = req.body;
+    
+    // if (true) {
+    //   // if now
+    //   sendRequest(userRequest, newlyCreatedRequestId, res);
+    // } else {
+    //   // if future
+    // }
     
     let userRequest = req.body;
 
-    const client = new Client({
-      database: "apiqdb",
-    });
-
-    // Insert user request to DB
-    await client.connect();
-    const queryResult = await client.query(
+    console.log("2. Server inserts user request into database", Date.now());
+    let queryResult = await dbquery(
       `INSERT INTO requests (user_id, user_request) VALUES ($1, $2) RETURNING id`,
       [1, userRequest]
     );
-    let newlyCreatedRequestId = queryResult.rows[0].id;
-    await client.end();
 
-    // Make the actual user request
+    let newlyCreatedRequestId = queryResult.rows[0].id;
+
     if (queryResult.rowCount > 0) {
-      // Run some conditionals to check if request is to be sent now or later
-      makeRequest(userRequest, newlyCreatedRequestId, res);
+      // Run conditionals to check if request should be sent now or later
+      // switch(req.httpVerb) {
+      //   case "GET":
+      //     sendRequest(userRequest, newlyCreatedRequestId, res);
+      //     break; 
+      //   case "DELETE":
+      //     break; 
+      //   case "POST":
+      //     break; 
+      //   case "PUT":
+      //     break; 
+      //   case "PATCH":
+      //     break; 
+      //   default: 
+      // }
+
+      sendRequest(userRequest, newlyCreatedRequestId, res);
     }
   } catch (err) {
     next(err);

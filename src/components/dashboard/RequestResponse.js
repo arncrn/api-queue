@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { html } from "js-beautify";
-
 import {
   Card,
   Button,
@@ -28,7 +27,7 @@ class RequestResponse extends Component {
 
   render() {
     let currentData = this.getCurrentData()
-    console.log(this.props);
+
     return (
       <>
         <Row>

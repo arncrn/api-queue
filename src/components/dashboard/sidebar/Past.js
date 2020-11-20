@@ -55,7 +55,7 @@ class Past extends Component {
 
   getRequestObject = () => {
     return this.props.appData.find((req) => {
-      return req.id === this.state.clickedReq;
+      return Number(req.id) === Number(this.state.clickedReq);
     }) || {};
   }
 
