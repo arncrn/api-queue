@@ -21,12 +21,41 @@ class RequestResponse extends Component {
 
   getCurrentData = () => {
     let data = this.props.requestObject;
-
+    console.log(data);
     return data[this.state.currentTab];
+  }
+
+  checkResponseContentType = (currentData) => {
+    if (currentData.headers["content-type"]) {
+      if (currentData.headers["content-type"].includes("text/html")) {
+        return html(currentData.body);
+      } else if (currentData.headers["content-type"].includes("application/json")) {
+        return JSON.stringify(currentData.body, null, 2);
+      } else if (currentData.headers["content-type"].includes("text/plain")) {
+        return currentData.body;
+      } else {
+        return `The response in this request is not supported: ${currentData.headers["content-type"]}. We support the following content types: text/html, application/json, text/plain.`;
+      }
+    }
+  }
+
+  displayRawRequestBody = (currentData) => {
+    if (currentData.headers["Content-Type"]) {
+      return JSON.stringify(currentData.body, null, 2);
+    }
   }
 
   render() {
     let currentData = this.getCurrentData()
+    let bodyData;
+
+    if (this.state.currentTab === "response") {
+      bodyData = this.checkResponseContentType(currentData);
+    } else {
+      bodyData = this.displayRawRequestBody(currentData);
+    }
+
+    console.log(currentData);
 
     return (
       <>
@@ -86,8 +115,8 @@ class RequestResponse extends Component {
                 <Accordion.Collapse eventKey="0">
                   <Card.Body>
                     <pre>
-                      {JSON.stringify(currentData.body, null, 2)}
-                      {/* {html(ht)} */}
+                      {/* {this.checkResponseContentType(currentData)} */}
+                      {bodyData}
                     </pre>
                   </Card.Body>
                 </Accordion.Collapse>

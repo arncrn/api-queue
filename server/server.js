@@ -29,14 +29,13 @@ function createResponseLine(rawResponse, requestLine) {
 }
 
 function buildParamsOrHeaders(data) {
-  // This needs to be fixed later, always returns {} because first input id is always ''
-  // headers: [ { id: '', key: 'h', value: '1' }, { id: 5, key: 'h1', value: '2' } ],
-  // parameters: [ { id: '', key: 't', value: '1' }, { id: 4, key: 't2', value: '2' } ],
-  if (!data[0].id) return {};
-
   let result = {};
 
-  data.forEach(({ key, value }) => (result[key] = value));
+  data.forEach(({ key, value }) => {
+    if(key) {
+      result[key] = value;
+    }
+  })
 
   return result;
 }
@@ -77,7 +76,7 @@ function generateRequestOptions(userRequest) {
   }
 
   return {
-    method: userRequest.httpverb,
+    method: userRequest.httpVerb,
     url: userRequest.hostpath,
     params: buildParamsOrHeaders(userRequest.parameters),
     headers: Object.assign(bodyHeader, customHeaders),
@@ -85,27 +84,38 @@ function generateRequestOptions(userRequest) {
   };
 }
 
-function sendRequest(userRequest, newlyCreatedRequestId, res) {
-  let options = generateRequestOptions(userRequest);
+async function sendRequest(userRequest, newlyCreatedRequestId, res) {
+  try {
+    let options = generateRequestOptions(userRequest);
+    console.log(options);
+    console.log("3. Server sends API call on behalf of users", Date.now())
+    let responseData = await axios(options); // Fixed the DB async issue
 
-  console.log("3. Server sends API call on behalf of users", Date.now())
-  axios(options)
-    .then(function (responseData) {
-      console.log("4. Server receives response from that API call", Date.now())
-      // insertRawRequestResponse(responseData, newlyCreatedRequestId);
-      let successfulResponse = insertRawRequestResponse(responseData, newlyCreatedRequestId);
-      // if(!successfulResponse) throw Error;
-    })
-    .then(function () {
-      console.log("8. Sends back response to the Frontend", Date.now())
-      res.status(200).send("OK");
-    })
-    .catch((err) => {
-      console.log(err);
-    });
+    console.log(responseData);
+    insertRawRequestResponse(responseData, newlyCreatedRequestId);
+
+    res.status(200).send("OK");
+  } catch (err) {
+    console.log(err);
+  }
+
+  // axios(options)
+  // .then(function (responseData) {
+  //   console.log("4. Server receives response from that API call", Date.now())
+  //   insertRawRequestResponse(responseData, newlyCreatedRequestId);
+  //   res.status(200).send("OK");
+  //   })
+    // .then(function () {
+    //   console.log("8. Sends back response to the Frontend", Date.now())
+    //   res.status(200).send("OK");
+    // })
+    // .catch((err) => {
+    //   console.log(err);
+    // });
 }
 
 async function insertRawRequestResponse(responseData, newlyCreatedRequestId) {
+  // fix popup rawrequest not displaying `body`, need to add the body to db
   let rawRequest = responseData.request._header;
   let rawResponse = Object.assign(
     {},
@@ -118,17 +128,11 @@ async function insertRawRequestResponse(responseData, newlyCreatedRequestId) {
   );
 
   console.log("5. Inserts the response data into the database", Date.now());
-  // await dbquery(
-  //   `UPDATE requests SET raw_request=$2, raw_response=$3 WHERE id=$1`,
-  //   [newlyCreatedRequestId, rawRequest, rawResponse]
-  // );
-  
-  let queryResponse = await dbquery(
+  await dbquery(
     `UPDATE requests SET raw_request=$2, raw_response=$3 WHERE id=$1`,
     [newlyCreatedRequestId, rawRequest, rawResponse]
   );
   console.log("6. Database updated", Date.now());
-  return queryResponse.rowCount > 0;
 }
 
 function formatQueryData(data) {
@@ -177,16 +181,7 @@ app.get("/allrequests", async (req, res, next) => {
 // Make endpoint private
 // Send the request received from user (either now or later)
 app.post("/makerequest", async (req, res) => {
-  try {
-    // let userRequest = req.body;
-    
-    // if (true) {
-    //   // if now
-    //   sendRequest(userRequest, newlyCreatedRequestId, res);
-    // } else {
-    //   // if future
-    // }
-    
+  try { 
     let userRequest = req.body;
 
     console.log("2. Server inserts user request into database", Date.now());

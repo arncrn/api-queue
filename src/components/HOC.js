@@ -14,14 +14,14 @@ const FormStateAndMethods = (WrappedComponent, extraData = {}) => {
         name: extraData.name || "",
         headers: extraData.headers || [
           {
-            id: "",
+            id: this.nextHeadersId(),
             key: "",
             value: "",
           },
         ],
         parameters: extraData.parameters || [
           {
-            id: "",
+            id: this.nextParametersId(),
             key: "",
             value: "",
           },
@@ -35,8 +35,15 @@ const FormStateAndMethods = (WrappedComponent, extraData = {}) => {
 
     static contextType = DataContext;
 
-    nextId = (() => {
-      let id = 3;
+    nextParametersId = (() => {
+      let id = 0;
+      return function () {
+        return (id += 1);
+      };
+    })();
+
+    nextHeadersId = (() => {
+      let id = 0;
       return function () {
         return (id += 1);
       };
@@ -95,8 +102,10 @@ const FormStateAndMethods = (WrappedComponent, extraData = {}) => {
 
     addKeyValueFields = (event) => {
       let name = event.target.dataset.name;
+      let nextId = name === "headers" ? this.nextHeadersId() : this.nextParametersId();
+
       this.setState((prevState) => ({
-        [name]: [...prevState[name], { id: this.nextId(), key: "", value: "" }],
+        [name]: [...prevState[name], { id: nextId, key: "", value: "" }],
       }), () => {
         // Deal with issue
         // Extra key value pairs created if user hits "+" button
