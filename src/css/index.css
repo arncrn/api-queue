@@ -91,6 +91,13 @@ summary::-webkit-details-marker {
   height: 600px;
 } */
 
+.error-message {
+  color: red;
+}
+
+
+
+
 dd, dt {
   display: inline-block
 }
@@ -98,3 +105,4 @@ dd, dt {
 dt {
   margin-right: 5px;
 }
+
