@@ -2,19 +2,17 @@ import React, { Component } from "react";
 import { Form, Col, Row } from "react-bootstrap";
 
 class Url extends Component {
-  // parseUrlParams = () => {
-  //   let queryString = '';
-  //   if (this.props.parameters[0].id !== '') {
-  //     queryString = this.props.parameters.map(param => {
-  //       return param.key + '=' + param.value
-  //     }).join('&');
-  //   }
+  handleBlur = (event) => {
+    let form = event.target.closest('form');
+    let hiddenSpan = event.target.nextElementSibling;
 
-  //   let startQuery = queryString.length === 0 ? '' : '?'
-  //   return (
-  //     this.props.hostpath + startQuery + queryString
-  //   )
-  // }
+    if (!form.checkValidity()) hiddenSpan.hidden = false;
+  }
+
+  handleFocus = (event) => {
+    let hiddenSpan = event.target.nextElementSibling;
+    hiddenSpan.hidden = true;
+  }
 
   render() {
     return (
@@ -45,10 +43,13 @@ class Url extends Component {
               type="text"
               name="hostpath"
               placeholder="https://www.example.com"
+              pattern="http[s]?://www\..+\..+"
+              onBlur={this.handleBlur}
+              onFocus={this.handleFocus}
               onChange={this.props.handleChange}
-              // defaultValue={this.parseUrlParams()}
               defaultValue={this.props.hostpath}
             />
+            <span id="hostpath-error" className='error-message' hidden>The URL must match this format: "http[s]://www.example.com"</span>
           </Col>
         </Row>
 
