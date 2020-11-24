@@ -11,10 +11,6 @@ app.use(morgan("dev"));
 app.use(cors());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-app.use((err, req, res, next) => {
-  console.log(err);
-  res.status(404).send(err.message);
-});
 
 app.options("*", cors());
 
@@ -87,11 +83,10 @@ function generateRequestOptions(userRequest) {
 async function sendRequest(userRequest, newlyCreatedRequestId, res) {
   try {
     let options = generateRequestOptions(userRequest);
-    console.log(options);
     console.log("3. Server sends API call on behalf of users", Date.now())
     let responseData = await axios(options); // Fixed the DB async issue
-
     console.log(responseData);
+
     insertRawRequestResponse(responseData, newlyCreatedRequestId);
 
     res.status(200).send("OK");
@@ -116,8 +111,22 @@ async function sendRequest(userRequest, newlyCreatedRequestId, res) {
 
 async function insertRawRequestResponse(responseData, newlyCreatedRequestId) {
   // fix popup rawrequest not displaying `body`, need to add the body to db
-  let rawRequest = responseData.request._header;
-  let rawResponse = Object.assign(
+  let rawRequest = buildRawRequestHeaders(responseData.request._header);
+  if (responseData.config.data) {
+    // somehow add it. still discussing.
+    rawRequest.body = responseData.config.data;
+  }
+
+  // STEPS
+    // Create rawRequest
+    // Create parsedResponse
+
+  
+  console.log(responseData);
+
+  let rawResponse = String(responseData);
+
+  let parsedResponse = Object.assign(
     {},
     {
       ...responseData.headers,
@@ -128,9 +137,10 @@ async function insertRawRequestResponse(responseData, newlyCreatedRequestId) {
   );
 
   console.log("5. Inserts the response data into the database", Date.now());
+
   await dbquery(
-    `UPDATE requests SET raw_request=$2, raw_response=$3 WHERE id=$1`,
-    [newlyCreatedRequestId, rawRequest, rawResponse]
+    `UPDATE requests SET raw_request=$2, raw_response=$3, parsed_response=$4 WHERE id=$1`,
+    [newlyCreatedRequestId, rawRequest, rawResponse, parsedResponse]
   );
   console.log("6. Database updated", Date.now());
 }
@@ -138,10 +148,10 @@ async function insertRawRequestResponse(responseData, newlyCreatedRequestId) {
 function formatQueryData(data) {
   return data.map((request) => {
     let rawRequest = request.raw_request || "";
-    let rawResponse = request.raw_response || {};
+    let parsedResponse = request.parsed_response || {};
 
     let requestLine = getRequestLine(rawRequest);
-    let responseLine = createResponseLine(rawResponse, requestLine);
+    let responseLine = createResponseLine(parsedResponse, requestLine);
 
     return {
       id: request.id,
@@ -154,8 +164,8 @@ function formatQueryData(data) {
       headers: request.user_request.headers,
       parameters: request.user_request.parameters,
       body: request.user_request.body,
-      request: buildRawRequestHeaders(rawRequest),
-      response: buildRawResponseHeaders(rawResponse, responseLine),
+      request: buildRawRequestHeaders(rawRequest), // needs to be updated because we changed name of rawResponse to parsedResponse
+      response: buildRawResponseHeaders(parsedResponse, responseLine), // needs to be updated because we changed name of rawResponse to parsedResponse
     };
   });
 }
@@ -183,6 +193,7 @@ app.get("/allrequests", async (req, res, next) => {
 app.post("/makerequest", async (req, res) => {
   try { 
     let userRequest = req.body;
+    console.log(userRequest);
 
     console.log("2. Server inserts user request into database", Date.now());
     let queryResult = await dbquery(
@@ -214,6 +225,11 @@ app.post("/makerequest", async (req, res) => {
   } catch (err) {
     next(err);
   }
+});
+
+app.use((err, req, res, next) => {
+  console.log(err);
+  res.status(404).send(err.message);
 });
 
 app.listen(port, () => {
