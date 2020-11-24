@@ -17,21 +17,20 @@ class AppWrapper extends React.Component {
     let updatedData = prevState.appData.length !== this.state.appData.length;
     return updatedData;
   }
-// https://www.example.com
-// Example now (10)
-  // componentDidMount() {
-  //   fetch("http://localhost:3001/allrequests")
-  //     .then((response) => {
-  //       return response.json();
-  //     })
-  //     .then((response) => {
-  //       this.setState({ appData: response });
-  //     });
-  // }
 
   componentDidMount() {
-    this.setState({ appData: [completeData] });
+    fetch("http://localhost:3001/allrequests")
+      .then((response) => {
+        return response.json();
+      })
+      .then((response) => {
+        this.setState({ appData: response });
+      });
   }
+
+  // componentDidMount() {
+  //   this.setState({ appData: [completeData] });
+  // }
 
   updateData = (newData) => {
     console.log("9. Frontend makes GET request to server", Date.now());
@@ -48,6 +47,7 @@ class AppWrapper extends React.Component {
   };
 
   render() {
+    console.log(this.state.appData.slice(-1));
     let AppForm = HOC(App);
 
     return (

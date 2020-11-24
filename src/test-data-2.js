@@ -1,3 +1,5 @@
+
+
 let userRequest = {
   id: '1',
   httpVerb: 'POST',
@@ -286,17 +288,6 @@ let rawResponse = {
 }
 
 
-function buildParsedResponseHeaders(rawResponse, responseLine) {
-  let { status = "", data: body = "", ...headers } = rawResponse;
-
-  return {
-    headers,
-    status,
-    body,
-    responseLine,
-  };
-}
-
 let requestHeaderString = rawResponse._header;
 let requestLine = getRequestLine(requestHeaderString);
 let responseLine = createResponseLine(rawResponse, requestLine);
@@ -339,12 +330,12 @@ let parsedResponse = Object.assign(
 );
 
 let rawRequest = {
+  requestLine: requestLine,
   headers: buildRawRequestHeaders(requestHeaderString),
   body: rawResponse.config.data || ''
 }
 
 let completeData = userRequest;
-
 completeData.request = rawRequest;
 completeData.response = parsedResponse;
 
