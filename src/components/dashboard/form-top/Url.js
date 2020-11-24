@@ -43,7 +43,7 @@ class Url extends Component {
               type="text"
               name="hostpath"
               placeholder="https://www.example.com"
-              pattern="http[s]?://www\..+\..+"
+              // pattern="http[s]?://www\..+\..+"
               onBlur={this.handleBlur}
               onFocus={this.handleFocus}
               onChange={this.props.handleChange}

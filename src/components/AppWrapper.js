@@ -1,6 +1,7 @@
 import React from "react";
 import App from "./App.js";
 import HOC from "./HOC.js";
+import completeData from "../test-data-2.js";
 // import testData from "../test-data.js";
 
 class AppWrapper extends React.Component {
@@ -18,14 +19,18 @@ class AppWrapper extends React.Component {
   }
 // https://www.example.com
 // Example now (10)
+  // componentDidMount() {
+  //   fetch("http://localhost:3001/allrequests")
+  //     .then((response) => {
+  //       return response.json();
+  //     })
+  //     .then((response) => {
+  //       this.setState({ appData: response });
+  //     });
+  // }
+
   componentDidMount() {
-    fetch("http://localhost:3001/allrequests")
-      .then((response) => {
-        return response.json();
-      })
-      .then((response) => {
-        this.setState({ appData: response });
-      });
+    this.setState({ appData: [completeData] });
   }
 
   updateData = (newData) => {
@@ -35,9 +40,10 @@ class AppWrapper extends React.Component {
       return response.json();
     })
     .then((response) => {
-        console.log(response);
         console.log("10. Frontend updates local state with database data", Date.now());
         this.setState({ appData: response }, ()=> {this.forceUpdate()});
+      }).catch((error) => {
+        console.log(error);
       });
   };
 

@@ -21,7 +21,6 @@ class RequestResponse extends Component {
 
   getCurrentData = () => {
     let data = this.props.requestObject;
-    console.log(data);
     return data[this.state.currentTab];
   }
 
@@ -39,8 +38,13 @@ class RequestResponse extends Component {
     }
   }
 
-  displayRawRequestBody = (currentData) => {
+  // coming back here tomorrow
+  displayRawRequestBody = (currentData) => { 
+    console.log(currentData.body);
+    console.log(currentData.headers);
     if (currentData.headers["Content-Type"]) {
+      // need to have our nested if conditions in here to decide how to parse and display this, just like function above.
+      console.log('it worked');
       return JSON.stringify(currentData.body, null, 2);
     }
   }
@@ -54,8 +58,6 @@ class RequestResponse extends Component {
     } else {
       bodyData = this.displayRawRequestBody(currentData);
     }
-
-    console.log(currentData);
 
     return (
       <>
