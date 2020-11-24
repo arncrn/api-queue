@@ -24,28 +24,39 @@ class RequestResponse extends Component {
     return data[this.state.currentTab];
   }
 
-  checkResponseContentType = (currentData) => {
-    if (currentData.headers["content-type"]) {
-      if (currentData.headers["content-type"].includes("text/html")) {
-        return html(currentData.body);
-      } else if (currentData.headers["content-type"].includes("application/json")) {
-        return JSON.stringify(currentData.body, null, 2);
-      } else if (currentData.headers["content-type"].includes("text/plain")) {
-        return currentData.body;
+  checkResponseContentType = (parsedResponse) => {
+    let contentType = parsedResponse.headers["content-type"];
+    if (contentType) {
+      if (contentType.includes("text/html")) {
+        return html(parsedResponse.body);
+      } else if (contentType.includes("application/json")) {
+        return JSON.stringify(parsedResponse.body, null, 2);
+      } else if (contentType.includes("text/plain")) {
+        return parsedResponse.body;
       } else {
-        return `The response in this request is not supported: ${currentData.headers["content-type"]}. We support the following content types: text/html, application/json, text/plain.`;
+        return `The response in this request is not supported: ${contentType}. We support the following content types: text/html, application/json, text/plain.`;
       }
     }
   }
 
   // coming back here tomorrow
-  displayRawRequestBody = (currentData) => { 
-    console.log(currentData.body);
-    console.log(currentData.headers);
-    if (currentData.headers["Content-Type"]) {
-      // need to have our nested if conditions in here to decide how to parse and display this, just like function above.
-      console.log('it worked');
-      return JSON.stringify(currentData.body, null, 2);
+  displayRawRequestBody = (rawRequest) => {
+    let contentType = rawRequest.headers["Content-Type"];
+    if (contentType) {
+      if (contentType.includes("application/json")) {
+        let parsed = JSON.parse(rawRequest.body);
+        return JSON.stringify(parsed, null, 2);
+      } else if (contentType.includes("text/html")) {
+        return html(rawRequest.body);
+      } else if (contentType.includes("text/plain")) {
+        return rawRequest.body;
+      } else if (contentType.includes("application/x-www-form-urlencoded")) {
+        return rawRequest.body; // Maybe need to revisit this after testing sending a post request using this.
+      } else if (contentType.includes("multipart/form-data")) {
+        return rawRequest.body; // Maybe need to revisit this after testing sending a post request using this.
+      } else {
+        return `The body sent with this request is not supported: ${contentType}. We support the following content types: JSON, HTML, TEXT, form-url-encoded, form-data.`;
+      }
     }
   }
 
@@ -80,7 +91,7 @@ class RequestResponse extends Component {
         </Row>
         <Row className="mt-3">
           <Col>
-            <p>{currentData.responseLine}</p>
+            <p>{currentData.responseLine || currentData.requestLine}</p>
             <Accordion className="mt-3">
               <Card>
                 <Card.Header>

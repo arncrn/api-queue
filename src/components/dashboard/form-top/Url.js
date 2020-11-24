@@ -43,13 +43,13 @@ class Url extends Component {
               type="text"
               name="hostpath"
               placeholder="https://www.example.com"
-              // pattern="http[s]?://www\..+\..+"
+              pattern="http[s]?://.+"
               onBlur={this.handleBlur}
               onFocus={this.handleFocus}
               onChange={this.props.handleChange}
               defaultValue={this.props.hostpath}
             />
-            <span id="hostpath-error" className='error-message' hidden>The URL must match this format: "http[s]://www.example.com"</span>
+            <span id="hostpath-error" className='error-message' hidden>The URL must match this format: "http[s]://"</span>
           </Col>
         </Row>
 
