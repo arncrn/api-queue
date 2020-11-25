@@ -13,6 +13,16 @@ class AppWrapper extends React.Component {
     };
   }
 
+  refreshPage = () => {
+    fetch("http://localhost:3001/allrequests")
+      .then((response) => {
+        return response.json();
+      })
+      .then((response) => {
+        this.setState({ appData: response });
+      });
+  }
+
   shouldComponentUpdate(prevProps, prevState) {
     let updatedData = prevState.appData.length !== this.state.appData.length;
     return updatedData;
@@ -51,7 +61,11 @@ class AppWrapper extends React.Component {
     let AppForm = HOC(App);
 
     return (
-      <AppForm appData={this.state.appData} updateData={this.updateData} />
+      <AppForm 
+      appData={this.state.appData} 
+      updateData={this.updateData}
+      refreshPage={this.refreshPage}
+      />
     );
   }
 }

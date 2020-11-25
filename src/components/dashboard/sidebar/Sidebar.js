@@ -38,9 +38,12 @@ class Sidebar extends Component {
   // }
 
   getPastRequests = () => {
-    return this.props.appData.filter(request => {
+    let pastRequests = this.props.appData.filter(request => {
       return request.response.status;
-    })
+    });
+
+    console.log(pastRequests.length);
+    return pastRequests;
   }
 
   getFutureRequests = () => {
@@ -50,6 +53,8 @@ class Sidebar extends Component {
   }
 
   changeTab = (event) => {
+    this.props.refreshPage();
+
     let target = event.target;
     let value = target.textContent.toLowerCase();
     let buttonText;
