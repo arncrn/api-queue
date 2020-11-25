@@ -54,6 +54,7 @@ const FormStateAndMethods = (WrappedComponent, extraData = {}) => {
     };
 
     handleChange = (event) => {
+      event.preventDefault();
       const target = event.target;
       let value = target.value;
       let name = target.name;
@@ -67,6 +68,8 @@ const FormStateAndMethods = (WrappedComponent, extraData = {}) => {
       } else {
         this.setState({
           [name]: value,
+        }, () => {
+          console.log(this.state);
         });
       }
     };
@@ -74,6 +77,8 @@ const FormStateAndMethods = (WrappedComponent, extraData = {}) => {
     onCalendarChange = (date) => {
       this.setState({
         date: date,
+      }, () => {
+        console.log(this.state);
       });
     };
 
@@ -166,7 +171,7 @@ const FormStateAndMethods = (WrappedComponent, extraData = {}) => {
           body={this.state.body}
           onCalendarChange={this.onCalendarChange}
           time={this.state.time}
-          timezone={this.state.timezone}
+          timezone={this.state.timeZone}
           date={this.state.date}
         />
       );

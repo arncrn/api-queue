@@ -2,8 +2,6 @@ import React, { Component } from "react";
 import Calendar from 'react-calendar';
 import { Form, Col, Row, Button, Accordion, Card } from "react-bootstrap";
 
-
-
 class Scheduler extends Component {
   render() {
     return (
@@ -33,9 +31,9 @@ class Scheduler extends Component {
                   </Col>
                   <Col lg={3}>
                     <Form.Control as="select" defaultValue={this.props.timeZone} name='timeZone' onChange={this.props.handleChange} custom>
-                      <option value="ALASKA">Alaska Time</option>
-                      <option value="PT">Pacific Time</option>
-                      <option value="MT">Mountain Time</option>
+                      <option value="AKST">Alaska Time</option>
+                      <option value="PST">Pacific Time</option>
+                      <option value="MST">Mountain Time</option>
                       <option value="CST">Central Time</option>
                       <option value="EST">Eastern Time</option>
                     </Form.Control>

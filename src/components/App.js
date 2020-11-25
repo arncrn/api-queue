@@ -29,6 +29,7 @@ class App extends Component {
             <Sidebar 
               appData={this.props.appData} 
               updateData={this.props.updateData}
+              refreshPage={this.props.refreshPage}
             />
           </Col>
           <Col lg={9} as={"main"} className="border">

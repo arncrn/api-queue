@@ -21,9 +21,6 @@ async function checkDatabaseForFutureRequests() {
   let timeNow = new Date();
 
   let requestsToSend = result.rows.filter(request => {
-    // console.log(timeNow);
-    // console.log(new Date(request.time_scheduled));
-    // console.log(timeNow >= new Date(request.time_scheduled));
     return timeNow >= new Date(request.time_scheduled);
   });
 
@@ -31,7 +28,8 @@ async function checkDatabaseForFutureRequests() {
 }
 
 function createTimeScheduled(userRequest) {
-  // '2003-04-12 04:05:06 PST'
+  // '2020-11-25 12:24:00 CST'
+  console.log(userRequest.timeZone, 'line 35');
 
   let date = userRequest.date.split('T')[0];
   let time = userRequest.time + ":00";
@@ -39,19 +37,21 @@ function createTimeScheduled(userRequest) {
 
   console.log(`${date} ${time} ${timeZone}`, 'line 40');
   console.log(userRequest.date, 'line 41');
-  return `${date} ${time} ${timeZone}`;
+
+  return new Date(`${date} ${time} ${timeZone}`);
 }
 
 (async function sendFutureRequest() {
+  console.log('server has been reset');
   let futureRequests = await checkDatabaseForFutureRequests();
-  console.log(futureRequests);
-  futureRequests.forEach(request => {
-    let options = generateRequestOptions(request.user_request);
-    console.log(options, 'I am options');
-    // let responseData = await axios(options);
-    // await insertRawRequestResponse(responseData, request.id);
-  });
 
+  for (let i = 0; i < futureRequests.length; i++) {
+    let request = futureRequests[i];
+
+    let options = generateRequestOptions(request.user_request);
+    let responseData = await axios(options);
+    await insertRawRequestResponse(responseData, request.id);
+  }
 
   // setInterval(() => {
   //   checkDatabaseForFutureRequests().forEach(request => {
@@ -136,13 +136,13 @@ async function insertRawRequestResponse(rawResponse, newlyCreatedRequestId) {
 
   rawResponse = String(rawResponse);
 
-  console.log("5. Inserts the response data into the database", Date.now());
+  // console.log("5. Inserts the response data into the database", Date.now());
 
   await dbquery(
     `UPDATE requests SET raw_request=$2, raw_response=$3, parsed_response=$4 WHERE id=$1`,
     [newlyCreatedRequestId, rawRequest, rawResponse, parsedResponse]
   );
-  console.log("6. Database updated", Date.now());
+  // console.log("6. Database updated", Date.now());
 }
 
 function formatQueryData(data) {
@@ -187,12 +187,12 @@ app.get("/allrequests", async (req, res, next) => {
 
 // Make endpoint private
 // Send the request received from user (either now or later)
-app.post("/makerequest", async (req, res) => {
+app.post("/makerequest", async (req, res, next) => {
   try { 
     let userRequest = req.body;
     let timeScheduled = createTimeScheduled(userRequest);
     // console.log(timeScheduled, 'line 193');
-    console.log("2. Server inserts user request into database", Date.now());
+    // console.log("2. Server inserts user request into database", Date.now());
     let queryResult = await dbquery(
       `INSERT INTO requests (user_id, user_request, time_scheduled) VALUES ($1, $2, $3) RETURNING id`,
       [1, userRequest, timeScheduled]
