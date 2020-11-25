@@ -30,7 +30,7 @@ class Scheduler extends Component {
                     <Form.Control as="input" type="time" name='time' defaultValue={this.props.time} onChange={this.props.handleChange}></Form.Control>
                   </Col>
                   <Col lg={3}>
-                    <Form.Control as="select" defaultValue={this.props.timeZone} name='timeZone' onChange={this.props.handleChange} custom>
+                    <Form.Control as="select" defaultValue={this.props.timezone} name='timeZone' onChange={this.props.handleChange} custom>
                       <option value="AKST">Alaska Time</option>
                       <option value="PST">Pacific Time</option>
                       <option value="MST">Mountain Time</option>

@@ -41,8 +41,6 @@ class Sidebar extends Component {
     let pastRequests = this.props.appData.filter(request => {
       return request.response.status;
     });
-
-    console.log(pastRequests.length);
     return pastRequests;
   }
 

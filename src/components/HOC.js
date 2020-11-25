@@ -154,7 +154,6 @@ const FormStateAndMethods = (WrappedComponent, extraData = {}) => {
     };
 
     render() {
-      console.log(this.state.date);
       return (
         <WrappedComponent
           {...this.props}

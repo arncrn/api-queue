@@ -17,9 +17,9 @@ app.options("*", cors());
 
 async function checkDatabaseForFutureRequests() {
   let result = await dbquery("SELECT * FROM requests WHERE raw_response IS NULL ORDER BY time_scheduled");
-
+  console.log('line 20: ', result.rowCount);
   let timeNow = new Date();
-
+  console.log('line 22', timeNow, new Date(result.rows[0].time_scheduled));
   let requestsToSend = result.rows.filter(request => {
     return timeNow >= new Date(request.time_scheduled);
   });
@@ -42,12 +42,9 @@ function createTimeScheduled(userRequest) {
 }
 
 (async function sendFutureRequest() {
-  console.log('server has been reset');
   let futureRequests = await checkDatabaseForFutureRequests();
-
   for (let i = 0; i < futureRequests.length; i++) {
     let request = futureRequests[i];
-
     let options = generateRequestOptions(request.user_request);
     let responseData = await axios(options);
     await insertRawRequestResponse(responseData, request.id);
