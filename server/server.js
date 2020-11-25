@@ -15,6 +15,63 @@ app.use(express.json());
 
 app.options("*", cors());
 
+async function checkDatabaseForFutureRequests() {
+  let result = await dbquery("SELECT * FROM requests WHERE raw_response IS NULL ORDER BY time_scheduled");
+
+  let timeNow = new Date();
+
+  let requestsToSend = result.rows.filter(request => {
+    // console.log(timeNow);
+    // console.log(new Date(request.time_scheduled));
+    // console.log(timeNow >= new Date(request.time_scheduled));
+    return timeNow >= new Date(request.time_scheduled);
+  });
+
+  return requestsToSend;
+}
+
+function createTimeScheduled(userRequest) {
+  // '2003-04-12 04:05:06 PST'
+
+  let date = userRequest.date.split('T')[0];
+  let time = userRequest.time + ":00";
+  let timeZone = userRequest.timeZone;
+
+  console.log(`${date} ${time} ${timeZone}`, 'line 40');
+  console.log(userRequest.date, 'line 41');
+  return `${date} ${time} ${timeZone}`;
+}
+
+(async function sendFutureRequest() {
+  let futureRequests = await checkDatabaseForFutureRequests();
+  console.log(futureRequests);
+  futureRequests.forEach(request => {
+    let options = generateRequestOptions(request.user_request);
+    console.log(options, 'I am options');
+    // let responseData = await axios(options);
+    // await insertRawRequestResponse(responseData, request.id);
+  });
+
+
+  // setInterval(() => {
+  //   checkDatabaseForFutureRequests().forEach(request => {
+  //     let options = generateRequestOptions(JSON.parse(request.user_request));
+  //     let responseData = await axios(options);
+  //     await insertRawRequestResponse(responseData, request.id);
+  //   });
+  // }, 1000 * 60);
+  // What does the query look like?
+    // selecting all the requests that don't have a response, and ordering by time (I think ascending is earliest, which should be default)
+    // Iterate those requests, 
+      // if a request has a time that is earlier than, or equal to, current time, then send it (do the below stuff).
+      // else, return out of the function.
+
+
+  // if this function finds a request that needs to be sent
+    
+})();
+
+
 function buildParamsOrHeaders(data) {
   let result = {};
 
@@ -46,11 +103,13 @@ function generateRequestOptions(userRequest) {
 
 async function sendRequest(userRequest, newlyCreatedRequestId, res) {
   try {
-    let options = generateRequestOptions(userRequest);
-    console.log("3. Server sends API call on behalf of users", Date.now())
-    let responseData = await axios(options);
-
-    await insertRawRequestResponse(responseData, newlyCreatedRequestId);
+    // if NOW is later than or equal the time of userRequest 
+      // send it now and do the next insert
+      // let options = generateRequestOptions(userRequest);
+      // console.log("3. Server sends API call on behalf of users", Date.now())
+      // let responseData = await axios(options);
+      // await insertRawRequestResponse(responseData, newlyCreatedRequestId);
+      
 
     res.status(200).send("OK");
   } catch (err) {
@@ -90,7 +149,6 @@ function formatQueryData(data) {
   return data.map((request) => {
     let rawRequest = request.raw_request || "";
     let parsedResponse = request.parsed_response || {};
-    console.log(parsedResponse.status);
 
     return {
       id: request.id,
@@ -132,11 +190,12 @@ app.get("/allrequests", async (req, res, next) => {
 app.post("/makerequest", async (req, res) => {
   try { 
     let userRequest = req.body;
-
+    let timeScheduled = createTimeScheduled(userRequest);
+    // console.log(timeScheduled, 'line 193');
     console.log("2. Server inserts user request into database", Date.now());
     let queryResult = await dbquery(
-      `INSERT INTO requests (user_id, user_request) VALUES ($1, $2) RETURNING id`,
-      [1, userRequest]
+      `INSERT INTO requests (user_id, user_request, time_scheduled) VALUES ($1, $2, $3) RETURNING id`,
+      [1, userRequest, timeScheduled]
     );
 
     let newlyCreatedRequestId = queryResult.rows[0].id;
