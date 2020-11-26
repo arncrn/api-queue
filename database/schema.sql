@@ -18,7 +18,7 @@ CREATE TABLE requests (
   raw_request jsonb,
   raw_response text,
   parsed_response jsonb,
-  time_scheduled timestamp,
+  time_scheduled timestamptz,
   time_sent timestamp,
   date_created timestamp NOT NULL DEFAULT NOW(),
   date_modified timestamp

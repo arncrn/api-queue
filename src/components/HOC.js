@@ -68,8 +68,6 @@ const FormStateAndMethods = (WrappedComponent, extraData = {}) => {
       } else {
         this.setState({
           [name]: value,
-        }, () => {
-          console.log(this.state);
         });
       }
     };
@@ -77,8 +75,6 @@ const FormStateAndMethods = (WrappedComponent, extraData = {}) => {
     onCalendarChange = (date) => {
       this.setState({
         date: date,
-      }, () => {
-        console.log(this.state);
       });
     };
 
@@ -91,8 +87,9 @@ const FormStateAndMethods = (WrappedComponent, extraData = {}) => {
       // let { data, updateData } = this.context;
 
       // Change URL in production
+      console.log(this.state);
+      console.log(JSON.stringify(this.state));
       console.log("1. Frontend form sends user request to OUR server", Date.now());
-      
       fetch(formUrl, {
         method: 'POST',
         headers: {

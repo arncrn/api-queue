@@ -77,8 +77,11 @@ class Future extends Component {
                   <Col className="h6">{req.name}</Col>
                 </Row>
                 <Row>
-                  <Col lg={6}>{calcDate(req.date, req.time)}</Col>
-                  <Col lg={3}>{req.httpVerb}</Col>
+                  <Col>{calcDate(req.date, req.time)} {req.timeZone}</Col>
+                  
+                </Row>
+                <Row>
+                  <Col>{req.httpVerb}</Col>
                 </Row>
               </ListGroup.Item>
             );
