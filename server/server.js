@@ -17,9 +17,8 @@ app.options("*", cors());
 
 async function checkDatabaseForFutureRequests() {
   let result = await dbquery("SELECT * FROM requests WHERE raw_response IS NULL ORDER BY time_scheduled");
-
   let timeNow = new Date();
-
+  // console.log('line 22', timeNow, new Date(result.rows[0].time_scheduled));
   let requestsToSend = result.rows.filter(request => {
     return timeNow >= new Date(request.time_scheduled);
   });
@@ -29,8 +28,8 @@ async function checkDatabaseForFutureRequests() {
 
 function createTimeScheduled(userRequest) {
   // '2020-11-25 12:24:00 CST'
-  console.log(userRequest.timeZone, 'line 35');
-
+  //working
+  console.log(userRequest.date, 'line 32');
   let date = userRequest.date.split('T')[0];
   let time = userRequest.time + ":00";
   let timeZone = userRequest.timeZone;
@@ -38,38 +37,37 @@ function createTimeScheduled(userRequest) {
   console.log(`${date} ${time} ${timeZone}`, 'line 40');
   console.log(userRequest.date, 'line 41');
 
-  return new Date(`${date} ${time} ${timeZone}`);
+  // return new Date(`${date} ${time} ${timeZone}`);
+  return `${date} ${time} ${timeZone}`;
 }
 
-(async function sendFutureRequest() {
-  console.log('server has been reset');
-  let futureRequests = await checkDatabaseForFutureRequests();
+// (
+  // async function sendFutureRequest() {
+  // let futureRequests = await checkDatabaseForFutureRequests();
+  // for (let i = 0; i < futureRequests.length; i++) {
+  //   let request = futureRequests[i];
 
-  for (let i = 0; i < futureRequests.length; i++) {
-    let request = futureRequests[i];
+  //   let options = generateRequestOptions(request.user_request);
+  //   let responseData = await axios(options);
+  //   await insertRawRequestResponse(responseData, request.id);
+  // }
 
-    let options = generateRequestOptions(request.user_request);
-    let responseData = await axios(options);
-    await insertRawRequestResponse(responseData, request.id);
-  }
+// setInterval(async () => {}, 1000 * 60);)();
 
-  // setInterval(() => {
-  //   checkDatabaseForFutureRequests().forEach(request => {
-  //     let options = generateRequestOptions(JSON.parse(request.user_request));
-  //     let responseData = await axios(options);
-  //     await insertRawRequestResponse(responseData, request.id);
-  //   });
-  // }, 1000 * 60);
-  // What does the query look like?
-    // selecting all the requests that don't have a response, and ordering by time (I think ascending is earliest, which should be default)
-    // Iterate those requests, 
-      // if a request has a time that is earlier than, or equal to, current time, then send it (do the below stuff).
-      // else, return out of the function.
+async function sendFutureRequest() {
+  setInterval(async () => {
+    let futureRequests = await checkDatabaseForFutureRequests();
+    for (let i = 0; i < futureRequests.length; i++) {
+      let request = futureRequests[i];
+  
+      let options = generateRequestOptions(request.user_request);
+      let responseData = await axios(options);
+      await insertRawRequestResponse(responseData, request.id);
+    }
+  }, 1000 * 60)
+}
 
-
-  // if this function finds a request that needs to be sent
-    
-})();
+sendFutureRequest();
 
 
 function buildParamsOrHeaders(data) {
@@ -189,7 +187,9 @@ app.get("/allrequests", async (req, res, next) => {
 // Send the request received from user (either now or later)
 app.post("/makerequest", async (req, res, next) => {
   try { 
+    console.log(req.body, 'line 190');
     let userRequest = req.body;
+    console.log(userRequest, 'line 192');
     let timeScheduled = createTimeScheduled(userRequest);
     // console.log(timeScheduled, 'line 193');
     // console.log("2. Server inserts user request into database", Date.now());

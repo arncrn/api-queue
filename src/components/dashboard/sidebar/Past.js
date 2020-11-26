@@ -77,9 +77,11 @@ class Past extends Component {
                   <Col className="h6">{req.name}</Col>
                 </Row>
                 <Row>
-                  <Col lg={6}>{calcDate(req.date, req.time)}</Col>
+                  <Col lg={12}>{calcDate(req.date, req.time)} {req.timeZone}</Col>
+                </Row>
+                <Row>
                   <Col lg={3}>{req.httpVerb}</Col>
-                  <Col lg={3}>{req.response.status}</Col>
+                  <Col>{req.response.status} {req.response.statusText}</Col>
                 </Row>
               </ListGroup.Item>
             );

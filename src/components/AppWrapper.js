@@ -57,7 +57,6 @@ class AppWrapper extends React.Component {
   };
 
   render() {
-    console.log(this.state.appData.slice(-1));
     let AppForm = HOC(App);
 
     return (

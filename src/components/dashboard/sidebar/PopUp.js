@@ -9,6 +9,8 @@ class PopUp extends Component {
   };
 
   render() {
+    // console.log(this.props.requestObject.timeZone);
+    console.log(this.props.timezone);
     return (
       <>
         <Modal
