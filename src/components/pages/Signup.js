@@ -1,21 +1,16 @@
 import React, { useState } from "react";
 import { Form, Button, Row, Col, Container } from "react-bootstrap";
-import {
-  BrowserRouter as Router,
-  Redirect
-} from "react-router-dom";
+import { Redirect } from "react-router-dom";
 
 
 const Signup = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [timezone, setTimeZone] = useState("AKST");
-  const [status, setStatus] = useState(false);
+  const [signupSuccess, setSignupSuccess] = useState(false);
 
   function toRedirect() {
-    console.log('redirect function ran');
-    console.log(status);
-    if (status) {
+    if (signupSuccess) {
       return <Redirect to="/app" />
     }
   }
@@ -42,10 +37,8 @@ const Signup = () => {
       },
       body: JSON.stringify({email, password, timezone})
     }).then((response) => {
-      // console.log(response);
-      // console.log(typeof response.status);
       if (response.status === 200) {
-        setStatus(true);
+        setSignupSuccess(true);
       }
     });
   }
