@@ -9,9 +9,6 @@ class PopUp extends Component {
   };
 
   render() {
-    // console.log(this.props.requestObject.timeZone);
-    // console.log(this.props.timezone);
-    // console.log(this.props.date);
     return (
       <>
         <Modal
@@ -32,7 +29,6 @@ class PopUp extends Component {
             <Container>
               <Row>
                 <Col lg={12} as={"main"} className="border">
-                  {/* {(true) &&<RequestResponse requestObject={this.props.requestObject} />} */}
                   {(this.props.requestObject.response && this.props.requestObject.response.status) &&<RequestResponse requestObject={this.props.requestObject} />}
                   <SharedForm
                     handleSubmit={this.props.handleSubmit}

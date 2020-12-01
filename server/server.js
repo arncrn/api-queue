@@ -222,7 +222,8 @@ app.post("/login", async (req, res, next) => {
   try {
     let submittedEmail = req.body.email.toLowerCase();
     let submittedPassword = req.body.password;
-    let success = false;
+    let statusCode = 403;
+    let message = 'Invalid email/password';
 
     let queryResult = await dbquery(
       `SELECT password FROM users WHERE email = $1`, [submittedEmail]
@@ -230,11 +231,12 @@ app.post("/login", async (req, res, next) => {
   
     if (queryResult.rowCount > 0) {
       if (submittedPassword === queryResult.rows[0].password) {
-        success = true;
+        message = 'Good'
+        statusCode = 200;
       }
     }
   
-    res.status(200).send(success);
+    res.status(statusCode).send(message);
   } catch (error) {
     next(error);
   }
