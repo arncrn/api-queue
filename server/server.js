@@ -186,9 +186,59 @@ app.get("/allrequests", async (req, res, next) => {
   }
 });
 
-app.post("/login", (req, res, next) => {
-  res.status(200).send("HELLO");
-})
+
+app.post("/signup", async (req, res, next) => {
+  try {
+    let submittedEmail = req.body.email.toLowerCase();
+    let submittedPassword = req.body.password;
+    let submittedTimeZone = req.body.timezone;
+
+    let queryResult = await dbquery(
+      `SELECT email FROM users WHERE email = $1`, [submittedEmail]
+    );
+  
+    if (queryResult.rowCount === 0) {
+      let insertResult = await dbquery(
+        `INSERT INTO users (email, password, timezone) VALUES ($1, $2, $3)`, [submittedEmail, submittedPassword, submittedTimeZone]
+      );
+
+      if (insertResult.rowCount < 1) {
+        throw new Error('Failed to create user');
+      }
+
+      res.status(200).send('Good');
+    } else {
+      res.status(409).send('User already exists');
+    }
+  } catch (error) {
+    next(error);
+  }
+});
+
+
+// Next steps
+  // Use Bcrypt to compare everything. Coming back after making sign up page.
+app.post("/login", async (req, res, next) => {
+  try {
+    let submittedEmail = req.body.email.toLowerCase();
+    let submittedPassword = req.body.password;
+    let success = false;
+
+    let queryResult = await dbquery(
+      `SELECT password FROM users WHERE email = $1`, [submittedEmail]
+    );
+  
+    if (queryResult.rowCount > 0) {
+      if (submittedPassword === queryResult.rows[0].password) {
+        success = true;
+      }
+    }
+  
+    res.status(200).send(success);
+  } catch (error) {
+    next(error);
+  }
+});
 
 // Make endpoint private
 // Send the request received from user (either now or later)
