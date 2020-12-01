@@ -22,25 +22,22 @@ const Login = () => {
       headers: {
         'Content-Type': 'application/json'
       },
-      // responseType: "text/plain",
       body: JSON.stringify({email, password})
-    }).then( (response) => {
+    }).then((response) => {
+      return response.text();
+    }).then((response) => {
       console.log(response);
-    })
+    });
   }
 
   return (
     <Container>
       <Row>
-        <Col>
+        <Col lg={{span:4, offset: 4}}>
           <Form onSubmit={handleSubmit}>
             <Form.Group controlId="formBasicEmail">
               <Form.Label>Email address</Form.Label>
               <Form.Control type="email" placeholder="Enter email" onChange={handleEmailChange}/>
-
-              <Form.Text className="text-muted">
-                We'll never share your email with anyone else.
-              </Form.Text>
             </Form.Group>
 
             <Form.Group controlId="formBasicPassword">
