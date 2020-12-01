@@ -14,14 +14,14 @@ const FormStateAndMethods = (WrappedComponent, extraData = {}) => {
         name: extraData.name || "",
         headers: extraData.headers || [
           {
-            id: this.nextHeadersId(),
+            id: this.nextId(),
             key: "",
             value: "",
           },
         ],
         parameters: extraData.parameters || [
           {
-            id: this.nextParametersId(),
+            id: this.nextId(),
             key: "",
             value: "",
           },
@@ -35,19 +35,10 @@ const FormStateAndMethods = (WrappedComponent, extraData = {}) => {
 
     static contextType = DataContext;
 
-    nextParametersId = (() => {
-      let id = 0;
-      return function () {
-        return (id += 1);
-      };
-    })();
-
-    nextHeadersId = (() => {
-      let id = 0;
-      return function () {
-        return (id += 1);
-      };
-    })();
+    nextId = () => {
+      let id = new Date().valueOf();
+      return id;
+    }
 
     calcTime = (date) => {
       return `${String(date.getHours()).padStart(2, "0")}:${String(date.getMinutes()).padStart(2, "0")}`;
@@ -78,36 +69,49 @@ const FormStateAndMethods = (WrappedComponent, extraData = {}) => {
       });
     };
 
+    invalid = (newData) => {
+      return newData.hostpath.length < 1;
+    }
+
     handleSubmit = (event, formUrl) => {
       event.preventDefault();
 
-      let newData = Object.assign({}, this.state, {response: {}});
-      // this.props.updateData(newData);
+      let newData = Object.assign({}, this.state);
 
-      // let { data, updateData } = this.context;
+      if (this.invalid(newData)) return;
+
+      if (typeof newData.date === "string") {
+        console.log('if ran')
+        newData.date = newData.date.split('T')[0];
+      } else {
+        console.log('else ran')
+        let day = newData.date.getDate();
+        let month = newData.date.getMonth() + 1;
+        let year = newData.date.getFullYear();
+        newData.date = `${year}-${month}-${day}`;
+      }
 
       // Change URL in production
-      console.log(this.state);
-      console.log(JSON.stringify(this.state));
+      // '2020-11-25 12:24:00 CST'
+      console.log(newData.date);
       console.log("1. Frontend form sends user request to OUR server", Date.now());
       fetch(formUrl, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify(this.state)
+        body: JSON.stringify(newData)
       }).then( () => {
         console.log("7. Frontend receives response from server", Date.now());
-        this.props.updateData(newData);
+        this.props.updateData();
       })
     };
 
     addKeyValueFields = (event) => {
       let name = event.target.dataset.name;
-      let nextId = name === "headers" ? this.nextHeadersId() : this.nextParametersId();
 
       this.setState((prevState) => ({
-        [name]: [...prevState[name], { id: nextId, key: "", value: "" }],
+        [name]: [...prevState[name], { id: this.nextId(), key: "", value: "" }],
       }), () => {
         // Deal with issue
         // Extra key value pairs created if user hits "+" button
@@ -151,6 +155,7 @@ const FormStateAndMethods = (WrappedComponent, extraData = {}) => {
     };
 
     render() {
+      // console.log(Object.getPrototypeOf(this.state.date));
       return (
         <WrappedComponent
           {...this.props}

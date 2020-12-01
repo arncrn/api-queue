@@ -13,7 +13,7 @@ class SharedForm extends Component {
   }
 
   render() {
-    console.log(this.props.timezone);
+    // console.log(this.props.timezone);
     return (
     <Form onSubmit={this.handleSubmit}>
       <Url

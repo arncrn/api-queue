@@ -38,11 +38,7 @@ class AppWrapper extends React.Component {
       });
   }
 
-  // componentDidMount() {
-  //   this.setState({ appData: [completeData] });
-  // }
-
-  updateData = (newData) => {
+  updateData = () => {
     console.log("9. Frontend makes GET request to server", Date.now());
     fetch("http://localhost:3001/allrequests")
     .then((response) => {

@@ -28,16 +28,14 @@ async function checkDatabaseForFutureRequests() {
 
 function createTimeScheduled(userRequest) {
   // '2020-11-25 12:24:00 CST'
-  //working
   console.log(userRequest.date, 'line 32');
-  let date = userRequest.date.split('T')[0];
+  let date = userRequest.date;
   let time = userRequest.time + ":00";
   let timeZone = userRequest.timeZone;
 
   console.log(`${date} ${time} ${timeZone}`, 'line 40');
   console.log(userRequest.date, 'line 41');
 
-  // return new Date(`${date} ${time} ${timeZone}`);
   return `${date} ${time} ${timeZone}`;
 }
 
@@ -54,21 +52,17 @@ function createTimeScheduled(userRequest) {
 
 // setInterval(async () => {}, 1000 * 60);)();
 
-async function sendFutureRequest() {
-  setInterval(async () => {
-    let futureRequests = await checkDatabaseForFutureRequests();
-    for (let i = 0; i < futureRequests.length; i++) {
-      let request = futureRequests[i];
-  
-      let options = generateRequestOptions(request.user_request);
-      let responseData = await axios(options);
-      await insertRawRequestResponse(responseData, request.id);
-    }
-  }, 1000 * 60)
-}
 
-sendFutureRequest();
+setInterval(async () => {
+  let futureRequests = await checkDatabaseForFutureRequests();
+  for (let i = 0; i < futureRequests.length; i++) {
+    let request = futureRequests[i];
 
+    let options = generateRequestOptions(request.user_request);
+    let responseData = await axios(options);
+    await insertRawRequestResponse(responseData, request.id);
+  }
+}, 1000 * 60)
 
 function buildParamsOrHeaders(data) {
   let result = {};
@@ -103,11 +97,20 @@ async function sendRequest(userRequest, newlyCreatedRequestId, res) {
   try {
     // if NOW is later than or equal the time of userRequest 
       // send it now and do the next insert
-      // let options = generateRequestOptions(userRequest);
-      // console.log("3. Server sends API call on behalf of users", Date.now())
-      // let responseData = await axios(options);
-      // await insertRawRequestResponse(responseData, newlyCreatedRequestId);
-      
+      // '2020-11-30 13:30 PST'
+
+      let timeNow = new Date();
+      let scheduledTime = new Date(`${userRequest.date} ${userRequest.time} ${userRequest.timeZone}`);
+
+      // console.log(timeNow, scheduledTime, "line 105");
+      // console.log(timeNow > scheduledTime, "line 106");
+
+      if (timeNow >= scheduledTime) {
+        let options = generateRequestOptions(userRequest);
+        console.log("3. Server sends API call on behalf of users", Date.now())
+        let responseData = await axios(options);
+        await insertRawRequestResponse(responseData, newlyCreatedRequestId);
+      };
 
     res.status(200).send("OK");
   } catch (err) {
@@ -183,15 +186,21 @@ app.get("/allrequests", async (req, res, next) => {
   }
 });
 
+app.post("/login", (req, res, next) => {
+  res.status(200).send("HELLO");
+})
+
 // Make endpoint private
 // Send the request received from user (either now or later)
 app.post("/makerequest", async (req, res, next) => {
   try { 
     console.log(req.body, 'line 190');
     let userRequest = req.body;
+
     console.log(userRequest, 'line 192');
     let timeScheduled = createTimeScheduled(userRequest);
-    // console.log(timeScheduled, 'line 193');
+
+    console.log(timeScheduled, 'line 193');
     // console.log("2. Server inserts user request into database", Date.now());
     let queryResult = await dbquery(
       `INSERT INTO requests (user_id, user_request, time_scheduled) VALUES ($1, $2, $3) RETURNING id`,
@@ -201,22 +210,6 @@ app.post("/makerequest", async (req, res, next) => {
     let newlyCreatedRequestId = queryResult.rows[0].id;
 
     if (queryResult.rowCount > 0) {
-      // Run conditionals to check if request should be sent now or later
-      // switch(req.httpVerb) {
-      //   case "GET":
-      //     sendRequest(userRequest, newlyCreatedRequestId, res);
-      //     break; 
-      //   case "DELETE":
-      //     break; 
-      //   case "POST":
-      //     break; 
-      //   case "PUT":
-      //     break; 
-      //   case "PATCH":
-      //     break; 
-      //   default: 
-      // }
-
       sendRequest(userRequest, newlyCreatedRequestId, res);
     }
   } catch (err) {

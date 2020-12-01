@@ -4,6 +4,15 @@ import { Form, Col, Row, Button, Accordion, Card } from "react-bootstrap";
 
 class Scheduler extends Component {
   render() {
+    let date = this.props.date;
+    
+    // console.log(this.props.date, Object.getPrototypeOf(this.props.date));
+    if (typeof this.props.date === "string") {
+      let [year, month, day] = this.props.date.split('-');
+
+      date = new Date(year, month - 1, day);
+    }
+
     return (
       <Form.Group as={"fieldset"}>
         <Form.Label as="legend">Scheduler</Form.Label>
@@ -41,8 +50,7 @@ class Scheduler extends Component {
                 </Row>
                 <Calendar
                   onChange={this.props.onCalendarChange}
-                  defaultValue={new Date(this.props.date)}
-                  // defaultValue={this.props.date}
+                  defaultValue={date}
                   className="mt-3 mx-auto"
                 />
               </Card.Body>
