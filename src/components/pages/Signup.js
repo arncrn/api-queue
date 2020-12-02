@@ -44,7 +44,7 @@ const Signup = () => {
   }
 
   return (
-    <Container>
+    <Container className="mt-5">
       {toRedirect()}
       <Row>
         <Col lg={{span:4, offset: 4}}>

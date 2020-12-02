@@ -23,8 +23,8 @@ class App extends Component {
 
   render() {
     return (
-      <Container>
-        <Row>
+      <Container className="mb-5">
+        <Row className="mt-4">
           <Col lg={3} as={"main"} className="border">
             <Sidebar 
               appData={this.props.appData} 
