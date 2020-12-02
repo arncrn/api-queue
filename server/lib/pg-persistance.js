@@ -7,7 +7,7 @@ module.exports = class LoggedInUser {
   }
 
   async getAllData() {
-    let allData = await dbquery("SELECT * FROM requests");
+    let allData = await dbquery("SELECT * FROM requests WHERE user_id = $1", [this.userId]);
     return this._formatQueryData(allData.rows);
   } 
 
@@ -19,6 +19,16 @@ module.exports = class LoggedInUser {
 
     if (queryResult.rowCount < 1) throw new Error("could not comnplete request");
     return queryResult.rows[0].id;
+  }
+
+  async insertRawRequestResponse(rawResponse, newlyCreatedRequestId) {
+    let {rawRequest, parsedResponse} = buildRequestResponse(rawResponse);
+  
+    rawResponse = String(rawResponse);
+    await dbquery(
+      `UPDATE requests SET raw_request=$2, raw_response=$3, parsed_response=$4 WHERE id=$1`,
+      [newlyCreatedRequestId, rawRequest, rawResponse, parsedResponse, this.userId]
+    );
   }
 
 
@@ -44,14 +54,3 @@ module.exports = class LoggedInUser {
     });
   }
 }
-
-
-// async function insertRawRequestResponse(rawResponse, newlyCreatedRequestId) {
-//   let {rawRequest, parsedResponse} = buildRequestResponse(rawResponse);
-
-//   rawResponse = String(rawResponse);
-//   await dbquery(
-//     `UPDATE requests SET raw_request=$2, raw_response=$3, parsed_response=$4 WHERE id=$1`,
-//     [newlyCreatedRequestId, rawRequest, rawResponse, parsedResponse]
-//   );
-// }
