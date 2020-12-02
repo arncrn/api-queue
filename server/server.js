@@ -3,7 +3,8 @@ const cors = require("cors");
 const morgan = require("morgan");
 const axios = require("axios");
 const dbquery = require("./lib/db-query.js");
-// const buildRequestResponse = require("./lib/buildRequestResponse.js");
+const generateRequestOptions = require("./lib/generateRequestOptions.js");
+
 const pgPersistance = require("./lib/pg-persistance.js");
 const DatabaseInterval = require("./lib/database-interval.js");
 
@@ -25,70 +26,15 @@ app.use((req, res, next) => {
 app.options("*", cors());
 
 
-
-async function checkDatabaseForFutureRequests() {
-  let result = await dbquery("SELECT * FROM requests WHERE raw_response IS NULL ORDER BY time_scheduled");
-  let timeNow = new Date();
-  // console.log('line 22', timeNow, new Date(result.rows[0].time_scheduled));
-  let requestsToSend = result.rows.filter(request => {
-    return timeNow >= new Date(request.time_scheduled);
-  });
-
-  return requestsToSend;
-}
-
 function createTimeScheduled(userRequest) {
   // '2020-11-25 12:24:00 CST'
-  console.log(userRequest.date, 'line 32');
   let date = userRequest.date;
   let time = userRequest.time + ":00";
   let timeZone = userRequest.timeZone;
 
-  console.log(`${date} ${time} ${timeZone}`, 'line 40');
-  console.log(userRequest.date, 'line 41');
-
   return `${date} ${time} ${timeZone}`;
 }
 
-setInterval(async () => {
-  let futureRequests = await checkDatabaseForFutureRequests();
-  for (let i = 0; i < futureRequests.length; i++) {
-    let request = futureRequests[i];
-
-    let options = generateRequestOptions(request.user_request);
-    let responseData = await axios(options);
-    await insertRawRequestResponse(responseData, request.id);
-  }
-}, 1000 * 60)
-
-function buildParamsOrHeaders(data) {
-  let result = {};
-
-  data.forEach(({ key, value }) => {
-    if(key) {
-      result[key] = value;
-    }
-  })
-
-  return result;
-}
-
-function generateRequestOptions(userRequest) {
-  let bodyHeader = {};
-  let customHeaders = buildParamsOrHeaders(userRequest.headers);
-
-  if (userRequest.body.contentType) {
-    bodyHeader["Content-Type"] = userRequest.body.contentType;
-  }
-
-  return {
-    method: userRequest.httpVerb,
-    url: userRequest.hostpath,
-    params: buildParamsOrHeaders(userRequest.parameters),
-    headers: Object.assign(bodyHeader, customHeaders),
-    data: userRequest.body.payload,
-  };
-}
 
 async function sendRequest(userRequest, newlyCreatedRequestId, res) {
   try {
@@ -98,23 +44,13 @@ async function sendRequest(userRequest, newlyCreatedRequestId, res) {
       if (timeNow >= scheduledTime) {
         let options = generateRequestOptions(userRequest);
         let responseData = await axios(options);
-        await insertRawRequestResponse(responseData, newlyCreatedRequestId);
+        await res.locals.user.insertRawRequestResponse(responseData, newlyCreatedRequestId);
       };
 
     res.status(200).send("OK");
   } catch (err) {
     console.log(err);
   }
-}
-
-async function insertRawRequestResponse(rawResponse, newlyCreatedRequestId) {
-  let {rawRequest, parsedResponse} = buildRequestResponse(rawResponse);
-
-  rawResponse = String(rawResponse);
-  await dbquery(
-    `UPDATE requests SET raw_request=$2, raw_response=$3, parsed_response=$4 WHERE id=$1`,
-    [newlyCreatedRequestId, rawRequest, rawResponse, parsedResponse]
-  );
 }
 
 // Render React App
