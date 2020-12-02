@@ -4,6 +4,8 @@ const morgan = require("morgan");
 const axios = require("axios");
 const dbquery = require("./lib/db-query.js");
 const generateRequestOptions = require("./lib/generateRequestOptions.js");
+const session = require('express-session');
+const LokiStore = require('connect-loki')(session);
 
 const pgPersistance = require("./lib/pg-persistance.js");
 const DatabaseInterval = require("./lib/database-interval.js");
@@ -13,14 +15,36 @@ new DatabaseInterval();
 const app = express();
 const port = 3001;
 
+let options = {};
+ 
+app.use(session({
+    store: new LokiStore(options),
+    secret: 'secret', // change later
+    cookie: {
+      maxAge: 31 * 24 * 60 * 60 * 1000,
+      path: '/', 
+      httpOnly: true, 
+      secure: false // look at it later SSL
+    },
+    name: "api-q-session-id",
+    resave: false,
+    saveUninitialized: false
+}));
+
 app.use(morgan("dev"));
 app.use(cors());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 app.use((req, res, next) => {
-  res.locals.user = new pgPersistance();
+  res.locals.store = new pgPersistance(req.session);
   next();
+})
+
+app.use((req, res, next) => {
+  res.locals.userId = req.session.userId
+  res.locals.signedIn = req.session.signedIn
+  next()
 })
 
 app.options("*", cors());
@@ -44,7 +68,7 @@ async function sendRequest(userRequest, newlyCreatedRequestId, res) {
       if (timeNow >= scheduledTime) {
         let options = generateRequestOptions(userRequest);
         let responseData = await axios(options);
-        await res.locals.user.insertRawRequestResponse(responseData, newlyCreatedRequestId);
+        await res.locals.store.insertRawRequestResponse(responseData, newlyCreatedRequestId);
       };
 
     res.status(200).send("OK");
@@ -55,14 +79,17 @@ async function sendRequest(userRequest, newlyCreatedRequestId, res) {
 
 // Render React App
 app.get("/", async (req, res) => {
-  res.redirect(200, "/allrequests");
+  console.log(req.session, "line 82");
+  res.cookie(req.session.cookie).send("Hello");
+  // res.redirect(200, "/allrequests");
 });
 
 // Make endpoint private
 // Returns a list of ALL request
 app.get("/allrequests", async (req, res, next) => {
   try {
-    let allRequests = await res.locals.user.getAllData()
+    console.log(req.session, "/allrequests, line 90");
+    let allRequests = await res.locals.store.getAllData()
 
     res.status(200).send(JSON.stringify(allRequests));
   } catch (err) {
@@ -73,6 +100,7 @@ app.get("/allrequests", async (req, res, next) => {
 
 app.post("/signup", async (req, res, next) => {
   try {
+    console.log(req.session, "/signup, line 102");
     let submittedEmail = req.body.email.toLowerCase();
     let submittedPassword = req.body.password;
     let submittedTimeZone = req.body.timezone;
@@ -104,6 +132,7 @@ app.post("/signup", async (req, res, next) => {
   // Use Bcrypt to compare everything. Coming back after making sign up page.
 app.post("/login", async (req, res, next) => {
   try {
+    console.log(req.session, "/login, line 134");
     let submittedEmail = req.body.email.toLowerCase();
     let submittedPassword = req.body.password;
     let statusCode = 403;
@@ -115,6 +144,14 @@ app.post("/login", async (req, res, next) => {
   
     if (queryResult.rowCount > 0) {
       if (submittedPassword === queryResult.rows[0].password) {
+        let idResult = await dbquery(
+          `SELECT id FROM users WHERE email = $1`, [submittedEmail]
+        );
+
+        let session = req.session;
+        session.userId = idResult[0];
+        session.signedIn = true;
+
         message = 'Good'
         statusCode = 200;
       }
@@ -130,9 +167,10 @@ app.post("/login", async (req, res, next) => {
 // Send the request received from user (either now or later)
 app.post("/makerequest", async (req, res, next) => {
   try { 
+    console.log(req.session, "/makerequest, line 169");
     let userRequest = req.body;
     let timeScheduled = createTimeScheduled(userRequest);
-    let newlyCreatedRequestId = await res.locals.user.insertRequest(userRequest, timeScheduled);
+    let newlyCreatedRequestId = await res.locals.store.insertRequest(userRequest, timeScheduled);
 
     await sendRequest(userRequest, newlyCreatedRequestId, res);
   } catch (err) {

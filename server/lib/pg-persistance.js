@@ -2,8 +2,8 @@ const dbquery = require("./db-query.js");
 const buildRequestResponse = require("./buildRequestResponse.js");
 
 module.exports = class LoggedInUser {
-  constructor() {
-    this.userId = 1;
+  constructor(session) {
+    this.userId = session.userId;
   }
 
   async getAllData() {
