@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 
 const Navigation = () => (
   <Navbar>
-    <Navbar.Brand as={Link} to="/home">
+    <Navbar.Brand as={Link} to="/">
       <Image width={80} src={require("../../apiq-logo-full.svg")}/>
     </Navbar.Brand>
 
