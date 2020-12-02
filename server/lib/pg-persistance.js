@@ -3,6 +3,7 @@ const buildRequestResponse = require("./buildRequestResponse.js");
 
 module.exports = class LoggedInUser {
   constructor(session) {
+    console.log(session.userId, 'construcgtor line 6');
     this.userId = session.userId;
   }
 

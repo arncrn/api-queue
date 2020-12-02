@@ -32,7 +32,11 @@ app.use(session({
 }));
 
 app.use(morgan("dev"));
-app.use(cors());
+app.use(cors({
+  origin: 'http://localhost:3000',
+  credentials: true,
+}));
+
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
@@ -79,16 +83,13 @@ async function sendRequest(userRequest, newlyCreatedRequestId, res) {
 
 // Render React App
 app.get("/", async (req, res) => {
-  console.log(req.session, "line 82");
-  res.cookie(req.session.cookie).send("Hello");
-  // res.redirect(200, "/allrequests");
+  res.status(200);
 });
 
 // Make endpoint private
 // Returns a list of ALL request
 app.get("/allrequests", async (req, res, next) => {
   try {
-    console.log(req.session, "/allrequests, line 90");
     let allRequests = await res.locals.store.getAllData()
 
     res.status(200).send(JSON.stringify(allRequests));
@@ -100,7 +101,6 @@ app.get("/allrequests", async (req, res, next) => {
 
 app.post("/signup", async (req, res, next) => {
   try {
-    console.log(req.session, "/signup, line 102");
     let submittedEmail = req.body.email.toLowerCase();
     let submittedPassword = req.body.password;
     let submittedTimeZone = req.body.timezone;
@@ -132,7 +132,6 @@ app.post("/signup", async (req, res, next) => {
   // Use Bcrypt to compare everything. Coming back after making sign up page.
 app.post("/login", async (req, res, next) => {
   try {
-    console.log(req.session, "/login, line 134");
     let submittedEmail = req.body.email.toLowerCase();
     let submittedPassword = req.body.password;
     let statusCode = 403;
@@ -147,16 +146,16 @@ app.post("/login", async (req, res, next) => {
         let idResult = await dbquery(
           `SELECT id FROM users WHERE email = $1`, [submittedEmail]
         );
-
+          //working
         let session = req.session;
-        session.userId = idResult[0];
+        session.userId = idResult.rows[0].id;
         session.signedIn = true;
-
+        
         message = 'Good'
         statusCode = 200;
       }
     }
-  
+
     res.status(statusCode).send(message);
   } catch (error) {
     next(error);
@@ -167,7 +166,6 @@ app.post("/login", async (req, res, next) => {
 // Send the request received from user (either now or later)
 app.post("/makerequest", async (req, res, next) => {
   try { 
-    console.log(req.session, "/makerequest, line 169");
     let userRequest = req.body;
     let timeScheduled = createTimeScheduled(userRequest);
     let newlyCreatedRequestId = await res.locals.store.insertRequest(userRequest, timeScheduled);

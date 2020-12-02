@@ -14,7 +14,7 @@ class AppWrapper extends React.Component {
   }
 
   refreshPage = () => {
-    fetch("http://localhost:3001/allrequests")
+    fetch("http://localhost:3001/allrequests", {credentials: 'include',})
       .then((response) => {
         return response.json();
       })
@@ -29,7 +29,7 @@ class AppWrapper extends React.Component {
   }
 
   componentDidMount() {
-    fetch("http://localhost:3001/allrequests")
+    fetch("http://localhost:3001/allrequests", {credentials: 'include',})
       .then((response) => {
         return response.json();
       })
@@ -40,7 +40,7 @@ class AppWrapper extends React.Component {
 
   updateData = () => {
     console.log("9. Frontend makes GET request to server", Date.now());
-    fetch("http://localhost:3001/allrequests")
+    fetch("http://localhost:3001/allrequests", {credentials: 'include',})
     .then((response) => {
       return response.json();
     })

@@ -31,6 +31,7 @@ const Signup = () => {
     event.preventDefault();
 
     fetch("http://localhost:3001/signup", {
+      credentials: 'include',
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'

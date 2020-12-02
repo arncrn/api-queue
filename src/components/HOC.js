@@ -97,6 +97,7 @@ const FormStateAndMethods = (WrappedComponent, extraData = {}) => {
       console.log("1. Frontend form sends user request to OUR server", Date.now());
       fetch(formUrl, {
         method: 'POST',
+        credentials: 'include',
         headers: {
           'Content-Type': 'application/json'
         },
