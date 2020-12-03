@@ -1,3 +1,8 @@
+// handle all axios request/responses
+//  - success
+//  - 404 (err.response)
+//  - no status ?
+
 const express = require("express");
 const cors = require("cors");
 const morgan = require("morgan");
@@ -71,11 +76,19 @@ async function sendRequest(userRequest, newlyCreatedRequestId, res) {
 
       if (timeNow >= scheduledTime) {
         let options = generateRequestOptions(userRequest);
-        let responseData = await axios(options);
-        await res.locals.store.insertRawRequestResponse(responseData, newlyCreatedRequestId);
+        try {
+          let responseData = await axios(options);
+          await res.locals.store.insertRawRequestResponse(responseData, newlyCreatedRequestId);
+        } catch (err) {
+          console.log(`Request #${newlyCreatedRequestId} failed`);
+          // console.log(err);
+          // await res.locals.store.insertRawRequestResponse(JSON.stringify({status: 'invalid'}), newlyCreatedRequestId);
+        } finally {
+          res.status(200).send("OK");
+        }
       };
 
-    res.status(200).send("OK");
+    // res.status(200).send("OK");
   } catch (err) {
     console.log(err);
   }

@@ -2,6 +2,7 @@ const buildRequestResponse = require("./buildRequestResponse.js");
 const generateRequestOptions = require("./generateRequestOptions.js");
 const dbquery = require("./db-query.js");
 const axios = require("axios");
+const dbQuery = require("./db-query.js");
 
 module.exports = class DatabaseInterval {
   constructor() {
@@ -9,15 +10,17 @@ module.exports = class DatabaseInterval {
       try {
         let futureRequests = await this._checkDatabaseForFutureRequests();
         for (let i = 0; i < futureRequests.length; i++) {
-          
           let request = futureRequests[i];
-          
           let options = generateRequestOptions(request.user_request);
           try {
             let responseData = await axios(options);
-            await this._insertRawRequestResponse(responseData, request.id);
+            console.log(responseData);
+            // await this._insertRawRequestResponse(responseData, request.id);
           } catch(err) {
-            console.log(`Request# ${request.id} failed`, 'line 20');
+            if (err.response) {
+              await this._insertRawRequestResponse(err.response, request.id)
+            }
+            console.log(`Request# ${request.id} failed`, 'line 22');
           } finally {
             continue;
           }
