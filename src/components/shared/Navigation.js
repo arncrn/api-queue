@@ -2,7 +2,7 @@ import React from "react";
 import { Nav, Navbar, Image } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
-const Navigation = () => (
+const Navigation = (props) => (
   <Navbar>
     <Navbar.Brand as={Link} to="/">
       <Image width={80} src={require("../../apiq-logo-full.svg")}/>
@@ -14,9 +14,9 @@ const Navigation = () => (
       <Nav className="ml-auto">
         <Nav.Link className="mr-1" as={Link} to="/docs">Docs</Nav.Link>
         <Nav.Link className="mr-1" as={Link} to="/team">Team</Nav.Link>
-        <Nav.Link className="mr-1" as={Link} to="/try">Try</Nav.Link>
-        <Nav.Link className="mr-1" as={Link} to="/login">Login</Nav.Link>
-        <Nav.Link className="mr-1" as={Link} to="/signup">Signup</Nav.Link>
+        {!props.loggedIn && <Nav.Link className="mr-1" as={Link} to="/login">Login</Nav.Link>}
+        {!props.loggedIn && <Nav.Link className="mr-1" as={Link} to="/signup">Signup</Nav.Link>}
+        {props.loggedIn && <Nav.Link className="mr-1" as={Link} to="/" onClick={console.log('logged out')}>Log Out</Nav.Link>}
       </Nav>
     </Navbar.Collapse>
 </Navbar>

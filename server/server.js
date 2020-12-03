@@ -175,6 +175,12 @@ app.post("/login", async (req, res, next) => {
   }
 });
 
+app.post("/logout", (req, res, next) => {
+  delete res.locals.userId;
+  delete res.locals.signedIn;
+  res.status(200).send('OK');
+});
+
 // Make endpoint private
 // Send the request received from user (either now or later)
 app.post("/makerequest", async (req, res, next) => {
