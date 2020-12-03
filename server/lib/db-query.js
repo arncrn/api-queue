@@ -7,16 +7,20 @@ const logQuery = (statement, parameters) => {
 }
 
 module.exports = async function(queryStatement, queryVariables = []) {
-  const client = new Client({
-    database: "apiqdb",
-  });
+  try {
+    const client = new Client({
+      database: "apiqdb",
+    });
+    
+    await client.connect();
+    logQuery(queryStatement, queryVariables);
   
-  await client.connect();
-  logQuery(queryStatement, queryVariables);
-
-  const queryResult = await client.query(queryStatement, queryVariables);
+    const queryResult = await client.query(queryStatement, queryVariables);
+    
+    await client.end();
   
-  await client.end();
-
-  return queryResult;
+    return queryResult;
+  } catch (err) {
+    console.log(err);
+  }
 }

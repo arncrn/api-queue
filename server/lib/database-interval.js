@@ -6,25 +6,41 @@ const axios = require("axios");
 module.exports = class DatabaseInterval {
   constructor() {
     setInterval(async () => {
-      let futureRequests = await this._checkDatabaseForFutureRequests();
-      for (let i = 0; i < futureRequests.length; i++) {
-        let request = futureRequests[i];
-    
-        let options = generateRequestOptions(request.user_request);
-        let responseData = await axios(options);
-        await this._insertRawRequestResponse(responseData, request.id);
+      try {
+        let futureRequests = await this._checkDatabaseForFutureRequests();
+        for (let i = 0; i < futureRequests.length; i++) {
+          
+          let request = futureRequests[i];
+          
+          let options = generateRequestOptions(request.user_request);
+          try {
+            let responseData = await axios(options);
+            await this._insertRawRequestResponse(responseData, request.id);
+          } catch(err) {
+            console.log(`Request# ${request.id} failed`, 'line 20');
+          } finally {
+            continue;
+          }
+        }
+      } catch(err) {
+        console.log(err, 'line 22');
       }
+      
     }, 1000 * 60)
   }
 
   async _checkDatabaseForFutureRequests() {
-    let result = await dbquery("SELECT * FROM requests WHERE raw_response IS NULL ORDER BY time_scheduled");
-    let timeNow = new Date();
-    let requestsToSend = result.rows.filter(request => {
-      return timeNow >= new Date(request.time_scheduled);
-    });
-  
-    return requestsToSend;
+    try {
+      let result = await dbquery("SELECT * FROM requests WHERE raw_response IS NULL ORDER BY time_scheduled");
+      let timeNow = new Date();
+      let requestsToSend = result.rows.filter(request => {
+        return timeNow >= new Date(request.time_scheduled);
+      });
+    
+      return requestsToSend;
+    } catch (err) {
+      console.log(err);
+    }
   }
 
   async _insertRawRequestResponse(rawResponse, newlyCreatedRequestId) {
