@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Router from './components/Router.js';
+import LoginWrapper from './components/LoginWrapper';
 import './css/index.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'react-calendar/dist/Calendar.css';
@@ -8,7 +9,7 @@ import 'react-calendar/dist/Calendar.css';
 // import * as serviceWorker from './serviceWorker';
 
 ReactDOM.render(
-  <Router />,
+  <LoginWrapper />,
   document.getElementById('root')
 );
 

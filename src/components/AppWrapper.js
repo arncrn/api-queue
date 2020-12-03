@@ -1,7 +1,8 @@
 import React from "react";
 import App from "./App.js";
 import HOC from "./HOC.js";
-import completeData from "../test-data-2.js";
+import { Redirect } from "react-router-dom";
+// import completeData from "../test-data-2.js";
 // import testData from "../test-data.js";
 
 class AppWrapper extends React.Component {
@@ -10,6 +11,7 @@ class AppWrapper extends React.Component {
 
     this.state = {
       appData: [],
+      isMounted: false,
     };
   }
 
@@ -29,13 +31,20 @@ class AppWrapper extends React.Component {
   }
 
   componentDidMount() {
-    fetch("http://localhost:3001/allrequests", {credentials: 'include',})
-      .then((response) => {
-        return response.json();
-      })
-      .then((response) => {
-        this.setState({ appData: response });
-      });
+    this.setState({isMounted: true}, () => {
+      if (this.state.isMounted) 
+        fetch("http://localhost:3001/allrequests", {credentials: 'include',})
+        .then((response) => {
+          return response.json();
+        })
+        .then((response) => {
+          this.setState({ appData: response });
+        });
+    });
+  }
+
+  componentWillUnmount() {
+    this.setState({isMounted: false});
   }
 
   updateData = () => {
@@ -52,16 +61,44 @@ class AppWrapper extends React.Component {
       });
   };
 
-  render() {
-    let AppForm = HOC(App);
+  renderPage() {
+    let AppForm = HOC(App)
+    if (this.props.loggedIn) {
+      return (
+        <AppForm 
+        appData={this.state.appData} 
+        updateData={this.updateData}
+        refreshPage={this.refreshPage}
+        />
+      );
+    } else {
+      return (
+        <>
+          <Redirect to="/signup" />
+          <AppForm 
+            appData={this.state.appData} 
+            updateData={this.updateData}
+            refreshPage={this.refreshPage}
+          />
+        </>
+      )
 
-    return (
-      <AppForm 
-      appData={this.state.appData} 
-      updateData={this.updateData}
-      refreshPage={this.refreshPage}
-      />
-    );
+    }
+  }
+
+  render() {
+    console.log(this.props.loggedIn);
+    return this.renderPage();
+    // let AppForm = HOC(App);
+
+    // return (
+
+    //   <AppForm 
+    //   appData={this.state.appData} 
+    //   updateData={this.updateData}
+    //   refreshPage={this.refreshPage}
+    //   />
+    // );
   }
 }
 
