@@ -28,7 +28,7 @@ module.exports = class LoggedInUser {
     rawResponse = String(rawResponse);
     await dbquery(
       `UPDATE requests SET raw_request=$2, raw_response=$3, parsed_response=$4 WHERE id=$1`,
-      [newlyCreatedRequestId, rawRequest, rawResponse, parsedResponse, this.userId]
+      [newlyCreatedRequestId, rawRequest, rawResponse, parsedResponse]
     );
   }
 
