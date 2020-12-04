@@ -60,9 +60,8 @@ class AppWrapper extends React.Component {
   };
 
   renderPage() {
-    console.log(this.props.loggedIn)
     let AppForm = HOC(App)
-    if (this.props.loggedIn) {
+    if (this.props.loggedIn === 'true') {
       return (
         <AppForm 
         appData={this.state.appData} 
