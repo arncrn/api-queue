@@ -75,6 +75,7 @@ class AppWrapper extends React.Component {
   }
 
   render() {
+    console.log(this.state.appData);
     return this.renderPage();
   }
 }

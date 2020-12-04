@@ -80,9 +80,16 @@ async function sendRequest(userRequest, newlyCreatedRequestId, res) {
           let responseData = await axios(options);
           await res.locals.store.insertRawRequestResponse(responseData, newlyCreatedRequestId);
         } catch (err) {
-          console.log(`Request #${newlyCreatedRequestId} failed`);
-          // console.log(err);
-          // await res.locals.store.insertRawRequestResponse(JSON.stringify({status: 'invalid'}), newlyCreatedRequestId);
+          if (err.response) {
+            await res.locals.store.insertRawRequestResponse(err.response, newlyCreatedRequestId)
+          } else {
+            try {
+              await res.locals.store.insertRawRequestResponse(err, newlyCreatedRequestId)
+            } catch (error) {
+              console.log(error);
+            }
+          }
+          
         } finally {
           res.status(200).send("OK");
         }
