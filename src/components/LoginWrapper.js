@@ -2,17 +2,19 @@ import React, { useState, useEffect } from "react";
 import Router from "./Router.js";
 
 export default function LoginWrapper() {
-  const [loggedIn, setLogin] = useState(false);
+  const [loggedIn, setLogin] = useState(window.localStorage.loggedIn || 'false');
   const [user, setUser] = useState("1");
 
   function login() {
-    setLogin(true);
+    window.localStorage.setItem("loggedIn", true);
+    setLogin('true');
   }
 
   function logout() {
     fetch("http://localhost:3001/logout", { method: "POST", credentials: "include" })
       .then(() => {
-        setLogin(false);
+        window.localStorage.clear();
+        setLogin('false');
       })
   }
 
@@ -22,7 +24,8 @@ export default function LoginWrapper() {
         return response.text();
       })
       .then((response) => {
-        setLogin(!!response);
+        window.localStorage.setItem("loggedIn", !!response);
+        setLogin(String(!!response));
       });
   }, [loggedIn]);
 

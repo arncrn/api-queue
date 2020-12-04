@@ -9,7 +9,6 @@ import Team from './pages/Team.js';
 import Navigation from './shared/Navigation.js';
 
 const Router = (props) => {
-  console.log(props.loggedIn)
   return (
     <BrowserRouter>
       <Navigation loggedIn={props.loggedIn} logout={props.logout}/>
