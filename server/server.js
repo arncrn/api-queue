@@ -99,6 +99,18 @@ app.get("/", async (req, res) => {
   res.status(200);
 });
 
+app.post("/logout", (req, res) => {
+  delete req.session.signedIn;
+  delete req.session.userId;
+
+  res.status(200).send("OK");
+})
+
+app.get("/loginstatus", (req, res) => {
+  let signedIn = req.session.signedIn;
+  return res.send(signedIn);
+})
+
 // Make endpoint private
 // Returns a list of ALL request
 app.get("/allrequests", async (req, res, next) => {
@@ -124,12 +136,16 @@ app.post("/signup", async (req, res, next) => {
   
     if (queryResult.rowCount === 0) {
       let insertResult = await dbquery(
-        `INSERT INTO users (email, password, timezone) VALUES ($1, $2, $3)`, [submittedEmail, submittedPassword, submittedTimeZone]
+        `INSERT INTO users (email, password, timezone) VALUES ($1, $2, $3) RETURNING id`, [submittedEmail, submittedPassword, submittedTimeZone]
       );
 
       if (insertResult.rowCount < 1) {
         throw new Error('Failed to create user');
       }
+
+      let session = req.session;
+      session.userId = insertResult.rows[0].id;
+      session.signedIn = true;
 
       res.status(200).send('Good');
     } else {

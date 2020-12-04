@@ -48,13 +48,11 @@ class AppWrapper extends React.Component {
   }
 
   updateData = () => {
-    console.log("9. Frontend makes GET request to server", Date.now());
     fetch("http://localhost:3001/allrequests", {credentials: 'include',})
     .then((response) => {
       return response.json();
     })
     .then((response) => {
-        console.log("10. Frontend updates local state with database data", Date.now());
         this.setState({ appData: response }, ()=> {this.forceUpdate()});
       }).catch((error) => {
         console.log(error);
@@ -62,6 +60,7 @@ class AppWrapper extends React.Component {
   };
 
   renderPage() {
+    console.log(this.props.loggedIn)
     let AppForm = HOC(App)
     if (this.props.loggedIn) {
       return (
@@ -72,33 +71,12 @@ class AppWrapper extends React.Component {
         />
       );
     } else {
-      return (
-        <>
-          <Redirect to="/signup" />
-          <AppForm 
-            appData={this.state.appData} 
-            updateData={this.updateData}
-            refreshPage={this.refreshPage}
-          />
-        </>
-      )
-
+      return <Redirect to="/signup" />
     }
   }
 
   render() {
-    console.log(this.props.loggedIn);
     return this.renderPage();
-    // let AppForm = HOC(App);
-
-    // return (
-
-    //   <AppForm 
-    //   appData={this.state.appData} 
-    //   updateData={this.updateData}
-    //   refreshPage={this.refreshPage}
-    //   />
-    // );
   }
 }
 

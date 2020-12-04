@@ -3,7 +3,7 @@ import { Form, Button, Row, Col, Container } from "react-bootstrap";
 import { Redirect } from "react-router-dom";
 
 
-const Login = () => {
+const Login = (props) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loginSuccess, setLoginSuccess] = useState(false);
@@ -34,6 +34,7 @@ const Login = () => {
       body: JSON.stringify({email, password})
     }).then((response) => {
       if (response.status === 200) {
+        props.login()
         setLoginSuccess(true);
       }
     });

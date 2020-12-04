@@ -9,9 +9,10 @@ import Team from './pages/Team.js';
 import Navigation from './shared/Navigation.js';
 
 const Router = (props) => {
+  console.log(props.loggedIn)
   return (
     <BrowserRouter>
-      <Navigation loggedIn={props.loggedIn}/>
+      <Navigation loggedIn={props.loggedIn} logout={props.logout}/>
       <Switch>
         {/* <Route exact path="/" component={Home}/> */}
 
@@ -20,8 +21,8 @@ const Router = (props) => {
                                                 user={props.user}
                                               />} 
                                               />
-        <Route path="/login" component={Login} />
-        <Route path="/signup" component={Signup} />
+        <Route path="/login" render={() => <Login login={props.login}/> } />
+        <Route path="/signup" render={() => <Signup login={props.login}/> } />
         <Route path="/team" component={Team} />
         <Route path="/" component={Home} />
         <Route component={NotFound} />

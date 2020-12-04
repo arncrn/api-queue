@@ -3,7 +3,7 @@ import { Form, Button, Row, Col, Container } from "react-bootstrap";
 import { Redirect } from "react-router-dom";
 
 
-const Signup = () => {
+const Signup = (props) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [timezone, setTimeZone] = useState("AKST");
@@ -39,7 +39,8 @@ const Signup = () => {
       body: JSON.stringify({email, password, timezone})
     }).then((response) => {
       if (response.status === 200) {
-        setSignupSuccess(true);
+        // props.login();
+        // setSignupSuccess(true);
       }
     });
   }
@@ -61,7 +62,7 @@ const Signup = () => {
             </Form.Group>
 
             <Form.Group controlId="formBasicTimeZone">
-              <Form.Label>TimeZone</Form.Label>
+              <Form.Label>Time Zone</Form.Label>
               <Form.Control as="select" defaultValue={timezone} name='timezone' onChange={handleTimeZoneChange} custom>
                 <option value="AKST">Alaska Time</option>
                 <option value="PST">Pacific Time</option>
