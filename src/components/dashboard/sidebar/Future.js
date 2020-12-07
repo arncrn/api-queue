@@ -88,6 +88,7 @@ class Future extends Component {
           })}
         </ListGroup>
         <PopUpHOC
+          reqId={this.state.clickedReq}
           updateData={this.props.updateData}
           formUrl={this.props.formUrl}
           visibleModal={this.state.visibleModal}

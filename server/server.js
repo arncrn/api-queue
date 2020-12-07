@@ -51,8 +51,9 @@ app.use((req, res, next) => {
 })
 
 app.use((req, res, next) => {
-  res.locals.userId = req.session.userId
-  res.locals.signedIn = req.session.signedIn
+  res.locals.userId = req.session.userId;
+  res.locals.signedIn = req.session.signedIn;
+  res.locals.userTimezone = req.session.userTimezone;
   next()
 })
 
@@ -102,13 +103,16 @@ app.get("/", async (req, res) => {
 app.post("/logout", (req, res) => {
   delete req.session.signedIn;
   delete req.session.userId;
+  delete req.session.userTimezone;
 
   res.status(200).send("OK");
 })
 
 app.get("/loginstatus", (req, res) => {
   let signedIn = req.session.signedIn;
-  return res.send(signedIn);
+  let timezone = req.session.userTimezone;
+  res.send({signedIn, timezone});
+  // return res.send(JSON.stringify({signedIn, timezone}));
 })
 
 // Make endpoint private
@@ -145,9 +149,10 @@ app.post("/signup", async (req, res, next) => {
 
       let session = req.session;
       session.userId = insertResult.rows[0].id;
+      session.userTimezone = submittedTimeZone;
       session.signedIn = true;
 
-      res.status(200).send('Good');
+      res.status(200).send(JSON.stringify({timezone: submittedTimeZone, status: 200}));
     } else {
       res.status(409).send('User already exists');
     }
@@ -173,15 +178,16 @@ app.post("/login", async (req, res, next) => {
     if (queryResult.rowCount > 0) {
       if (submittedPassword === queryResult.rows[0].password) {
         let idResult = await dbquery(
-          `SELECT id FROM users WHERE email = $1`, [submittedEmail]
+          `SELECT id, timezone FROM users WHERE email = $1`, [submittedEmail]
         );
           //working
         let session = req.session;
         session.userId = idResult.rows[0].id;
+        session.userTimezone = idResult.rows[0].timezone;
         session.signedIn = true;
         
-        message = 'Good'
         statusCode = 200;
+        message = JSON.stringify({timezone: session.userTimezone, status: statusCode});
       }
     }
 
@@ -210,6 +216,21 @@ app.post("/makerequest", async (req, res, next) => {
     next(err);
   }
 });
+
+app.post("/updaterequest", async (req, res, next) => {
+  try {
+    //working
+    let userRequest = req.body.requestData;
+    let requestId = req.body.requestId;
+    let timeScheduled = createTimeScheduled(userRequest);
+
+    await dbquery("UPDATE requests SET user_request = $1, time_scheduled = $2 WHERE id = $3", 
+                  [userRequest, timeScheduled, requestId]);
+    res.sendStatus(200);
+  } catch (err) {
+    next(err);
+  }
+})
 
 app.use((err, req, res, next) => {
   console.log(err);
