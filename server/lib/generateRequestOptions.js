@@ -13,6 +13,6 @@ module.exports = function generateRequestOptions(userRequest) {
     url: userRequest.hostpath,
     params: buildParamsOrHeaders(userRequest.parameters),
     headers: Object.assign(bodyHeader, customHeaders),
-    data: userRequest.body.payload,
+    data: userRequest.body.payload,  // check this
   };
 }
