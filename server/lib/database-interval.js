@@ -14,11 +14,16 @@ module.exports = class DatabaseInterval {
           let options = generateRequestOptions(request.user_request);
           try {
             let responseData = await axios(options);
-            console.log(responseData);
-            // await this._insertRawRequestResponse(responseData, request.id);
           } catch(err) {
             if (err.response) {
               await this._insertRawRequestResponse(err.response, request.id)
+            } else {
+              try {
+                await this._insertRawRequestResponse(err, request.id);
+              } catch (error) {
+                console.log(error);
+              }
+              
             }
             console.log(`Request# ${request.id} failed`, 'line 22');
           } finally {
@@ -26,7 +31,7 @@ module.exports = class DatabaseInterval {
           }
         }
       } catch(err) {
-        console.log(err, 'line 22');
+        console.log(err, 'line 30');
       }
       
     }, 1000 * 60)

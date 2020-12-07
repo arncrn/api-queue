@@ -79,11 +79,21 @@ async function sendRequest(userRequest, newlyCreatedRequestId, res) {
         let options = generateRequestOptions(userRequest);
         try {
           let responseData = await axios(options);
+          // success if 200 or other good status
           await res.locals.store.insertRawRequestResponse(responseData, newlyCreatedRequestId);
         } catch (err) {
-          console.log(`Request #${newlyCreatedRequestId} failed`);
-          // console.log(err);
-          // await res.locals.store.insertRawRequestResponse(JSON.stringify({status: 'invalid'}), newlyCreatedRequestId);
+          if (err.response) {
+            // in case of error status of 400 or something similiar
+            await res.locals.store.insertRawRequestResponse(err.response, newlyCreatedRequestId)
+          } else {
+            try {
+              // in case of error with no response/status there is no response
+              await res.locals.store.insertRawRequestResponse(err, newlyCreatedRequestId)
+            } catch (error) {
+              console.log(error);
+            }
+          }
+          
         } finally {
           res.status(200).send("OK");
         }

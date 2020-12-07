@@ -1,5 +1,5 @@
 function buildRequestResponse(rawResponse) {
-  let requestHeaderString = rawResponse.request._header;
+  let requestHeaderString = rawResponse.request._header || '';
   let requestLine = getRequestLine(requestHeaderString);
   let responseLine = createResponseLine(rawResponse, requestLine);
 
@@ -8,8 +8,8 @@ function buildRequestResponse(rawResponse) {
   }
 
   function createResponseLine(rawResponse, requestLine) {
-    return `${requestLine.split(" ").slice(-1)[0]} ${rawResponse.status} ${
-      rawResponse.statusText
+    return `${requestLine.split(" ").slice(-1)[0]} ${rawResponse.status || 'error'} ${
+      rawResponse.statusText || 'error'
     }`;
   }
 
@@ -33,10 +33,10 @@ function buildRequestResponse(rawResponse) {
     {},
     {
       responseLine: responseLine,
-      headers: rawResponse.headers,
-      body: rawResponse.data,
-      status: rawResponse.status,
-      statusText: rawResponse.statusText,
+      headers: rawResponse.headers || {},
+      body: rawResponse.data || {},
+      status: rawResponse.status || 'error',
+      statusText: rawResponse.statusText || 'error',
     }
   );
 
