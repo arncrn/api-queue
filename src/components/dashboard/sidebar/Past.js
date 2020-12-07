@@ -1,14 +1,12 @@
 import React, { Component } from "react";
-import { ListGroup, Row, Col } from "react-bootstrap";
+import { ListGroup, Row, Col, Badge } from "react-bootstrap";
 import PopUp from "./PopUp.js";
 import HOC from "../../HOC.js";
 
-const calcDate = function (date, time) {
-  // console.log(date);
-
+const calcDate = function (date) {
   let [year, month, day] = date.split('-');
 
-  return `${year}-${month.padStart(2, "0")}-${day.padStart(2, "0")} ${time}`
+  return `${month.padStart(2, "0")}-${day.padStart(2, "0")}-${year}`
 };
 
 class Past extends Component {
@@ -58,6 +56,14 @@ class Past extends Component {
     }) || {};
   }
 
+  setVariant = (req) => {
+    if (String(req.response.status)[0] === '2') {
+      return 'success';
+    } else if (String(req.response.status)[0] === '4') {
+      return 'danger';
+    }
+  }
+
   render() {
     let PopUpHOC = HOC(PopUp, this.getRequestObject());
     return (
@@ -73,14 +79,19 @@ class Past extends Component {
                 onClick={this.handleClick}
               >
                 <Row>
-                  <Col className="h6">{req.name}</Col>
+                  <Col><strong>{req.name}</strong></Col>
                 </Row>
                 <Row>
-                  <Col lg={12}>{calcDate(req.date, req.time)} {req.timeZone}</Col>
+                  <Col> <Badge variant='primary'> {req.httpVerb}</Badge></Col>
                 </Row>
                 <Row>
-                  <Col lg={3}>{req.httpVerb}</Col>
-                  <Col>{req.response.status} {req.response.statusText}</Col>
+                  <Col><Badge pill variant={this.setVariant(req)}>{req.response.status}</Badge> <Badge variant='secondary'>{req.response.statusText}</Badge></Col>
+                </Row>
+                <Row>
+                  <Col><Badge variant='light'>{calcDate(req.date)}</Badge></Col>
+                </Row>
+                <Row>
+                  <Col><Badge variant='light'>{req.time} {req.timeZone}</Badge></Col>
                 </Row>
               </ListGroup.Item>
             );
