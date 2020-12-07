@@ -5,8 +5,9 @@ export default function LoginWrapper() {
   const [loggedIn, setLogin] = useState(window.localStorage.loggedIn || 'false');
   const [user, setUser] = useState("1");
 
-  function login() {
-    window.localStorage.setItem("loggedIn", true);
+  function login(userTimezone) {
+    window.localStorage.setItem("loggedIn", 'true');
+    window.localStorage.setItem("timeZone", userTimezone);
     setLogin('true');
   }
 
@@ -21,11 +22,12 @@ export default function LoginWrapper() {
   useEffect(() => {
     fetch("http://localhost:3001/loginstatus", { credentials: "include" })
       .then((response) => {
-        return response.text();
+        return response.json();
       })
       .then((response) => {
-        window.localStorage.setItem("loggedIn", !!response);
-        setLogin(String(!!response));
+        window.localStorage.setItem("loggedIn", String(!!response.signedIn));
+        window.localStorage.setItem("timeZone", response.timezone);
+        setLogin(String(!!response.signedIn));
       });
   }, [loggedIn]);
 

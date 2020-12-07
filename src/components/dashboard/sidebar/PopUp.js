@@ -31,6 +31,7 @@ class PopUp extends Component {
                 <Col lg={12} as={"main"} className="border">
                   {(this.props.requestObject.response && this.props.requestObject.response.status) &&<RequestResponse requestObject={this.props.requestObject} />}
                   <SharedForm
+                    reqId={this.props.reqId}
                     handleSubmit={this.props.handleSubmit}
                     hostpath={this.props.hostpath}
                     handleChange={this.props.handleChange}

@@ -9,7 +9,7 @@ import { Form } from "react-bootstrap";
 
 class SharedForm extends Component {
   handleSubmit = (event) => {
-    this.props.handleSubmit(event, this.props.formUrl);
+    this.props.handleSubmit(event, this.props.formUrl, this.props.reqId);
   }
 
   render() {
