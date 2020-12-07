@@ -2,7 +2,6 @@ const buildRequestResponse = require("./buildRequestResponse.js");
 const generateRequestOptions = require("./generateRequestOptions.js");
 const dbquery = require("./db-query.js");
 const axios = require("axios");
-const dbQuery = require("./db-query.js");
 
 module.exports = class DatabaseInterval {
   constructor() {
@@ -14,6 +13,7 @@ module.exports = class DatabaseInterval {
           let options = generateRequestOptions(request.user_request);
           try {
             let responseData = await axios(options);
+            await this._insertRawRequestResponse(responseData, request.id)
           } catch(err) {
             if (err.response) {
               await this._insertRawRequestResponse(err.response, request.id)
@@ -44,7 +44,6 @@ module.exports = class DatabaseInterval {
       let requestsToSend = result.rows.filter(request => {
         return timeNow >= new Date(request.time_scheduled);
       });
-    
       return requestsToSend;
     } catch (err) {
       console.log(err);
