@@ -2,7 +2,7 @@
 //  - success
 //  - 404 (err.response)
 //  - no status ?
-
+const bcrypt = require('bcryptjs');
 const express = require("express");
 const cors = require("cors");
 const morgan = require("morgan");
@@ -14,6 +14,7 @@ const LokiStore = require('connect-loki')(session);
 
 const pgPersistance = require("./lib/pg-persistance.js");
 const DatabaseInterval = require("./lib/database-interval.js");
+const { query } = require('express');
 
 new DatabaseInterval();
 
@@ -141,8 +142,8 @@ app.get("/allrequests", async (req, res, next) => {
 app.post("/signup", async (req, res, next) => {
   try {
     let submittedEmail = req.body.email.toLowerCase();
-    let submittedPassword = req.body.password;
     let submittedTimeZone = req.body.timezone;
+    let hashedPassword = bcrypt.hashSync(req.body.password, 10);
 
     let queryResult = await dbquery(
       `SELECT email FROM users WHERE email = $1`, [submittedEmail]
@@ -150,7 +151,7 @@ app.post("/signup", async (req, res, next) => {
   
     if (queryResult.rowCount === 0) {
       let insertResult = await dbquery(
-        `INSERT INTO users (email, password, timezone) VALUES ($1, $2, $3) RETURNING id`, [submittedEmail, submittedPassword, submittedTimeZone]
+        `INSERT INTO users (email, password, timezone) VALUES ($1, $2, $3) RETURNING id`, [submittedEmail, hashedPassword, submittedTimeZone]
       );
 
       if (insertResult.rowCount < 1) {
@@ -171,9 +172,6 @@ app.post("/signup", async (req, res, next) => {
   }
 });
 
-
-// Next steps
-  // Use Bcrypt to compare everything. Coming back after making sign up page.
 app.post("/login", async (req, res, next) => {
   try {
     let submittedEmail = req.body.email.toLowerCase();
@@ -184,9 +182,12 @@ app.post("/login", async (req, res, next) => {
     let queryResult = await dbquery(
       `SELECT password FROM users WHERE email = $1`, [submittedEmail]
     );
-  
+
     if (queryResult.rowCount > 0) {
-      if (submittedPassword === queryResult.rows[0].password) {
+      const userHashedPassword = queryResult.rows[0].password;
+      const validPassword = bcrypt.compareSync(submittedPassword, userHashedPassword);
+
+      if (validPassword) {
         let idResult = await dbquery(
           `SELECT id, timezone FROM users WHERE email = $1`, [submittedEmail]
         );
