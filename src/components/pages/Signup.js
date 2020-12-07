@@ -39,8 +39,13 @@ const Signup = (props) => {
       body: JSON.stringify({email, password, timezone})
     }).then((response) => {
       if (response.status === 200) {
-        // props.login();
-        // setSignupSuccess(true);
+        return response.json();
+      } 
+      return response.text();
+    }).then((response) => {
+      if (response.status === 200) {
+        props.login(response.timezone);
+        setSignupSuccess(true);
       }
     });
   }

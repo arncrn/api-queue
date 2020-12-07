@@ -9,7 +9,7 @@ const FormStateAndMethods = (WrappedComponent, extraData = {}) => {
         httpVerb: extraData.httpVerb || "GET",
         hostpath: extraData.hostpath || "",
         time: extraData.time || this.calcTime(new Date()),
-        timeZone: extraData.timeZone || "", // this will be set to user's default timezone.
+        timeZone: extraData.timeZone || window.localStorage.timeZone, // this will be set to user's default timezone.
         date: extraData.date || new Date(),
         name: extraData.name || "",
         headers: extraData.headers || [
@@ -73,18 +73,17 @@ const FormStateAndMethods = (WrappedComponent, extraData = {}) => {
       return newData.hostpath.length < 1;
     }
 
-    handleSubmit = (event, formUrl) => {
+    handleSubmit = (event, formUrl, requestId) => {
       event.preventDefault();
-
+      
+      let body;
       let newData = Object.assign({}, this.state);
 
       if (this.invalid(newData)) return;
 
       if (typeof newData.date === "string") {
-        console.log('if ran')
         newData.date = newData.date.split('T')[0];
       } else {
-        console.log('else ran')
         let day = newData.date.getDate();
         let month = newData.date.getMonth() + 1;
         let year = newData.date.getFullYear();
@@ -93,17 +92,24 @@ const FormStateAndMethods = (WrappedComponent, extraData = {}) => {
 
       // Change URL in production
       // '2020-11-25 12:24:00 CST'
-      console.log(newData.date);
-      console.log("1. Frontend form sends user request to OUR server", Date.now());
+      // console.log(newData.date);
+      // console.log("1. Frontend form sends user request to OUR server", Date.now());
+
+      if (requestId) {
+        body = {requestData: newData, requestId: requestId};
+      } else {
+        body = newData;
+      }
+
       fetch(formUrl, {
         method: 'POST',
         credentials: 'include',
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify(newData)
+        body: JSON.stringify(body)
       }).then( () => {
-        console.log("7. Frontend receives response from server", Date.now());
+        // console.log("7. Frontend receives response from server", Date.now());
         this.props.updateData();
       })
     };
