@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from "react";
-import { Form, Col, Row, Button } from "react-bootstrap";
+import { Form, Col, Row, Button, Badge } from "react-bootstrap";
 
 class Parameters extends Component {
   render() {
@@ -8,13 +8,16 @@ class Parameters extends Component {
         <Form.Label as="legend">Parameters</Form.Label>
 
         <Row>
-          <Col>Your parameters get appended to the URL above.</Col>
+          <Col>
+            <Badge variant='light'>
+              When we send your request, your parameters will get appended to the URL above.
+            </Badge>
+          </Col>
         </Row>
 
         <Row className="mt-3">
           <Col xs={5}>Key</Col>
           <Col xs={5}>Value</Col>
-          {/* Change buttons here, alignment issues */}
           {this.props.parameters.map(param => {
             return (
               <Fragment key={param.id}>

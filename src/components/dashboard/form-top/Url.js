@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Form, Col, Row } from "react-bootstrap";
+import { Form, Col, Row, Badge } from "react-bootstrap";
 
 class Url extends Component {
   handleBlur = (event) => {
@@ -19,7 +19,9 @@ class Url extends Component {
       <Form.Group as={"fieldset"}>
         <Row className="mt-3">
           <Col>
+            <Badge variant='light'>
             Select the type of request to send and the URL where it's going.
+            </Badge>
           </Col>
         </Row>
 
@@ -55,8 +57,9 @@ class Url extends Component {
 
         <Row className="mt-3">
           <Col>
-            Pick any name you want, maybe something to help you remember what
-            this request is for.
+            <Badge variant='light'>
+              Pick any name you want, maybe something to help you remember what this request is for.
+            </Badge>
           </Col>
         </Row>
 

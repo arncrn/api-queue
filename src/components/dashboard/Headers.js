@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from "react";
-import { Form, Col, Row, Button } from "react-bootstrap";
+import { Form, Col, Row, Button, Badge } from "react-bootstrap";
 
 class Headers extends Component {
   render() {
@@ -9,9 +9,9 @@ class Headers extends Component {
 
         <Row>
           <Col>
-            You can set any headers you want. If one of your headers conflicts
-            with a header we would have created automatically for your request,
-            yours will take precedent.
+          <Badge variant='light'>
+            Your headers conflicts take precedent over any default we may have used.
+          </Badge>
           </Col>
         </Row>
 
