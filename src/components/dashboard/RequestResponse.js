@@ -42,7 +42,7 @@ class RequestResponse extends Component {
   // coming back here tomorrow
   displayRawRequestBody = (rawRequest) => {
     let contentType = rawRequest.headers["Content-Type"];
-    if (contentType) {
+    if (contentType && rawRequest.body) {
       if (contentType.includes("application/json")) {
         let parsed = JSON.parse(rawRequest.body);
         return JSON.stringify(parsed, null, 2);
