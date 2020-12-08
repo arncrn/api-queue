@@ -226,9 +226,8 @@ app.post("/makerequest", async (req, res, next) => {
 
 app.post("/updaterequest", async (req, res, next) => {
   try {
-    //working
-    let userRequest = req.body.requestData;
-    let requestId = req.body.requestId;
+    let userRequest = req.body;
+    let requestId = req.body.id;
     let timeScheduled = createTimeScheduled(userRequest);
 
     await dbquery("UPDATE requests SET user_request = $1, time_scheduled = $2 WHERE id = $3", 
