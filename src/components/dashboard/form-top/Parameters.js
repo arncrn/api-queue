@@ -56,7 +56,7 @@ class Parameters extends Component {
           })}
 
           <Col xs={2} className="mt-3">
-            <Button variant="light"
+            <Button variant="dark"
               onClick={this.props.addKeyValueFields}
               data-name={'parameters'}
             >+</Button>
