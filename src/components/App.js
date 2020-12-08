@@ -17,7 +17,7 @@ class App extends Component {
   toggleScheduler = () => {
     this.setState((prevState) => ({
       scheduler: !prevState.scheduler,
-      buttonText: !prevState.scheduler === false ? 'Send' : 'Schedule later',
+      buttonText: !prevState.scheduler === false ? 'Send' : 'Schedule',
     }))
   }
 
