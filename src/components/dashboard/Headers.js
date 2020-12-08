@@ -57,7 +57,7 @@ class Headers extends Component {
           })}
 
           <Col lg={2} className="mt-3">
-            <Button variant="light"
+            <Button variant="dark"
               onClick={this.props.addKeyValueFields}
               data-name={'headers'}
             >+</Button>

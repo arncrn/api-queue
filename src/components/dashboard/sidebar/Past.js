@@ -65,6 +65,7 @@ class Past extends Component {
   }
 
   render() {
+    console.log(this.props.appData);
     let PopUpHOC = HOC(PopUp, this.getRequestObject());
     return (
       <>
