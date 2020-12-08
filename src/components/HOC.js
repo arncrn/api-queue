@@ -109,10 +109,24 @@ const FormStateAndMethods = (WrappedComponent, extraData = {}) => {
         },
         body: JSON.stringify(body)
       }).then( () => {
-        // console.log("7. Frontend receives response from server", Date.now());
         this.props.updateData();
       })
     };
+
+    handleDelete = (event, requestId) => {
+      event.preventDefault();
+
+      fetch('http://localhost:3001/deleterequest', {
+        method: 'POST',
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({reqId: this.props.reqId})
+      }).then(() => {
+        this.props.updateData();
+      })
+    }
 
     addKeyValueFields = (event) => {
       let name = event.target.dataset.name;
@@ -120,8 +134,6 @@ const FormStateAndMethods = (WrappedComponent, extraData = {}) => {
       this.setState((prevState) => ({
         [name]: [...prevState[name], { id: this.nextId(), key: "", value: "" }],
       }), () => {
-        // Deal with issue
-        // Extra key value pairs created if user hits "+" button
       });
     };
 
@@ -162,10 +174,10 @@ const FormStateAndMethods = (WrappedComponent, extraData = {}) => {
     };
 
     render() {
-      // console.log(Object.getPrototypeOf(this.state.date));
       return (
         <WrappedComponent
           {...this.props}
+          handleDelete={this.handleDelete}
           handleSubmit={this.handleSubmit}
           hostpath={this.state.hostpath}
           handleChange={this.handleChange}

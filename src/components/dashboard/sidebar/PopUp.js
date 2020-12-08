@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Modal, Container, Row, Col } from "react-bootstrap";
+import { Modal, Container, Row, Col} from "react-bootstrap";
 import RequestResponse from "../RequestResponse.js";
 import SharedForm from "../SharedForm.js";
 
@@ -32,6 +32,7 @@ class PopUp extends Component {
                   {(this.props.requestObject.response && this.props.requestObject.response.status) &&<RequestResponse requestObject={this.props.requestObject} />}
                   <SharedForm
                     reqId={this.props.reqId}
+                    handleDelete={this.props.handleDelete}
                     handleSubmit={this.props.handleSubmit}
                     hostpath={this.props.hostpath}
                     handleChange={this.props.handleChange}
@@ -50,6 +51,7 @@ class PopUp extends Component {
                     buttonText={this.props.buttonText}
                     formUrl={this.props.formUrl}
                     toggleScheduler={this.toggleScheduler}
+                    visibleModal={this.props.visibleModal}
                   />
                 </Col>
               </Row>
