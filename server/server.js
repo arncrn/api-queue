@@ -187,7 +187,7 @@ app.post("/login", async (req, res, next) => {
         let idResult = await dbquery(
           `SELECT id, timezone FROM users WHERE email = $1`, [submittedEmail]
         );
-          //working
+
         let session = req.session;
         session.userId = idResult.rows[0].id;
         session.userTimezone = idResult.rows[0].timezone;
@@ -215,6 +215,7 @@ app.post("/logout", (req, res, next) => {
 app.post("/makerequest", async (req, res, next) => {
   try { 
     let userRequest = req.body;
+    delete userRequest.id; // in case of sending a repeat request from the sidebar "past" requests 
     let timeScheduled = createTimeScheduled(userRequest);
     let newlyCreatedRequestId = await res.locals.store.insertRequest(userRequest, timeScheduled);
 
