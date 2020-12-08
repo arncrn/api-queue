@@ -12,7 +12,20 @@ class AppWrapper extends React.Component {
     this.state = {
       appData: [],
       isMounted: false,
+      alertMessage: ''
     };
+  }
+
+  showAlert = (message) => {
+    this.setState({
+      alertMessage: `${message}`
+    })
+
+    setTimeout(() => {
+      this.setState({
+        alertMessage: ''
+      })
+    }, 3000);
   }
 
   refreshPage = () => {
@@ -27,7 +40,8 @@ class AppWrapper extends React.Component {
 
   shouldComponentUpdate(prevProps, prevState) {
     let updatedData = prevState.appData.length !== this.state.appData.length;
-    return updatedData;
+    let changedAlertMessage = prevState.alertMessage !== this.state.alertMessage;
+    return updatedData || changedAlertMessage;
   }
 
   componentDidMount() {
@@ -67,6 +81,8 @@ class AppWrapper extends React.Component {
         appData={this.state.appData} 
         updateData={this.updateData}
         refreshPage={this.refreshPage}
+        showAlert={this.showAlert}
+        alertMessage={this.state.alertMessage}
         />
       );
     } else {

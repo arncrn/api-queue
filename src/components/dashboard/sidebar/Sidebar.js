@@ -61,12 +61,14 @@ class Sidebar extends Component {
       appData={this.getPastRequests()} 
       buttonText={this.state.buttonText}
       formUrl={this.state.formUrl}
+      showAlert={this.props.showAlert}
     /> : 
      <Future 
       updateData={this.props.updateData}
       appData={this.getFutureRequests()} 
       buttonText={this.state.buttonText}
       formUrl={this.state.formUrl}
+      showAlert={this.props.showAlert}
     />
 
     return (

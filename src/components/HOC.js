@@ -107,6 +107,8 @@ const FormStateAndMethods = (WrappedComponent, extraData = {}) => {
         body: JSON.stringify(newData)
       }).then( () => {
         this.props.updateData();
+        window.scrollTo(0, 0);
+        this.props.showAlert('Got it!');
       })
     };
 
@@ -122,6 +124,8 @@ const FormStateAndMethods = (WrappedComponent, extraData = {}) => {
         body: JSON.stringify({reqId: requestId})
       }).then(() => {
         this.props.updateData();
+        this.props.showAlert('Got it, Deleted!');
+        window.scrollTo(0, 0);
       })
     }
 
