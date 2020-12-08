@@ -75,8 +75,7 @@ const FormStateAndMethods = (WrappedComponent, extraData = {}) => {
 
     handleSubmit = (event, formUrl, requestId) => {
       event.preventDefault();
-      
-      let body;
+    
       let newData = Object.assign({}, this.state);
 
       if (this.invalid(newData)) return;
@@ -96,10 +95,8 @@ const FormStateAndMethods = (WrappedComponent, extraData = {}) => {
       // console.log("1. Frontend form sends user request to OUR server", Date.now());
 
       if (requestId) {
-        body = {requestData: newData, requestId: requestId};
-      } else {
-        body = newData;
-      }
+        newData.id = requestId;
+      } 
 
       fetch(formUrl, {
         method: 'POST',
@@ -107,7 +104,7 @@ const FormStateAndMethods = (WrappedComponent, extraData = {}) => {
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify(body)
+        body: JSON.stringify(newData)
       }).then( () => {
         this.props.updateData();
       })
@@ -122,7 +119,7 @@ const FormStateAndMethods = (WrappedComponent, extraData = {}) => {
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({reqId: this.props.reqId})
+        body: JSON.stringify({reqId: requestId})
       }).then(() => {
         this.props.updateData();
       })
