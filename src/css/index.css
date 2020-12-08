@@ -103,3 +103,8 @@ dt {
   margin-right: 5px;
 }
 
+.scroll-box {
+  display: flex;
+  height: 100vh;
+  overflow-y: scroll;
+}

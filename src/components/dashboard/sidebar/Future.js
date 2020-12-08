@@ -69,7 +69,7 @@ class Future extends Component {
     let PopUpHOC = HOC(PopUp, this.getRequestObject());
     return (
       <>
-        <ListGroup>
+        <ListGroup className="scroll-box">
           {this.props.appData.map((req) => {
             return (
               <ListGroup.Item
