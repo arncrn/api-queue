@@ -1,12 +1,11 @@
 import React, { Component } from "react";
 import Calendar from 'react-calendar';
-import { Form, Col, Row, Button, Accordion, Card } from "react-bootstrap";
+import { Form, Col, Row, Button, Accordion, Card, Badge } from "react-bootstrap";
 
 class Scheduler extends Component {
   render() {
     let date = this.props.date;
     
-    // console.log(this.props.date, Object.getPrototypeOf(this.props.date));
     if (typeof this.props.date === "string") {
       let [year, month, day] = this.props.date.split('-');
 
@@ -19,7 +18,9 @@ class Scheduler extends Component {
 
         <Row>
           <Col>
-            Enable the scheduler to send it later rather than right now.
+            <Badge variant='light'>
+              Enable the scheduler to send it later rather than right now.
+            </Badge>
           </Col>
         </Row>
 
