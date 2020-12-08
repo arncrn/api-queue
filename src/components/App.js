@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import Sidebar from "./dashboard/sidebar/Sidebar";
-import { Container, Row, Col } from "react-bootstrap";
+import { Container, Row, Col, Alert, Button } from "react-bootstrap";
 import SharedForm from "./dashboard/SharedForm.js";
 import HOC from "./HOC.js";
 
@@ -22,14 +22,23 @@ class App extends Component {
   }
 
   render() {
+    console.log(this.props.showAlert);
     return (
       <Container className="mb-5">
+        {this.props.alertMessage && <Row>
+          <Col>
+            <Alert variant='primary'>
+              {this.props.alertMessage}
+            </Alert>
+          </Col>
+        </Row>}
         <Row className="mt-4">
           <Col lg={3} as={"main"} className="border">
             <Sidebar 
               appData={this.props.appData} 
               updateData={this.props.updateData}
               refreshPage={this.props.refreshPage}
+              showAlert={this.props.showAlert}
             />
           </Col>
           <Col lg={9} as={"main"} className="border">

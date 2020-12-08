@@ -107,3 +107,15 @@ dt {
   height: 100vh;
   overflow-y: scroll;
 }
+
+#root, html {
+  background-color: rgba(52,245,218,0.2);
+}
+
+.container {
+  background-color: white;
+}
+
+.logo {
+  text-align: center;
+}

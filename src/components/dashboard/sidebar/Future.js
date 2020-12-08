@@ -106,6 +106,7 @@ class Future extends Component {
           hideModalClick={this.hideModalClick}
           requestObject={this.getRequestObject()}
           buttonText={this.props.buttonText}
+          showAlert={this.props.showAlert}
         />
       </>
     );

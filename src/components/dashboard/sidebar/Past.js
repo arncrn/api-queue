@@ -16,6 +16,7 @@ class Past extends Component {
     this.state = {
       visibleModal: false,
       clickedReq: null,
+      numberOfRequests: this.props.appData.length,
     };
   }
 
@@ -65,7 +66,6 @@ class Past extends Component {
   }
 
   render() {
-    console.log(this.props.appData);
     let PopUpHOC = HOC(PopUp, this.getRequestObject());
     return (
       <>
@@ -106,6 +106,7 @@ class Past extends Component {
           hideModalClick={this.hideModalClick}
           requestObject={this.getRequestObject()}
           buttonText={this.props.buttonText}
+          showAlert={this.props.showAlert}
         />
       </>
     );
