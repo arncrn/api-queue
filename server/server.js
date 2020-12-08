@@ -1,7 +1,3 @@
-// handle all axios request/responses
-//  - success
-//  - 404 (err.response)
-//  - no status ?
 const bcrypt = require('bcryptjs');
 const express = require("express");
 const cors = require("cors");
@@ -241,7 +237,17 @@ app.post("/updaterequest", async (req, res, next) => {
   } catch (err) {
     next(err);
   }
-})
+});
+
+app.post("/deleterequest", async (req, res, next) => {
+  try {
+    let requestId = req.body.reqId;
+    await dbquery("DELETE FROM requests WHERE id = $1", [requestId]);
+    res.status(204).send('No Content');
+  } catch (err) {
+    next(err);
+  }
+});
 
 app.use((err, req, res, next) => {
   console.log(err);

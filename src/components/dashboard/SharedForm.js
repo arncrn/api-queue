@@ -5,15 +5,18 @@ import SubmitButton from "./SubmitButton.js";
 import Body from "./Body.js";
 import Url from "./form-top/Url.js";
 import Parameters from "./form-top/Parameters.js";
-import { Form } from "react-bootstrap";
+import { Form, Col, Button } from "react-bootstrap";
 
 class SharedForm extends Component {
   handleSubmit = (event) => {
     this.props.handleSubmit(event, this.props.formUrl, this.props.reqId);
   }
 
+  handleDelete = (event) => {
+    this.props.handleDelete(event, this.props.reqId)
+  }
+
   render() {
-    // console.log(this.props.timezone);
     return (
     <Form onSubmit={this.handleSubmit}>
       <Url
@@ -47,7 +50,11 @@ class SharedForm extends Component {
         date={this.props.date}
         toggleScheduler={this.props.toggleScheduler}
       />
-      <SubmitButton buttonText={this.props.buttonText} />
+      <SubmitButton 
+        buttonText={this.props.buttonText} 
+        visibleModal={this.props.visibleModal}
+        handleDelete={this.handleDelete}
+      />
     </Form>
     )
   }
