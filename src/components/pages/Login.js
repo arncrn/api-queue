@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Form, Button, Row, Col, Container } from "react-bootstrap";
+import { Form, Button, Row, Col, Container, Alert } from "react-bootstrap";
 import { Redirect } from "react-router-dom";
 
 
@@ -7,6 +7,7 @@ const Login = (props) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loginSuccess, setLoginSuccess] = useState(false);
+  const [alertMessage, setAlertMessage] = useState('');
 
   function toRedirect() {
     if (loginSuccess) {
@@ -20,6 +21,14 @@ const Login = (props) => {
 
   function handlePasswordChange(event) {
     setPassword(event.target.value);
+  }
+
+  function showAlert(message) {
+    setAlertMessage(message);
+
+    setTimeout(() => {
+      setAlertMessage('');
+    }, 5000);
   }
   
   function handleSubmit(event) {
@@ -36,12 +45,13 @@ const Login = (props) => {
       if (response.status === 200) {
         return response.json();
       }
-      return response.text()
+      return response.text();
     }).then((response) => {
         if (response.status === 200) {
           props.login(response.timezone);
           setLoginSuccess(true);
         } else {
+          showAlert('Sorry, invalid email/password combination.')
           return;
         }
     });
@@ -50,6 +60,13 @@ const Login = (props) => {
   return (
     <Container className="pt-5 container-style">
       {toRedirect()}
+      {alertMessage && <Row className="flash-message-container">
+          <Col>
+            <Alert className="flash-message" variant='danger'>
+              {alertMessage}
+            </Alert>
+          </Col>
+        </Row>}
       <Row className="pb-5">
         <Col lg={{span:4, offset: 4}}>
           <h2 className="text-center mb-4">Login</h2>
