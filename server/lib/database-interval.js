@@ -34,7 +34,7 @@ module.exports = class DatabaseInterval {
         console.log(err, 'line 30');
       }
       
-    }, 1000 * 60)
+    }, 1000 * 29)
   }
 
   async _checkDatabaseForFutureRequests() {
