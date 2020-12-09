@@ -34,9 +34,8 @@ const Login = (props) => {
   function handleSubmit(event) {
     event.preventDefault();
 
-    fetch("http://localhost:3001/login", {
+    fetch("/login", {
       method: 'POST',
-      credentials: 'include',
       headers: {
         'Content-Type': 'application/json',
       },

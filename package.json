@@ -29,7 +29,8 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "resetdb": "psql -d apiqdb < ./database/schema.sql && psql -d apiqdb < ./database/seed.sql"
+    "resetdb": "psql -d apiqdb < ./database/schema.sql && psql -d apiqdb < ./database/seed.sql",
+    "app": "npm run build && npm run server"
   },
   "eslintConfig": {
     "extends": "react-app"

@@ -13,17 +13,17 @@ const Router = (props) => {
     <BrowserRouter>
       <Navigation loggedIn={props.loggedIn} logout={props.logout}/>
       <Switch>
-        {/* <Route exact path="/" component={Home}/> */}
+        <Route exact path="/" component={Home}/>
 
-        <Route path="/app" render={() => <AppWrapper 
+        <Route exact path="/app" render={() => <AppWrapper 
                                                 loggedIn={props.loggedIn}
                                                 user={props.user}
                                               />} 
                                               />
-        <Route path="/login" render={() => <Login login={props.login}/> } />
-        <Route path="/signup" render={() => <Signup login={props.login}/> } />
-        <Route path="/team" component={Team} />
-        <Route path="/" component={Home} />
+        <Route exact path="/login" render={() => <Login login={props.login}/> } />
+        <Route exact path="/signup" render={() => <Signup login={props.login}/> } />
+        <Route exact path="/team" component={Team} />
+        {/* <Route path="/" component={Home} /> */}
         <Route component={NotFound} />
       </Switch>
     </BrowserRouter>

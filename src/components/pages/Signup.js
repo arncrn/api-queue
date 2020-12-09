@@ -39,8 +39,7 @@ const Signup = (props) => {
   function handleSubmit(event) {
     event.preventDefault();
 
-    fetch("http://localhost:3001/signup", {
-      credentials: 'include',
+    fetch("/signup", {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
