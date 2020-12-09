@@ -23,7 +23,7 @@ class App extends Component {
 
   render() {
     return (
-      <Container className="mb-5">
+      <Container className="container-style">
         {this.props.alertMessage && <Row>
           <Col>
             <Alert variant='primary'>
@@ -31,7 +31,7 @@ class App extends Component {
             </Alert>
           </Col>
         </Row>}
-        <Row className="mt-4">
+        <Row>
           <Col lg={3} as={"main"} className="border">
             <Sidebar 
               appData={this.props.appData} 
