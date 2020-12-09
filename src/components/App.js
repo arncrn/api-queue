@@ -9,7 +9,7 @@ class App extends Component {
     super(props);
     this.state = {
       buttonText: 'Send',
-      formUrl: 'http://localhost:3001/makerequest',
+      formUrl: '/makerequest',
       scheduler: false,
     }
   }

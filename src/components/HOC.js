@@ -97,7 +97,6 @@ const FormStateAndMethods = (WrappedComponent, extraData = {}) => {
 
       fetch(formUrl, {
         method: 'POST',
-        credentials: 'include',
         headers: {
           'Content-Type': 'application/json'
         },
@@ -112,9 +111,8 @@ const FormStateAndMethods = (WrappedComponent, extraData = {}) => {
     handleDelete = (event, requestId) => {
       event.preventDefault();
 
-      fetch('http://localhost:3001/deleterequest', {
+      fetch('/deleterequest', {
         method: 'POST',
-        credentials: 'include',
         headers: {
           'Content-Type': 'application/json'
         },

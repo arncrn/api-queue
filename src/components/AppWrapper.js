@@ -28,7 +28,7 @@ class AppWrapper extends React.Component {
   }
 
   refreshPage = () => {
-    fetch("http://localhost:3001/allrequests", {credentials: 'include',})
+    fetch("/allrequests")
       .then((response) => {
         return response.json();
       })
@@ -45,7 +45,7 @@ class AppWrapper extends React.Component {
   componentDidMount() {
     this.setState({isMounted: true}, () => {
       if (this.state.isMounted) 
-        fetch("http://localhost:3001/allrequests", {credentials: 'include',})
+        fetch("/allrequests")
         .then((response) => {
           return response.json();
         })
@@ -60,7 +60,7 @@ class AppWrapper extends React.Component {
   }
 
   updateData = () => {
-    fetch("http://localhost:3001/allrequests", {credentials: 'include',})
+    fetch("/allrequests")
     .then((response) => {
       return response.json();
     })

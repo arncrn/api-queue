@@ -11,14 +11,18 @@ const LokiStore = require('connect-loki')(session);
 const pgPersistance = require("./lib/pg-persistance.js");
 const DatabaseInterval = require("./lib/database-interval.js");
 const { query } = require('express');
+const path = require("path");
 
 new DatabaseInterval();
 
 const app = express();
 const port = 3001;
 
-let options = {};
+
+app.use(express.static(path.join(__dirname, "..", "build")));
+// app.use(express.static("public"));
  
+let options = {};
 app.use(session({
     store: new LokiStore(options),
     secret: 'secret', // change later
@@ -248,6 +252,11 @@ app.post("/deleterequest", async (req, res, next) => {
   } catch (err) {
     next(err);
   }
+});
+
+app.get('*', (req,res) =>{
+  console.log(__dirname);
+  res.sendFile(path.join(__dirname, "..", "build/index.html"));
 });
 
 app.use((err, req, res, next) => {

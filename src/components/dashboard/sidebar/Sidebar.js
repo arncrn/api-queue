@@ -10,7 +10,7 @@ class Sidebar extends Component {
 
     this.state = {
       currentTab: 'past',
-      formUrl: 'http://localhost:3001/makerequest',
+      formUrl: '/makerequest',
     }
   }
 
@@ -39,9 +39,9 @@ class Sidebar extends Component {
     let value = target.textContent.toLowerCase();
     let formUrl;
     if (value === 'past') {
-      formUrl = 'http://localhost:3001/makerequest';
+      formUrl = '/makerequest';
     } else {
-      formUrl = 'http://localhost:3001/updaterequest';
+      formUrl = '/updaterequest';
     }
 
     this.setState({

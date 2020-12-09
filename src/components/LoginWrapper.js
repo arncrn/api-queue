@@ -12,7 +12,7 @@ export default function LoginWrapper() {
   }
 
   function logout() {
-    fetch("http://localhost:3001/logout", { method: "POST", credentials: "include" })
+    fetch("/logout", { method: "POST"})
       .then(() => {
         window.localStorage.clear();
         setLogin('false');
@@ -20,7 +20,7 @@ export default function LoginWrapper() {
   }
 
   useEffect(() => {
-    fetch("http://localhost:3001/loginstatus", { credentials: "include" })
+    fetch("/loginstatus")
       .then((response) => {
         return response.json();
       })
