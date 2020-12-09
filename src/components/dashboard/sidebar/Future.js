@@ -76,7 +76,7 @@ class Future extends Component {
                 action
                 data-id={req.id}
                 key={req.id}
-                href={`#link1${req.id}`}
+                // href={`#link1${req.id}`}
                 onClick={this.handleClick}
               >
                 <Row>

@@ -24,9 +24,9 @@ class App extends Component {
   render() {
     return (
       <Container className="mb-5">
-        {this.props.alertMessage && <Row>
+        {this.props.alertMessage && <Row className="flash-message-container">
           <Col>
-            <Alert variant='primary'>
+            <Alert className="flash-message" variant='primary'>
               {this.props.alertMessage}
             </Alert>
           </Col>

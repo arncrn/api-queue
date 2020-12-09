@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { DataContext } from './data-context'
 
 const FormStateAndMethods = (WrappedComponent, extraData = {}) => {
   return class extends Component {
@@ -32,8 +31,6 @@ const FormStateAndMethods = (WrappedComponent, extraData = {}) => {
         },
       };
     }
-
-    static contextType = DataContext;
 
     nextId = () => {
       let id = new Date().valueOf();

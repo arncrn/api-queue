@@ -22,9 +22,8 @@ class AppWrapper extends React.Component {
     })
 
     setTimeout(() => {
-      this.setState({
-        alertMessage: ''
-      })
+      let alertContainer = document.querySelector('.flash-message-container');
+      alertContainer.style.display = 'none';
     }, 3000);
   }
 
@@ -40,8 +39,7 @@ class AppWrapper extends React.Component {
 
   shouldComponentUpdate(prevProps, prevState) {
     let updatedData = prevState.appData.length !== this.state.appData.length;
-    let changedAlertMessage = prevState.alertMessage !== this.state.alertMessage;
-    return updatedData || changedAlertMessage;
+    return updatedData;
   }
 
   componentDidMount() {
