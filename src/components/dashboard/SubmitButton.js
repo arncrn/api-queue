@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Button, Row, Col} from 'react-bootstrap';
+import { Button, Col} from 'react-bootstrap';
 
 class SubmitButton extends Component {
   setButtons = () => {

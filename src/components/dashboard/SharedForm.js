@@ -5,7 +5,7 @@ import SubmitButton from "./SubmitButton.js";
 import Body from "./Body.js";
 import Url from "./form-top/Url.js";
 import Parameters from "./form-top/Parameters.js";
-import { Form, Col, Button } from "react-bootstrap";
+import { Form } from "react-bootstrap";
 
 class SharedForm extends Component {
   handleSubmit = (event) => {

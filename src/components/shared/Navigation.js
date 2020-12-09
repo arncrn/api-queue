@@ -1,5 +1,5 @@
 import React from "react";
-import { Nav, Navbar, Image, Row, Container, Col } from "react-bootstrap";
+import { Nav, Navbar, Image, Row, Container } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
 const Navigation = (props) => (

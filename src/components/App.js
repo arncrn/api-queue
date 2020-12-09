@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import Sidebar from "./dashboard/sidebar/Sidebar";
-import { Container, Row, Col, Alert, Button } from "react-bootstrap";
+import { Container, Row, Col, Alert } from "react-bootstrap";
 import SharedForm from "./dashboard/SharedForm.js";
 import HOC from "./HOC.js";
 
