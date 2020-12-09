@@ -10,7 +10,7 @@ class Headers extends Component {
         <Row>
           <Col>
           <Badge variant='light'>
-            Your headers conflicts take precedent over any default we may have used.
+            Your headers take precedent over any default we may have used.
           </Badge>
           </Col>
         </Row>
