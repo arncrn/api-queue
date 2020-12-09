@@ -3,20 +3,21 @@ import Past from "./Past";
 import Future from "./Future";
 import { Nav } from "react-bootstrap";
 // import testData from "../../../test-data.js"
-import { DataContext } from '../../data-context'
 
 class Sidebar extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      // data: [],
       currentTab: 'past',
       formUrl: 'http://localhost:3001/makerequest',
     }
   }
 
-  static contextType = DataContext;
+  shouldComponentUpdate(prevProps, prevState) {
+    let changedTab = prevState.currentTab !== this.state.currentTab;
+    return changedTab;
+  }
 
   getPastRequests = () => {
     let pastRequests = this.props.appData.filter(request => {
