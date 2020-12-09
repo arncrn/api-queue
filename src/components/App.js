@@ -26,7 +26,7 @@ class App extends Component {
       <Container className="container-style">
         {this.props.alertMessage && <Row className="flash-message-container">
           <Col>
-            <Alert className="flash-message" variant='primary'>
+            <Alert className="flash-message mt-3" variant='primary'>
               {this.props.alertMessage}
             </Alert>
           </Col>

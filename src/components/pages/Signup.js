@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Form, Button, Row, Col, Container } from "react-bootstrap";
+import { Form, Button, Row, Col, Container, Alert } from "react-bootstrap";
 import { Redirect } from "react-router-dom";
 
 
@@ -8,6 +8,7 @@ const Signup = (props) => {
   const [password, setPassword] = useState("");
   const [timezone, setTimeZone] = useState("AKST");
   const [signupSuccess, setSignupSuccess] = useState(false);
+  const [alertMessage, setAlertMessage] = useState('');
 
   function toRedirect() {
     if (signupSuccess) {
@@ -25,6 +26,14 @@ const Signup = (props) => {
 
   function handleTimeZoneChange(event) {
     setTimeZone(event.target.value);
+  }
+
+  function showAlert(message) {
+    setAlertMessage(message);
+
+    setTimeout(() => {
+      setAlertMessage('');
+    }, 5000);
   }
   
   function handleSubmit(event) {
@@ -46,6 +55,8 @@ const Signup = (props) => {
       if (response.status === 200) {
         props.login(response.timezone);
         setSignupSuccess(true);
+      } else {
+        showAlert('Sorry, that email already exists.')
       }
     });
   }
@@ -53,6 +64,13 @@ const Signup = (props) => {
   return (
     <Container className="pt-5 container-style">
       {toRedirect()}
+      {alertMessage && <Row className="flash-message-container">
+          <Col>
+            <Alert className="flash-message" variant='danger'>
+              {alertMessage}
+            </Alert>
+          </Col>
+        </Row>}
       <Row className="pb-5">
         <Col lg={{span:4, offset: 4}}>
           <h2 className="text-center mb-4">Sign up</h2>
