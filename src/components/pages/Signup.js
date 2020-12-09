@@ -121,7 +121,7 @@ const Signup = (props) => {
             </Button>
           </Form>
           <br></br>
-          <p>Note: Pick a very simple and insecure password you can't forget. This is a beta/demo app; we haven't included a way to change your password later or recover it if you forget it.</p>
+          <p>Note: Pick a password you can't forget because we haven't included a way to recover it if you forget.</p>
         </Col>
       </Row>
     </Container>
