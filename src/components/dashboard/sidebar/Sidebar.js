@@ -12,7 +12,6 @@ class Sidebar extends Component {
     this.state = {
       // data: [],
       currentTab: 'past',
-      buttonText: 'Send',
       formUrl: 'http://localhost:3001/makerequest',
     }
   }
@@ -37,19 +36,15 @@ class Sidebar extends Component {
 
     let target = event.target;
     let value = target.textContent.toLowerCase();
-    let buttonText;
     let formUrl;
     if (value === 'past') {
-      buttonText = 'Send';
       formUrl = 'http://localhost:3001/makerequest';
     } else {
-      buttonText = 'Save';
       formUrl = 'http://localhost:3001/updaterequest';
     }
 
     this.setState({
       currentTab: value,
-      buttonText: buttonText,
       formUrl: formUrl,
     })
   }
@@ -59,14 +54,12 @@ class Sidebar extends Component {
      <Past 
       updateData={this.props.updateData}
       appData={this.getPastRequests()} 
-      buttonText={this.state.buttonText}
       formUrl={this.state.formUrl}
       showAlert={this.props.showAlert}
     /> : 
      <Future 
       updateData={this.props.updateData}
       appData={this.getFutureRequests()} 
-      buttonText={this.state.buttonText}
       formUrl={this.state.formUrl}
       showAlert={this.props.showAlert}
     />

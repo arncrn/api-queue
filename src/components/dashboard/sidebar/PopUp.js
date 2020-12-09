@@ -4,11 +4,28 @@ import RequestResponse from "../RequestResponse.js";
 import SharedForm from "../SharedForm.js";
 
 class PopUp extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      buttonText: 'Send',
+      scheduler: false
+    };
+  }
+
+  toggleScheduler = () => {
+    this.setState({
+      scheduler: !this.state.scheduler,
+      buttonText: !this.state.scheduler === false ? 'Send' : 'Schedule',
+    })
+  }
+
   onHideClick = () => {
     this.props.hideModalClick();
   };
 
   render() {
+    console.log('popup')
     return (
       <>
         <Modal
@@ -48,10 +65,11 @@ class PopUp extends Component {
                     time={this.props.time}
                     timezone={this.props.timezone}
                     date={this.props.date}
-                    buttonText={this.props.buttonText}
+                    buttonText={this.state.buttonText} 
                     formUrl={this.props.formUrl}
                     toggleScheduler={this.toggleScheduler}
                     visibleModal={this.props.visibleModal}
+                    requestObject={this.props.requestObject}
                   />
                 </Col>
               </Row>
