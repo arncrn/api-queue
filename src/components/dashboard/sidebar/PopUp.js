@@ -25,7 +25,6 @@ class PopUp extends Component {
   };
 
   render() {
-    console.log('popup')
     return (
       <>
         <Modal

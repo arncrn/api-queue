@@ -77,7 +77,9 @@ async function sendRequest(userRequest, newlyCreatedRequestId, res) {
         try {
           let responseData = await axios(options);
           // success if 200 or other good status
+          
           await res.locals.store.insertRawRequestResponse(responseData, newlyCreatedRequestId);
+          
         } catch (err) {
           if (err.response) {
             // in case of error status of 400 or something similiar
@@ -94,9 +96,9 @@ async function sendRequest(userRequest, newlyCreatedRequestId, res) {
         } finally {
           res.status(200).send("OK");
         }
+      } else {
+        res.status(200).send("OK");
       };
-
-    // res.status(200).send("OK");
   } catch (err) {
     console.log(err);
   }
@@ -218,7 +220,6 @@ app.post("/makerequest", async (req, res, next) => {
     delete userRequest.id; // in case of sending a repeat request from the sidebar "past" requests 
     let timeScheduled = createTimeScheduled(userRequest);
     let newlyCreatedRequestId = await res.locals.store.insertRequest(userRequest, timeScheduled);
-
     await sendRequest(userRequest, newlyCreatedRequestId, res);
   } catch (err) {
     next(err);
