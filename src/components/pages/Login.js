@@ -30,6 +30,18 @@ const Login = (props) => {
       setAlertMessage('');
     }, 5000);
   }
+
+  function handleBlur(event) {
+    let form = event.target.closest('form');
+    let hiddenSpan = event.target.nextElementSibling;
+
+    if (!form.checkValidity()) hiddenSpan.hidden = false;
+  }
+
+  function handleFocus(event) {
+    let hiddenSpan = event.target.nextElementSibling;
+    hiddenSpan.hidden = true;
+  }
   
   function handleSubmit(event) {
     event.preventDefault();
@@ -72,7 +84,16 @@ const Login = (props) => {
           <Form onSubmit={handleSubmit}>
             <Form.Group controlId="formBasicEmail">
               <Form.Label>Email address</Form.Label>
-              <Form.Control type="email" placeholder="Enter email" onChange={handleEmailChange}/>
+              <Form.Control 
+                type="email" 
+                placeholder="Enter email" 
+                onChange={handleEmailChange}
+                pattern=".+@.+" 
+                onBlur={handleBlur}
+                onFocus={handleFocus}
+                required
+                />
+                <span className='error-message' hidden>Must be a valid email address.</span>
             </Form.Group>
 
             <Form.Group controlId="formBasicPassword">
