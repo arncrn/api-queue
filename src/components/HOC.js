@@ -107,8 +107,8 @@ const FormStateAndMethods = (WrappedComponent, extraData = {}) => {
         body: JSON.stringify(newData)
       }).then( () => {
         this.props.updateData();
-        window.scrollTo(0, 0);
         this.props.showAlert('Got it!');
+        window.scrollTo(0, 0);
       })
     };
 
