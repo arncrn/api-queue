@@ -2,7 +2,6 @@
 session-store.db
 .vscode
 /*.env
-yarn.lock
 
 # dependencies
 /node_modules
