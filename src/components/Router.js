@@ -6,6 +6,7 @@ import Login from './pages/Login.js';
 import Signup from './pages/Signup.js';
 import Home from './pages/Home.js';
 import Team from './pages/Team.js';
+import Docs from './pages/Docs.js';
 import Navigation from './shared/Navigation.js';
 
 const Router = (props) => {
@@ -23,7 +24,7 @@ const Router = (props) => {
         <Route exact path="/login" render={() => <Login login={props.login}/> } />
         <Route exact path="/signup" render={() => <Signup login={props.login}/> } />
         <Route exact path="/team" component={Team} />
-        {/* <Route path="/" component={Home} /> */}
+        {/* <Route exact path="/docs" component={Docs} /> */}
         <Route component={NotFound} />
       </Switch>
     </BrowserRouter>
