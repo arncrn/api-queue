@@ -51,10 +51,11 @@ const Signup = (props) => {
   }
 
   return (
-    <Container className="mt-5">
+    <Container className="pt-5 container-style">
       {toRedirect()}
-      <Row>
+      <Row className="pb-5">
         <Col lg={{span:4, offset: 4}}>
+          <h2 className="text-center mb-4">Sign up</h2>
           <Form onSubmit={handleSubmit}>
             <Form.Group controlId="formBasicEmail">
               <Form.Label>Email address</Form.Label>

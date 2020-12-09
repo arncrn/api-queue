@@ -2,8 +2,8 @@ import React from "react";
 import { Container, Row, Col, Card, CardDeck } from "react-bootstrap";
 
 const Team = () => (
-  <Container fluid>
-    <Row className="mt-4">
+  <Container className="container-style">
+    <Row className="pt-5">
       <Col md={{ span: 6, offset: 3 }} className="text-center">
         <h2>Meet the Team</h2>
         <p className="mt-3">
@@ -13,7 +13,7 @@ const Team = () => (
         </p>
       </Col>
     </Row>
-    <Row className="d-flex justify-content-center">
+    <Row className="d-flex justify-content-center pb-5">
       <CardDeck className="mt-5 mw-75">
         <Card style={{ width: "15rem" }} className="text-center">
           <Card.Img variant="top" src="holder.js/100px180" />
