@@ -22,7 +22,6 @@ class App extends Component {
   }
 
   render() {
-    console.log(this.props.showAlert);
     return (
       <Container className="mb-5">
         {this.props.alertMessage && <Row>

@@ -5,7 +5,7 @@ class SubmitButton extends Component {
   setButtons = () => {
     if (this.props.visibleModal) {
       return (
-        <Col lg={{offset: 9}} className="mb-3">
+        <Col className="mb-3 text-right">
           <Button 
             className="mr-4"
             type="submit" variant="danger"
@@ -21,7 +21,7 @@ class SubmitButton extends Component {
       )
     }
     return (
-      <Col lg={{span: 2, offset: 10}} className="mb-3">
+      <Col className="mb-3 text-right">
         <Button 
           type="submit" 
           variant="primary">{this.props.buttonText}

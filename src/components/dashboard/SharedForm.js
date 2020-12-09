@@ -17,6 +17,12 @@ class SharedForm extends Component {
   }
 
   render() {
+    let isPastRequest = true;
+
+    if (this.props.requestObject) {
+      isPastRequest = this.props.requestObject.response && this.props.requestObject.response.status;
+    }
+
     return (
     <Form onSubmit={this.handleSubmit}>
       <Url
@@ -51,7 +57,7 @@ class SharedForm extends Component {
         toggleScheduler={this.props.toggleScheduler}
       />
       <SubmitButton 
-        buttonText={this.props.buttonText} 
+        buttonText={isPastRequest ? this.props.buttonText : "Save"} 
         visibleModal={this.props.visibleModal}
         handleDelete={this.handleDelete}
       />
