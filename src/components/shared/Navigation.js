@@ -8,7 +8,7 @@ const Navigation = (props) => (
       <Navbar className="flex-column">
         <div className="logo mb-3">
           <Link to="/">
-            <Image width={70} src={require("../../apiq-logo-full.svg")} />
+            <Image width={70} src="images/apiq-logo-full.svg" />
           </Link>
         </div>
       

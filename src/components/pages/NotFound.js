@@ -9,7 +9,7 @@ const NotFound = () => (
         <p className="mt-3">
           Unfortunately you have found a 404 error page, which means the page you were looking for was moved, removed, or might never existed.
         </p>
-        <Image src={require("../../404.png")} fluid />
+        <Image src="images/404.png" fluid />
       </Col>
     </Row>
   </Container>
