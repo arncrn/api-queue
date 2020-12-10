@@ -7,6 +7,8 @@ const logQuery = (statement, parameters) => {
   console.log(formattedTimeStamp, statement, parameters);
 }
 
+const isProduction = config.NODE_ENV === "production" ? {rejectUnauthorized: false} : false;
+
 module.exports = async function(queryStatement, queryVariables = []) {
   try {
     const client = new Client({
