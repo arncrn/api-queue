@@ -80,7 +80,7 @@ const Login = (props) => {
         </Row>}
       <Row className="pb-5">
         <Col lg={{span:4, offset: 4}}>
-          <h2 className="text-center mb-4">Login</h2>
+          <h2 className="text-center mb-4">Log in</h2>
           <Form onSubmit={handleSubmit}>
             <Form.Group controlId="formBasicEmail">
               <Form.Label>Email address</Form.Label>
