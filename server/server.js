@@ -12,7 +12,7 @@ const pgPersistance = require("./lib/pg-persistance.js");
 const DatabaseInterval = require("./lib/database-interval.js");
 const path = require("path");
 
-const config = require("./config");
+const config = require("./lib/config");
 
 new DatabaseInterval();
 
