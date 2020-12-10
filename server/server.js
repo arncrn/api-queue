@@ -17,7 +17,8 @@ const config = require("./lib/config");
 new DatabaseInterval();
 
 const app = express();
-const port = config.PORT;
+// const port = config.PORT; // development
+const port = 3000; // local hot loading
 
 
 app.use(express.static(path.join(__dirname, "..", "build")));
