@@ -1,3 +1,4 @@
+const config = require("./config");
 const { Client } = require("pg");
 
 const logQuery = (statement, parameters) => {
@@ -6,10 +7,13 @@ const logQuery = (statement, parameters) => {
   console.log(formattedTimeStamp, statement, parameters);
 }
 
+const isProduction = config.NODE_ENV === "production" ? {rejectUnauthorized: false} : false;
+
 module.exports = async function(queryStatement, queryVariables = []) {
   try {
     const client = new Client({
-      database: "apiqdb",
+      connectionString: config.DATABASE_URL,
+      ssl: isProduction,
     });
     
     await client.connect();
@@ -24,3 +28,10 @@ module.exports = async function(queryStatement, queryVariables = []) {
     console.log(err);
   }
 }
+
+// const client = new Client({
+//   connectionString: process.env.DATABASE_URL,
+//   ssl: {
+//     rejectUnauthorized: false
+//   }
+// });

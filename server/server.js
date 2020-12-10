@@ -10,13 +10,15 @@ const LokiStore = require('connect-loki')(session);
 
 const pgPersistance = require("./lib/pg-persistance.js");
 const DatabaseInterval = require("./lib/database-interval.js");
-const { query } = require('express');
 const path = require("path");
+
+const config = require("./lib/config");
 
 new DatabaseInterval();
 
 const app = express();
-const port = process.env.PORT || 3001;
+// const port = config.PORT; // development
+const port = 3000; // local hot loading
 
 
 app.use(express.static(path.join(__dirname, "..", "build")));
@@ -25,7 +27,7 @@ app.use(express.static(path.join(__dirname, "..", "build")));
 let options = {};
 app.use(session({
     store: new LokiStore(options),
-    secret: 'secret', // change later
+    secret: config.SECRET, // change later
     cookie: {
       maxAge: 31 * 24 * 60 * 60 * 1000,
       path: '/', 
@@ -39,7 +41,7 @@ app.use(session({
 
 app.use(morgan("dev"));
 app.use(cors({
-  origin: 'http://localhost:3000',
+  origin: '0.0.0.0',
   credentials: true,
 }));
 
@@ -264,6 +266,6 @@ app.use((err, req, res, next) => {
   res.status(404).send(err.message);
 });
 
-app.listen(port, () => {
-  console.log(`Example app listening at http://localhost:${port}`);
+app.listen(port, config.HOST, () => {
+  console.log(`Example app listening at http://${config.HOST}:${port}`);
 });

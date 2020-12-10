@@ -24,7 +24,7 @@ const Router = (props) => {
         <Route exact path="/login" render={() => <Login login={props.login}/> } />
         <Route exact path="/signup" render={() => <Signup login={props.login}/> } />
         <Route exact path="/team" component={Team} />
-        {/* <Route exact path="/docs" component={Docs} /> */}
+        <Route exact path="/docs" component={Docs} />
         <Route component={NotFound} />
       </Switch>
     </BrowserRouter>
