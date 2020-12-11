@@ -9,6 +9,7 @@ const Signup = (props) => {
   const [timezone, setTimeZone] = useState("AKST");
   const [signupSuccess, setSignupSuccess] = useState(false);
   const [alertMessage, setAlertMessage] = useState('');
+  const [goTimezone, setGoTimeZone] = useState('AKST');
 
   function toRedirect() {
     if (signupSuccess) {
@@ -26,6 +27,10 @@ const Signup = (props) => {
 
   function handleTimeZoneChange(event) {
     setTimeZone(event.target.value);
+  }
+
+  function handleGoTimeZoneChange(event) {
+    setGoTimeZone(event.target.value);
   }
 
   function showAlert(message) {
@@ -77,6 +82,23 @@ const Signup = (props) => {
     });
   }
 
+  function handleGoSubmit(event) {
+    event.preventDefault();
+
+    fetch("/tempsignup", {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ goTimezone })
+    }).then((response) => {
+        return response.json();
+    }).then((response) => {
+        props.login(response.goTimezone);
+        setSignupSuccess(true);
+    });
+  }
+
   return (
     <Container className="pt-5 container-style">
 
@@ -90,20 +112,36 @@ const Signup = (props) => {
         </Col>
       </Row>}
 
-     <Row>
-       <Col className="text-center">
-          <Button 
-            variant="warning" 
+      <Row>
+        <Col className="text-center">
+          <Button
+            variant="warning"
             onClick={handleClick}
           >
             Skip sign up
           </Button>
           <Row hidden className='dummy-credentials'>
-            <Col>
-              <p>Click on the Log in link above and use these credentials:</p>
-              <p>(your default time zone will be CST, but you can change that for any requests you send)</p>
-              <span><strong>username:</strong> joshua@gmail.com <strong>password:</strong> 123.</span>
+            <Col lg={{ span: 4, offset: 4 }}>
+            <p>Ok, just select a default time zone and you are good to go.</p>
+
+              <Form onSubmit={handleGoSubmit}>
+                <Form.Group controlId="formGoBasicTimeZone">
+                  <Form.Label>Time Zone</Form.Label>
+                  <Form.Control as="select" defaultValue={goTimezone} name='timezone' onChange={handleGoTimeZoneChange} custom>
+                    <option value="AKST">Alaska Time</option>
+                    <option value="PST">Pacific Time</option>
+                    <option value="MST">Mountain Time</option>
+                    <option value="CST">Central Time</option>
+                    <option value="EST">Eastern Time</option>
+                  </Form.Control>
+                </Form.Group>
+
+                <Button variant="primary" type="submit">
+                  Go
+                </Button>
+              </Form>
             </Col>
+
           </Row>
         </Col>
       </Row>

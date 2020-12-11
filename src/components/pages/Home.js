@@ -8,7 +8,7 @@ const Home = () => (
       <Col md={{ span: 6, offset: 3 }} className="text-center">
         <h2>Schedule a request at a later time</h2>
         <p className="mt-3">Request queue helps you schedule HTTP requests for later, without servers, DevOps, or infrastructure</p>
-        <Button as={Link} to={"/signup"} className="mt-3">See it now</Button>
+        <Button as={Link} to={"/signup"} className="mt-3">Try it now</Button>
       </Col>
     </Row>
 

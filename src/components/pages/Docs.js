@@ -31,7 +31,7 @@ const Docs = () => {
           <h2>Overview</h2>
         </Row>
         <Row>
-          <p>API-Q is an application for sending and receiving HTTP requests and notably, scheduling the sending of a request at a later time (hence the name, API-"queue"). This saves the developer time and hassle from having to setup their own server to receive a response. API-Q is sort of like a slimmed down and better-looking Postman, but with a scheduler. The slimmed down part just refers to the fact that we have fewer features and our app is much less capable. The better-looking part reflects our opinion that some tools, like Postman, don't have the best design and aren't that user-intuitive.</p>
+          <p>API-Q is an application for sending and receiving HTTP requests and notably, scheduling the sending of a request at a later time (hence the name, API-"queue"). This saves the developer time and hassle from having to setup their own server to receive a response. API-Q is sort of like a slimmed down and better-looking Postman, but with a scheduler.</p>
         </Row>
 
         <Row id='gettingStarted'>
@@ -91,7 +91,7 @@ const Docs = () => {
         </Row>
         <Row>
           <p>If you want to test API-Q with an actual API, try something like <a target="_blank" href="https://reqres.in/">https://reqres.in/</a>.</p>
-          <p>This is a sample API (no affiliation with us) that you can practice or test interacting with. For example, you could send a <code>POST</code> request to <code>https://reqres.in/api/users</code>. Be sure to select a Content-Type of <code>JSON</code> in the <code>Body</code> section and be sure to actually include valid JSON. To comply with the Reqres doc.'s, you'll note they tell you to try sending something like this: <pre><code>INSERTION NEEDED HERE</code></pre></p>
+          <p>This is a sample API (no affiliation with us) that you can practice or test interacting with. For example, you could send a <code>POST</code> request to <code>https://reqres.in/api/users</code>. Be sure to select a Content-Type of <code>JSON</code> in the <code>Body</code> section and be sure to actually include valid JSON. Just follow the Reqres documentation.</p>
         </Row>
         
         <Row id='implementation'>
