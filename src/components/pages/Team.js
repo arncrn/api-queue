@@ -8,8 +8,7 @@ const Team = () => (
         <h2>Meet the Team</h2>
         <p className="mt-3">
           Our remote team of three worked together to build API-Q. We are
-          looking for our next opportunity and love to hear from you! Please get
-          in touch if you think we'd be a good fit for your team.
+          looking for our next opportunity and would love to hear from you! Please get in touch if you think we'd be a good fit for your team.
         </p>
       </Col>
     </Row>
