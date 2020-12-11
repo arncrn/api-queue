@@ -13,8 +13,8 @@ const Home = () => (
     </Row>
 
     <Row className="mt-5">
-      <Col md={{ span: 6, offset: 3 }}>
-        <Image width={600} src="holder.js/171x180" fluid />
+      <Col md={{ span: 10, offset: 1 }} className="shadow p-3 mb-5 bg-white rounded">
+        <Image src="images/api-q-app.png" fluid />
       </Col>
     </Row>
 
