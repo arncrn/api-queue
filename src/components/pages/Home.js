@@ -3,7 +3,7 @@ import { Container, Row, Col, Image, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
 const Home = () => (
-  <Container className="container-style">
+  <Container className="container-style pb-5">
     <Row className="pt-5">
       <Col md={{ span: 6, offset: 3 }} className="text-center">
         <h2>Schedule a request at a later time</h2>
