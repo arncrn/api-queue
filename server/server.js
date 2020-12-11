@@ -20,20 +20,20 @@ const app = express();
 const port = config.PORT; // development
 // const port = 3000; // local hot loading
 
-var forceSsl = function (req, res, next) {
-  if (req.headers['x-forwarded-proto'] !== 'https') {
-      return res.redirect(['https://', req.get('Host'), req.url].join(''));
-  }
-  next();
-};
+// var forceSsl = function (req, res, next) {
+//   if (req.headers['x-forwarded-proto'] !== 'https') {
+//       return res.redirect(['https://', req.get('Host'), req.url].join(''));
+//   }
+//   next();
+// };
 
-app.use(function () {      
-  if (config.NODE_ENV === 'production') {
-      app.use(forceSsl);
-  } else {
-    next();
-  }
-});
+// app.use(function () {      
+//   if (config.NODE_ENV === 'production') {
+//       app.use(forceSsl);
+//   } else {
+//     next();
+//   }
+// });
 
 app.use(express.static(path.join(__dirname, "..", "build")));
 // app.use(express.static("public"));
