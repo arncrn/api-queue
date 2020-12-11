@@ -13,7 +13,6 @@ const DatabaseInterval = require("./lib/database-interval.js");
 const path = require("path");
 
 const config = require("./lib/config");
-import sslRedirect from 'heroku-ssl-redirect';
 
 new DatabaseInterval();
 
@@ -21,7 +20,18 @@ const app = express();
 const port = config.PORT; // development
 // const port = 3000; // local hot loading
 
-app.use(sslRedirect());
+var forceSsl = function (req, res, next) {
+  if (req.headers['x-forwarded-proto'] !== 'https') {
+      return res.redirect(['https://', req.get('Host'), req.url].join(''));
+  }
+  return next();
+};
+
+app.configure(function () {      
+  if (config.NODE_ENV === 'production') {
+      app.use(forceSsl);
+  }
+});
 
 app.use(express.static(path.join(__dirname, "..", "build")));
 // app.use(express.static("public"));
