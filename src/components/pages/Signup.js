@@ -15,7 +15,7 @@ const Signup = (props) => {
       return <Redirect to="/app" />
     }
   }
-  
+
   function handleEmailChange(event) {
     setEmail(event.target.value);
   }
@@ -47,7 +47,12 @@ const Signup = (props) => {
     let hiddenSpan = event.target.nextElementSibling;
     hiddenSpan.hidden = true;
   }
-  
+
+  function handleClick(event) {
+    let hiddenCredentials = event.target.nextElementSibling;
+    hiddenCredentials.hidden = false;
+  }
+
   function handleSubmit(event) {
     event.preventDefault();
 
@@ -56,11 +61,11 @@ const Signup = (props) => {
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({email, password, timezone})
+      body: JSON.stringify({ email, password, timezone })
     }).then((response) => {
       if (response.status === 200) {
         return response.json();
-      } 
+      }
       return response.text();
     }).then((response) => {
       if (response.status === 200) {
@@ -74,25 +79,47 @@ const Signup = (props) => {
 
   return (
     <Container className="pt-5 container-style">
+
       {toRedirect()}
+
       {alertMessage && <Row className="flash-message-container">
-          <Col>
-            <Alert className="flash-message" variant='danger'>
-              {alertMessage}
-            </Alert>
-          </Col>
-        </Row>}
+        <Col>
+          <Alert className="flash-message" variant='danger'>
+            {alertMessage}
+          </Alert>
+        </Col>
+      </Row>}
+
+     <Row>
+       <Col className="text-center">
+          <Button 
+            variant="warning" 
+            onClick={handleClick}
+          >
+            Skip sign up
+          </Button>
+          <Row hidden className='dummy-credentials'>
+            <Col>
+              <p>Click on the Log in link above and use these credentials:</p>
+              <p>(your default time zone will be CST, but you can change that for any requests you send)</p>
+              <span><strong>username:</strong> joshua@gmail.com <strong>password:</strong> 123.</span>
+            </Col>
+          </Row>
+        </Col>
+      </Row>
+
+      <br></br>
       <Row className="pb-5">
-        <Col lg={{span:4, offset: 4}}>
+        <Col lg={{ span: 4, offset: 4 }}>
           <h2 className="text-center mb-4">Sign up</h2>
           <Form onSubmit={handleSubmit}>
             <Form.Group controlId="formBasicEmail">
               <Form.Label>Email address</Form.Label>
-              <Form.Control 
-                type="email" 
-                placeholder="Enter email" 
-                onChange={handleEmailChange} 
-                pattern=".+@.+" 
+              <Form.Control
+                type="email"
+                placeholder="Enter email"
+                onChange={handleEmailChange}
+                pattern=".+@.+"
                 onBlur={handleBlur}
                 onFocus={handleFocus}
                 required
@@ -102,7 +129,7 @@ const Signup = (props) => {
 
             <Form.Group controlId="formBasicPassword">
               <Form.Label>Password</Form.Label>
-              <Form.Control type="password" placeholder="Password" onChange={handlePasswordChange}/>
+              <Form.Control type="password" placeholder="Password" onChange={handlePasswordChange} />
             </Form.Group>
 
             <Form.Group controlId="formBasicTimeZone">

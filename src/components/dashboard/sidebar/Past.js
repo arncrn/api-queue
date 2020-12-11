@@ -58,10 +58,10 @@ class Past extends Component {
   }
 
   setVariant = (req) => {
-    if (String(req.response.status)[0] === '2') {
-      return 'success';
-    } else if (String(req.response.status)[0] === '4') {
+    if (String(req.response.status)[0] === '4' || String(req.response.status)[0] === '5') {
       return 'danger';
+    } else {
+      return 'success';
     }
   }
 

@@ -139,3 +139,11 @@ dt {
   justify-content: center;
   box-shadow: 0 0 0 2px rgba(125, 171, 201, 0.2);
 }
+
+html {
+  scroll-behavior: smooth;
+}
+
+.dummy-credentials {
+  margin: 2% 0;
+}
