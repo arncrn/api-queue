@@ -176,6 +176,38 @@ app.post("/signup", async (req, res, next) => {
   }
 });
 
+app.post("/tempsignup", async (req, res, next) => {
+  try {
+    let generatedEmail = `${(new Date()).getTime()}@api-q.com`;
+
+    let submittedTimeZone = req.body.goTimezone;
+    let hashedPassword = bcrypt.hashSync('jiggittyboogatty', 5);
+
+    let queryResult = await dbquery(
+      `SELECT email FROM users WHERE email = $1`, [generatedEmail]
+    );
+  
+    if (queryResult.rowCount === 0) {
+      let insertResult = await dbquery(
+        `INSERT INTO users (email, password, timezone) VALUES ($1, $2, $3) RETURNING id`, [generatedEmail, hashedPassword, submittedTimeZone]
+      );
+
+      if (insertResult.rowCount < 1) {
+        throw new Error('Failed to create user');
+      }
+
+      let session = req.session;
+      session.userId = insertResult.rows[0].id;
+      session.userTimezone = submittedTimeZone;
+      session.signedIn = true;
+
+      res.status(200).send(JSON.stringify({ goTimezone: submittedTimeZone }));
+    }
+  } catch (error) {
+    next(error);
+  }
+});
+
 app.post("/login", async (req, res, next) => {
   try {
     let submittedEmail = req.body.email.toLowerCase();
