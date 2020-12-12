@@ -144,10 +144,6 @@ html {
   scroll-behavior: smooth;
 }
 
-.dummy-credentials {
-  margin: 2% 0;
-}
-
 .nav-style a:hover {
   background: rgba(94, 94, 123, 0.2);
   border-radius: 10%;
