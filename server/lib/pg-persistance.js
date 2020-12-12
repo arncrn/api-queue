@@ -7,7 +7,7 @@ module.exports = class LoggedInUser {
   }
 
   async getAllData() {
-    let allData = await dbquery("SELECT * FROM requests WHERE user_id = $1", [this.userId]);
+    let allData = await dbquery("SELECT * FROM requests WHERE user_id = $1 ORDER BY time_sent DESC", [this.userId]);
     return this._formatQueryData(allData.rows);
   } 
 
@@ -26,7 +26,7 @@ module.exports = class LoggedInUser {
   
     rawResponse = String(rawResponse);
     await dbquery(
-      `UPDATE requests SET raw_request=$2, raw_response=$3, parsed_response=$4 WHERE id=$1`,
+      `UPDATE requests SET raw_request=$2, raw_response=$3, parsed_response=$4, time_sent = NOW() WHERE id=$1`,
       [newlyCreatedRequestId, rawRequest, rawResponse, parsedResponse]
     );
   }
@@ -50,6 +50,7 @@ module.exports = class LoggedInUser {
         body: request.user_request.body,
         request: rawRequest,
         response: parsedResponse,
+        timeSent: request.time_sent
       };
     });
   }
