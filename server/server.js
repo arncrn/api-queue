@@ -196,6 +196,8 @@ app.post("/tempsignup", async (req, res, next) => {
         throw new Error('Failed to create user');
       }
 
+      await res.locals.store.insertDemoData(insertResult.rows[0].id);
+
       let session = req.session;
       session.userId = insertResult.rows[0].id;
       session.userTimezone = submittedTimeZone;
