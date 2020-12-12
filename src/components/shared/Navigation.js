@@ -13,32 +13,32 @@ const Navigation = (props) => (
         </div>
       
         <Navbar.Collapse id="basic-navbar-nav">
-          <Nav className="ml-auto">
+          <Nav className="ml-auto nav-style">
             {props.loggedIn === "true" && (
-              <Nav.Link className="mr-1 text-dark font-weight-bold" as={Link} to="/app">
+              <Nav.Link className="p-3  text-dark font-weight-bold h5" as={Link} to="/app">
                 App
               </Nav.Link>
             )}
 
-            <Nav.Link className="mr-1 text-dark font-weight-bold" as={Link} to="/docs">
+            <Nav.Link className="p-3  text-dark font-weight-bold h5 active" as={Link} to="/docs">
               Docs
             </Nav.Link>
-            <Nav.Link className="mr-1 text-dark font-weight-bold" as={Link} to="/team">
+            <Nav.Link className="p-3  text-dark font-weight-bold h5" as={Link} to="/team">
               Team
             </Nav.Link>
             {props.loggedIn === "false" && (
-              <Nav.Link className="mr-1 text-dark font-weight-bold" as={Link} to="/login">
+              <Nav.Link className="p-3  text-dark font-weight-bold h5" as={Link} to="/login">
                 Log in
               </Nav.Link>
             )}
             {props.loggedIn === "false" && (
-              <Nav.Link className="mr-1 text-dark font-weight-bold" as={Link} to="/signup">
+              <Nav.Link className="p-3  text-dark font-weight-bold h5" as={Link} to="/signup">
                 Sign up
               </Nav.Link>
             )}
             {props.loggedIn === "true" && (
               <Nav.Link
-                className="mr-1 text-dark font-weight-bold"
+                className="p-3  text-dark font-weight-bold h5"
                 as={Link}
                 to="/"
                 onClick={props.logout}
