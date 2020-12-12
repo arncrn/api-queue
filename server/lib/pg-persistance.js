@@ -1,5 +1,7 @@
 const dbquery = require("./db-query.js");
 const buildRequestResponse = require("./buildRequestResponse.js");
+const dbQuery = require("./db-query.js");
+const demoData = require("./demo-data.js");
 
 module.exports = class LoggedInUser {
   constructor(session) {
@@ -29,6 +31,15 @@ module.exports = class LoggedInUser {
       `UPDATE requests SET raw_request=$2, raw_response=$3, parsed_response=$4, time_sent = NOW() WHERE id=$1`,
       [newlyCreatedRequestId, rawRequest, rawResponse, parsedResponse]
     );
+  }
+
+  async insertDemoData(userId) {
+    for (let i = 0; i < demoData.length; i += 1) {
+      await dbQuery(
+        `INSERT INTO requests (user_id, user_request, raw_request, raw_response, parsed_response, time_scheduled, time_sent)
+        VALUES ($1, $2, $3, $4, $5, $6, $7)`, [userId, ...demoData[i]]);
+    }
+    
   }
 
 
