@@ -17,8 +17,8 @@ const config = require("./lib/config");
 new DatabaseInterval();
 
 const app = express();
-// const port = config.PORT; // development
-const port = 3000; // local hot loading
+const port = config.PORT; // development
+// const port = 3000; // local hot loading
 
 
 app.use(express.static(path.join(__dirname, "..", "build")));
@@ -134,7 +134,7 @@ app.get("/loginstatus", (req, res) => {
 // Returns a list of ALL request
 app.get("/allrequests", async (req, res, next) => {
   try {
-    let allRequests = await res.locals.store.getAllData()
+    let allRequests = await res.locals.store.getAllData();
 
     res.status(200).send(JSON.stringify(allRequests));
   } catch (err) {

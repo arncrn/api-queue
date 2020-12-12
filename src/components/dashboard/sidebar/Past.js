@@ -20,6 +20,25 @@ class Past extends Component {
     };
   }
 
+  getTimeZoneString = (timeZone) => {
+    switch (timeZone) {
+      case 'AKST': return 'America/Anchorage';
+      case 'PST': return  'America/Los_Angeles';
+      case 'MST': return 'America/Boise';
+      case 'CST': return 'America/Chicago';
+      case 'EST': return 'America/New_York'
+    }
+  }
+  
+  getSentTimeValues = (databaseTime, timeZone) => {
+    let timeZoneString = this.getTimeZoneString(timeZone);
+    let utc_time = new Date(databaseTime);
+    let sent_time = utc_time.toLocaleTimeString('en-US', {timeZone: timeZoneString});
+    let sent_date = utc_time.toLocaleDateString('en-US', {timeZone: timeZoneString});
+  
+    return [sent_time, sent_date];
+  }
+
   // When request item is clicked, displays modal
   showModalClick = (event) => {
     this.showModal(event);
@@ -73,6 +92,7 @@ class Past extends Component {
       <>
         <ListGroup className="scroll-box">
           {this.props.appData.map((req) => {
+            let [sent_time, sent_date] = this.getSentTimeValues(req.timeSent, req.timeZone);
             return (
               <ListGroup.Item
                 action
@@ -91,10 +111,10 @@ class Past extends Component {
                   <Col><Badge pill variant={this.setVariant(req)}>{req.response.status}</Badge> <Badge variant='secondary'>{req.response.statusText}</Badge></Col>
                 </Row>
                 <Row>
-                  <Col><Badge variant='light'>{calcDate(req.date)}</Badge></Col>
+                  <Col><Badge variant='light'>{sent_date}</Badge></Col>
                 </Row>
                 <Row>
-                  <Col><Badge variant='light'>{req.time} {req.timeZone}</Badge></Col>
+                  <Col><Badge variant='light'>{sent_time} {req.timeZone}</Badge></Col>
                 </Row>
               </ListGroup.Item>
             );

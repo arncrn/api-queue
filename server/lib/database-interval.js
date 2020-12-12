@@ -55,7 +55,7 @@ module.exports = class DatabaseInterval {
   
     rawResponse = String(rawResponse);
     await dbquery(
-      `UPDATE requests SET raw_request=$2, raw_response=$3, parsed_response=$4 WHERE id=$1`,
+      `UPDATE requests SET raw_request=$2, raw_response=$3, parsed_response=$4, time_sent = NOW() WHERE id=$1`,
       [newlyCreatedRequestId, rawRequest, rawResponse, parsedResponse]
     );
   }
