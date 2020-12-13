@@ -20,20 +20,6 @@ const app = express();
 const port = config.PORT; // development
 // const port = 3000; // local hot loading
 
-// var forceSsl = function (req, res, next) {
-//   if (req.headers['x-forwarded-proto'] !== 'https') {
-//       return res.redirect(['https://', req.get('Host'), req.url].join(''));
-//   }
-//   next();
-// };
-
-// app.use(function () {      
-//   if (config.NODE_ENV === 'production') {
-//       app.use(forceSsl);
-//   } else {
-//     next();
-//   }
-// });
 
 app.use(express.static(path.join(__dirname, "..", "build")));
 // app.use(express.static("public"));
@@ -148,7 +134,7 @@ app.get("/loginstatus", (req, res) => {
 // Returns a list of ALL request
 app.get("/allrequests", async (req, res, next) => {
   try {
-    let allRequests = await res.locals.store.getAllData()
+    let allRequests = await res.locals.store.getAllData();
 
     res.status(200).send(JSON.stringify(allRequests));
   } catch (err) {
@@ -209,6 +195,8 @@ app.post("/tempsignup", async (req, res, next) => {
       if (insertResult.rowCount < 1) {
         throw new Error('Failed to create user');
       }
+
+      await res.locals.store.insertDemoData(insertResult.rows[0].id);
 
       let session = req.session;
       session.userId = insertResult.rows[0].id;
