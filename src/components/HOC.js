@@ -75,7 +75,12 @@ const FormStateAndMethods = (WrappedComponent, extraData = {}) => {
     
       let newData = Object.assign({}, this.state);
 
-      if (this.invalid(newData)) return;
+      if (this.invalid(newData)) {
+        this.props.updateData();
+        this.props.showAlert('You must include a URL');
+        window.scrollTo(0, 0);
+        return;
+      } 
 
       if (typeof newData.date === "string") {
         newData.date = newData.date.split('T')[0];
