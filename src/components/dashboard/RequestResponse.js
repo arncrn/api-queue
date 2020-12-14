@@ -107,8 +107,8 @@ class RequestResponse extends Component {
               name="options"
               defaultValue="response"
             >
-              <ToggleButton value="request" onClick={this.handleRequestClick} >Request</ToggleButton>
-              <ToggleButton value="response" onClick={this.handleResponseClick}  >Response</ToggleButton>
+              <ToggleButton variant='outline-primary' value="request" onClick={this.handleRequestClick} >Request</ToggleButton>
+              <ToggleButton variant='outline-primary' value="response" onClick={this.handleResponseClick}  >Response</ToggleButton>
             </ToggleButtonGroup>
           </Col>
         </Row>
