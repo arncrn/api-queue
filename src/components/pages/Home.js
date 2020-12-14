@@ -39,7 +39,7 @@ const Home = () => (
           </Col>
           <Col md={{ span: 5, offset: 1 }}>
             <h4>API-First Development</h4>
-            <p>Build your API first without the need to setup a API client.</p>
+            <p>Build your API first without the need to setup an API client.</p>
           </Col>
         </Row>
       </Col>
@@ -94,7 +94,7 @@ const Home = () => (
               </Col>
               <Col>
                 <h4>Logs</h4>
-                <p>Keeps track of past and future HTTP requests made for view at a later time.</p>
+                <p>Keep track of past and future HTTP requests for view at a later time.</p>
               </Col>
             </Row>
           </Col>
