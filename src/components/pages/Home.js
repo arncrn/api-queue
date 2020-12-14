@@ -20,26 +20,26 @@ const Home = () => (
 
     <Row className="mt-5" md={8}>
       <Col md={{ span: 10, offset: 1 }}>
-        <h2>Use request queue to</h2>
+        <h2>Use cases</h2>
       
         <Row className="mt-5">
           <Col md={{ span: 5, offset: 1 }}>
-            <h4>Timezone</h4>
-            <p>Schedule jobs by using any time interval or cron expression.</p>
+            <h4>Testing</h4>
+            <p>Test your APIs to ensure that it works.</p>
           </Col>
           <Col md={{ span: 5, offset: 1 }}>
-            <h4>Timezone</h4>
-            <p>Schedule jobs by using any time interval or cron expression.</p>
+            <h4>Scheduling</h4>
+            <p>Schedule future HTTP requests to be made at a later time.</p>
           </Col>
         </Row>
         <Row className="mt-5">
           <Col md={{ span: 5, offset: 1 }}>
-            <h4>Timezone</h4>
-            <p>Schedule jobs by using any time interval or cron expression.</p>
+            <h4>Monitoring</h4>
+            <p>Monitor the status of any future and past HTTP request.</p>
           </Col>
           <Col md={{ span: 5, offset: 1 }}>
-            <h4>Timezone</h4>
-            <p>Schedule jobs by using any time interval or cron expression.</p>
+            <h4>API-First Development</h4>
+            <p>Build your API first without the need to setup a API client.</p>
           </Col>
         </Row>
       </Col>
@@ -60,8 +60,8 @@ const Home = () => (
 </svg>    
               </Col>
               <Col>
-                <h4>Schedule</h4>
-                <p>Schedule jobs by using any time interval or cron expression.</p>
+                <h4>API Client</h4>
+                <p>Easily send RESTful HTTP request and view responses within your dashboard.</p>
               </Col>
             </Row>
           </Col>
@@ -75,8 +75,8 @@ const Home = () => (
 </svg>
               </Col>
               <Col>
-                <h4>Timezone</h4>
-                <p>Schedule jobs by using any time interval or cron expression.</p>
+                <h4>Workspace</h4>
+                <p>Schedule, monitor, and test your APIs within a single dashboard.</p>
               </Col>
             </Row>
           </Col>
@@ -94,7 +94,7 @@ const Home = () => (
               </Col>
               <Col>
                 <h4>Logs</h4>
-                <p>Schedule jobs by using any time interval or cron expression.</p>
+                <p>Keeps track of past and future HTTP requests made for view at a later time.</p>
               </Col>
             </Row>
           </Col>
@@ -108,8 +108,8 @@ const Home = () => (
 </svg>
               </Col>
               <Col>
-                <h4>HTTP Methods</h4>
-                <p>Schedule jobs by using any time interval or cron expression.</p>
+                <h4>Authentication</h4>
+                <p>Support for basic authentication using HTTP headers.</p>
               </Col>
             </Row>
           </Col>
