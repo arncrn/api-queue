@@ -106,7 +106,7 @@ const Signup = (props) => {
     if (skipSignup) {
       return (
         <Row className="pb-5">
-          <Col lg={{ span: 4, offset: 4 }}>
+          <Col lg={{ span: 4, offset: 4 }} className="shadow p-5 mt-5 mb-5 rounded">
             <p>Ok, just select a default time zone and you are good to go.</p>
 
             <Form onSubmit={handleGoSubmit}>
@@ -127,7 +127,7 @@ const Signup = (props) => {
                 </Form.Control>
               </Form.Group>
 
-              <Button variant="primary" type="submit">
+              <Button variant="primary" type="submit" className="w-100 mt-3">
                 Go
               </Button>
             </Form>
@@ -137,11 +137,11 @@ const Signup = (props) => {
     } else {
       return (
         <Row className="pb-5">
-          <Col lg={{ span: 4, offset: 4 }}>
+          <Col lg={{ span: 4, offset: 4 }} className="shadow p-5 mb-5 rounded">
             <h2 className="text-center mb-4">Sign up</h2>
             <Form onSubmit={handleSubmit}>
               <Form.Group controlId="formBasicEmail">
-                <Form.Label>Email address</Form.Label>
+                <Form.Label>Email</Form.Label>
                 <Form.Control
                   type="email"
                   placeholder="Enter email"
@@ -160,7 +160,7 @@ const Signup = (props) => {
                 <Form.Label>Password</Form.Label>
                 <Form.Control
                   type="password"
-                  placeholder="Password"
+                  placeholder="Enter password"
                   onChange={handlePasswordChange}
                 />
               </Form.Group>
@@ -182,7 +182,7 @@ const Signup = (props) => {
                 </Form.Control>
               </Form.Group>
 
-              <Button variant="primary" type="submit">
+              <Button variant="primary" type="submit" className="w-100 mt-3">
                 Sign Up
               </Button>
             </Form>

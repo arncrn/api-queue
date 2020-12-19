@@ -79,11 +79,11 @@ const Login = (props) => {
           </Col>
         </Row>}
       <Row className="pb-5">
-        <Col lg={{span:4, offset: 4}}>
+        <Col lg={{span:4, offset: 4}} className="shadow p-5 mt-5 mb-5 rounded">
           <h2 className="text-center mb-4">Log in</h2>
           <Form onSubmit={handleSubmit}>
             <Form.Group controlId="formBasicEmail">
-              <Form.Label>Email address</Form.Label>
+              <Form.Label>Email</Form.Label>
               <Form.Control 
                 type="email" 
                 placeholder="Enter email" 
@@ -98,10 +98,10 @@ const Login = (props) => {
 
             <Form.Group controlId="formBasicPassword">
               <Form.Label>Password</Form.Label>
-              <Form.Control type="password" placeholder="Password" onChange={handlePasswordChange}/>
+              <Form.Control type="password" placeholder="Enter password" onChange={handlePasswordChange}/>
             </Form.Group>
 
-            <Button variant="primary" type="submit">
+            <Button variant="primary" type="submit" className="w-100 mt-3">
               Submit
             </Button>
           </Form>
