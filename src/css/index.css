@@ -171,11 +171,29 @@ p {
   .use-cases-style {
     margin-top: 0 !important;
   }
+
+  .lower-sidebar {
+    flex-direction: column-reverse;
+  }
+
+  .mobile-sidebar-style {
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
 }
 
 /* Extra small devices (portrait phones, less than 576px) */
 @media (max-width: 575.98px) { 
   .use-cases-style {
     margin-top: 0 !important;
+  }
+
+  .lower-sidebar {
+    flex-direction: column-reverse;
+  }
+
+  .mobile-sidebar-style {
+    padding-top: 10px;
+    padding-bottom: 10px;
   }
 }

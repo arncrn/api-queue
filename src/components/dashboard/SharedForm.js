@@ -24,7 +24,7 @@ class SharedForm extends Component {
     }
 
     return (
-    <Form onSubmit={this.handleSubmit}>
+    <Form onSubmit={this.handleSubmit} className="mt-3">
       <Url
         hostpath={this.props.hostpath}
         handleChange={this.props.handleChange}

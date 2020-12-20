@@ -67,7 +67,7 @@ class Sidebar extends Component {
 
     return (
       <>
-        <Nav variant="tabs" defaultActiveKey="link-1" className="mt-3">
+        <Nav variant="tabs" defaultActiveKey="link-1" className="mt-3 mobile-sidebar-style">
           <Nav.Item>
             <Nav.Link onClick={this.changeTab} eventKey="link-1">Past</Nav.Link>
           </Nav.Item>

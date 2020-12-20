@@ -31,8 +31,8 @@ class App extends Component {
             </Alert>
           </Col>
         </Row>}
-        <Row>
-          <Col lg={3} as={"main"} className="border scroll-box">
+        <Row className="lower-sidebar">
+          <Col lg={3} md={4} as={"main"} className="border scroll-box">
             <Sidebar 
               appData={this.props.appData} 
               updateData={this.props.updateData}
@@ -40,7 +40,7 @@ class App extends Component {
               showAlert={this.props.showAlert}
             />
           </Col>
-          <Col lg={9} as={"main"} className="border">
+          <Col lg={9} md={8} as={"main"} className="border">
             <SharedForm
               handleSubmit={this.props.handleSubmit}
               hostpath={this.props.hostpath}
