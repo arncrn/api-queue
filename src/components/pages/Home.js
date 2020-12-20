@@ -5,7 +5,12 @@ import { Link } from "react-router-dom";
 const Home = () => (
   <Container className="container-style pb-5">
     <Row className="pt-5">
-      <Col md={{ span: 6, offset: 3 }} className="text-center">
+      <Col 
+      lg={{ span: 6, offset: 3 }}
+      md={{ span: 8, offset: 2 }}
+      sm={{ span: 10, offset: 1 }}
+      xs={{ span: 10, offset: 1 }}
+      className="text-center">
         <h2>Schedule a request at a later time</h2>
         <p className="mt-3">
           Request queue helps you schedule HTTP requests for later, without
@@ -19,7 +24,7 @@ const Home = () => (
 
     <Row className="mt-5">
       <Col
-        md={{ span: 10, offset: 1 }}
+        xs={{ span: 10, offset: 1 }}
         className="shadow p-3 mb-5 bg-white rounded"
       >
         <Image src="images/api-q-app.png" fluid />
@@ -27,7 +32,7 @@ const Home = () => (
     </Row>
 
     <Row className="mt-5 pb-3" md={8}>
-      <Col md={{ span: 9, offset: 1 }}>
+      <Col xs={{ span: 9, offset: 1 }}>
         <h2>Features</h2>
 
         <Row className="mt-5">
@@ -164,8 +169,8 @@ const Home = () => (
       </Col>
     </Row>
     
-    <Row className="mt-5 pb-5" md={8}>
-      <Col md={{ span: 10, offset: 1 }}>
+    <Row className="mt-5 pb-5" xs={8}>
+      <Col xs={{ span: 10, offset: 1 }}>
         <h2>Use cases</h2>
 
         <Row className="mt-5">
@@ -178,7 +183,7 @@ const Home = () => (
             <p>Schedule future HTTP requests to be made at a later time.</p>
           </Col>
         </Row>
-        <Row className="mt-5">
+        <Row className="use-cases-style">
           <Col md={{ span: 5 }} className="card-style p-4">
             <h4>Monitoring</h4>
             <p>Monitor the status of any future and past HTTP request.</p>

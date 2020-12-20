@@ -6,7 +6,7 @@ Tantek Celik's Whitepsace Reset
 Description:  Resets default styling of common browsers to a common base
 ----------------------------------------
 */
-/* 
+
 html {
   box-sizing: border-box;
 }
@@ -51,45 +51,7 @@ abbr {
 ​
 summary::-webkit-details-marker {
   display: none;
-} */
-
-/* 
-.app {
-  width:100%;
-  height:100%;
 }
-
-.main-container {
-  display: flex;
-  margin: 0 auto;
-  width: 80%;
-}
-
-.flex-container {
-  display: flex;
-  cursor: pointer;
-}
-
-.sidebar {
-  border: 1px solid red; 
-  width: 30%;
-  height: 600px;
-  display: inline-block;
-}
-
-.submit-form {
-  display: flex;
-  width: 50%;
-  margin: 0 auto;
-  line-height: 2;
-  flex-direction: column;
-}
-
-.form-wrapper {
-  border: 1px solid red;
-  width: 100%;
-  height: 600px;
-} */
 
 .error-message {
   color: red;
@@ -115,8 +77,6 @@ dt {
   background-size: cover;
   /* background by SVGBackgrounds.com */
   z-index: -99;
-  /* background: rgb(71,179,255);
-  background: linear-gradient(90deg, rgba(71,179,255,0.3) 0%, rgba(54,235,223,0.3) 50%, rgba(64,152,190,0.3) 100%); */
   min-height: 100vh;
 }
 
@@ -127,6 +87,7 @@ dt {
 .container-style {
   box-shadow: 0px 3px 8px 0px rgba(94, 94, 123, 0.5);
   border-radius: 8px;
+  max-width: 93%;
 }
 
 .logo {
@@ -146,7 +107,7 @@ html {
 
 .nav-style a:hover {
   background: rgba(94, 94, 123, 0.2);
-  border-radius: 50%;
+  border-radius: 50px;
 }
 
 p {
@@ -165,4 +126,50 @@ p {
 .card-style p {
   color: rgb(10,37,64);
   font-size: 16px;
+}
+
+.team-link-style {
+  margin-right: 10px;
+  margin-left: 10px;
+}
+
+.use-cases-style {
+  margin-top: 3rem;
+}
+
+/* Medium devices (tablets, 768px and up) */
+@media (min-width: 768px) and (max-width: 991.98px) {
+  .card-link {
+    display: block;
+    line-height: 2;
+  }
+  .card-link+.card-link {
+    margin-left: 0 !important;
+  }
+}
+
+/* Small devices (landscape phones, 576px and up)*/
+@media (min-width: 576px) and (max-width: 767.98px) { 
+  .card-deck .card {
+    flex: none !important;
+    margin-right: 0 !important;
+    margin-left: 0 !important;
+    margin: 0 auto !important;
+    margin-bottom: 15px !important;
+  }
+
+  .card img {
+    width: 250px;
+  }
+
+  .use-cases-style {
+    margin-top: 0 !important;
+  }
+}
+
+/* Extra small devices (portrait phones, less than 576px) */
+@media (max-width: 575.98px) { 
+  .use-cases-style {
+    margin-top: 0 !important;
+  }
 }

@@ -4,18 +4,26 @@ import { Container, Row, Col, Card, CardDeck } from "react-bootstrap";
 const Team = () => (
   <Container className="container-style pb-5">
     <Row className="pt-5">
-      <Col md={{ span: 6, offset: 3 }} className="text-center">
+      <Col
+        lg={{ span: 6, offset: 3 }}
+        md={{ span: 8, offset: 2 }}
+        sm={{ span: 10, offset: 1 }}
+        xs={{ span: 10, offset: 1 }}
+        className="text-center"
+      >
         <h2>Meet the Team</h2>
         <p className="mt-3">
           Our remote team of three worked together to build API-Q. We are
-          looking for our next opportunity and would love to hear from you! Please get in touch if you think we'd be a good fit for your team.
+          looking for our next opportunity and would love to hear from you!
+          Please get in touch if you think we'd be a good fit for your team.
         </p>
       </Col>
     </Row>
-    <Row className="d-flex justify-content-center pb-5">
-      <CardDeck className="mt-4 mw-75">
-        <Card style={{ width: "15rem" }} className="text-center">
-          <Card.Img height={238} width={238} variant="top" src="images/ryan-schaul.jpg" />
+
+    <Row className="pb-5 d-flex justify-content-center">
+      <CardDeck className="p-5">
+        <Card className="text-center" style={{ maxWidth: "250px" }}>
+          <Card.Img variant="top" src="images/ryan-schaul.jpg" />
 
           <Card.Body>
             <Card.Title className="mb-3">Ryan Schaul</Card.Title>
@@ -37,8 +45,12 @@ const Team = () => (
           </Card.Body>
         </Card>
 
-        <Card style={{ width: "15rem" }} className="text-center">
-          <Card.Img height={238} width={238} variant="top" src="images/aaron-crane.png" />
+        <Card className="text-center">
+          <Card.Img
+            variant="top"
+            src="images/aaron-crane.png"
+            style={{ maxWidth: "250px" }}
+          />
 
           <Card.Body>
             <Card.Title className="mb-3">Aaron Crane</Card.Title>
@@ -60,8 +72,12 @@ const Team = () => (
           </Card.Body>
         </Card>
 
-        <Card style={{ width: "15rem" }} className="text-center">
-          <Card.Img height={238} width={238} variant="top" src="images/justin-zeng.jpg" />
+        <Card className="text-center">
+          <Card.Img
+            variant="top"
+            src="images/justin-zeng.jpg"
+            style={{ maxWidth: "250px" }}
+          />
 
           <Card.Body>
             <Card.Title className="mb-3">Justin Zeng</Card.Title>
