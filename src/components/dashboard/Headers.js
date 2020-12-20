@@ -15,10 +15,7 @@ class Headers extends Component {
           </Col>
         </Row>
 
-        <Row className="mt-3">
-          <Col lg={5}>Key</Col>
-          <Col lg={5}>Value</Col>
-
+        <Row>
           {this.props.headers.map(header => {
             return (
               <Fragment key={header.id}>
@@ -29,7 +26,7 @@ class Headers extends Component {
                     data-row-id={header.id}
                     onChange={this.props.editProperty}
                     type="text"
-                    placeholder="name"
+                    placeholder="key"
                     defaultValue={header.key}
                   />
                 </Col>
@@ -46,7 +43,7 @@ class Headers extends Component {
                   />
                 </Col>
                 <Col xs={2} className="mt-3">
-                  <Button variant="light"
+                  <Button variant="outline-info"
                     data-row-id={header.id}
                     data-name={'headers'}
                     onClick={this.props.removeKeyValueField}
@@ -56,11 +53,11 @@ class Headers extends Component {
             );
           })}
 
-          <Col lg={2} className="mt-3">
-            <Button variant="dark"
+          <Col lg={3} className="mt-3">
+            <Button variant="outline-info"
               onClick={this.props.addKeyValueFields}
               data-name={'headers'}
-            >+</Button>
+            >Add more field</Button>
           </Col>
         </Row>
       </Form.Group>

@@ -69,6 +69,7 @@ class PopUp extends Component {
                     toggleScheduler={this.toggleScheduler}
                     visibleModal={this.props.visibleModal}
                     requestObject={this.props.requestObject}
+                    scheduler={this.state.scheduler}
                   />
                 </Col>
               </Row>

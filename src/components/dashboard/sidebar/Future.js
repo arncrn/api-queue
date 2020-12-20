@@ -71,7 +71,7 @@ class Future extends Component {
     let PopUpHOC = HOC(PopUp, this.getRequestObject());
     return (
       <>
-        <ListGroup className="scroll-box">
+        <ListGroup>
           {this.props.appData.map((req) => {
             return (
               <ListGroup.Item
@@ -82,7 +82,7 @@ class Future extends Component {
                 onClick={this.handleClick}
               >
                 <Row>
-                  <Col><strong>{req.name}</strong></Col>
+                  <Col><strong className="text-break">{req.name}</strong></Col>
                 </Row>
                 <Row>
                   <Col> <Badge variant='primary'> {req.httpVerb}</Badge></Col>

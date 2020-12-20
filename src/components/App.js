@@ -32,7 +32,7 @@ class App extends Component {
           </Col>
         </Row>}
         <Row>
-          <Col lg={3} as={"main"} className="border">
+          <Col lg={3} as={"main"} className="border scroll-box">
             <Sidebar 
               appData={this.props.appData} 
               updateData={this.props.updateData}
@@ -60,6 +60,7 @@ class App extends Component {
               buttonText={this.state.buttonText}
               formUrl={this.state.formUrl}
               toggleScheduler={this.toggleScheduler}
+              scheduler={this.state.scheduler}
             />
           </Col>
         </Row>

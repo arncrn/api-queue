@@ -55,6 +55,7 @@ class SharedForm extends Component {
         timezone={this.props.timezone}
         date={this.props.date}
         toggleScheduler={this.props.toggleScheduler}
+        scheduler={this.props.scheduler}
       />
       <SubmitButton 
         buttonText={isPastRequest ? this.props.buttonText : "Save"} 

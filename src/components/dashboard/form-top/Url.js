@@ -26,7 +26,10 @@ class Url extends Component {
         </Row>
 
         <Row className="mt-3">
-          <Col xs={2}>
+          <Col 
+          lg={2}
+          xs={3}
+          >
             <Form.Control as="select"
               name="httpVerb"
               custom defaultValue={this.props.httpVerb}
@@ -40,7 +43,10 @@ class Url extends Component {
             </Form.Control>
           </Col>
 
-          <Col>
+          <Col
+           lg={10}
+           xs={9}
+           >
             <Form.Control
               type="text"
               name="hostpath"

@@ -25,21 +25,20 @@ class Scheduler extends Component {
         </Row>
 
         <Accordion className='mt-3'>
-          <Card border="dark">
+          <Card>
             <Card.Header>
-              {/* Add logic to manage scheduler data based on open and closed scheduler */}
-              <Accordion.Toggle as={Button} variant="dark" eventKey="0" onClick={this.props.toggleScheduler}>
-                +
+              <Accordion.Toggle as={Button} variant="outline-info" eventKey="0" onClick={this.props.toggleScheduler}>
+                { this.props.scheduler ? "Disable" : "Enable" }
               </Accordion.Toggle>
             </Card.Header>
 
             <Accordion.Collapse eventKey="0">
               <Card.Body>
                 <Row className="justify-content-center">
-                  <Col lg={3}>
+                  <Col xs={3}>
                     <Form.Control as="input" type="time" name='time' defaultValue={this.props.time} onChange={this.props.handleChange}></Form.Control>
                   </Col>
-                  <Col lg={3}>
+                  <Col xs={3}>
                     <Form.Control as="select" defaultValue={this.props.timezone} name='timeZone' onChange={this.props.handleChange} custom>
                       <option value="AKST">Alaska Time</option>
                       <option value="PST">Pacific Time</option>

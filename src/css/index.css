@@ -7,7 +7,7 @@ Description:  Resets default styling of common browsers to a common base
 ----------------------------------------
 */
 
-html {
+/* html {
   box-sizing: border-box;
 }
 
@@ -64,10 +64,10 @@ dt {
 
 dt {
   margin-right: 5px;
-}
+} */
 
 .scroll-box {
-  height: 100vh;
+  max-height: 1350px;
   overflow-y: scroll;
 }
 
@@ -135,6 +135,12 @@ p {
 
 .use-cases-style {
   margin-top: 3rem;
+}
+
+.badge {
+  font-size: 95% !important;
+  white-space: break-spaces !important;
+  text-align: left !important;
 }
 
 /* Medium devices (tablets, 768px and up) */

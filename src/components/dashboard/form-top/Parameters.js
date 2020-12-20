@@ -5,7 +5,7 @@ class Parameters extends Component {
   render() {
     return (
       <Form.Group as={"fieldset"}>
-        <Form.Label as="legend">Parameters</Form.Label>
+        <Form.Label as="legend">Query Parameters</Form.Label>
 
         <Row>
           <Col>
@@ -15,9 +15,7 @@ class Parameters extends Component {
           </Col>
         </Row>
 
-        <Row className="mt-3">
-          <Col xs={5}>Key</Col>
-          <Col xs={5}>Value</Col>
+        <Row>
           {this.props.parameters.map(param => {
             return (
               <Fragment key={param.id}>
@@ -28,7 +26,7 @@ class Parameters extends Component {
                     data-row-id={param.id}
                     onChange={this.props.editProperty}
                     type="text"
-                    placeholder="name"
+                    placeholder="key"
                     defaultValue={param.key}
                   />
                 </Col>
@@ -45,7 +43,7 @@ class Parameters extends Component {
                   />
                 </Col>
                 <Col xs={2} className="mt-3">
-                  <Button variant="light"
+                  <Button variant="outline-info"
                     data-row-id={param.id}
                     data-name={'parameters'}
                     onClick={this.props.removeKeyValueField}
@@ -55,11 +53,11 @@ class Parameters extends Component {
             );
           })}
 
-          <Col xs={2} className="mt-3">
-            <Button variant="dark"
+          <Col lg={3} className="mt-3">
+            <Button variant="outline-info"
               onClick={this.props.addKeyValueFields}
               data-name={'parameters'}
-            >+</Button>
+            >Add more field</Button>
           </Col>
         </Row>
       </Form.Group>

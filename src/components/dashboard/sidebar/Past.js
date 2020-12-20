@@ -90,7 +90,7 @@ class Past extends Component {
     let PopUpHOC = HOC(PopUp, this.getRequestObject());
     return (
       <>
-        <ListGroup className="scroll-box">
+        <ListGroup>
           {this.props.appData.map((req) => {
             let [sent_time, sent_date] = this.getSentTimeValues(req.timeSent, req.timeZone);
             return (
@@ -102,7 +102,7 @@ class Past extends Component {
                 onClick={this.handleClick}
               >
                 <Row>
-                  <Col><strong>{req.name}</strong></Col>
+                  <Col><strong className="text-break">{req.name}</strong></Col>
                 </Row>
                 <Row>
                   <Col> <Badge variant='primary'> {req.httpVerb}</Badge></Col>
