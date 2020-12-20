@@ -38,7 +38,6 @@ class SharedForm extends Component {
         editProperty={this.props.editProperty}
         removeKeyValueField={this.props.removeKeyValueField}
       />
-      <hr />
       <Headers
         headers={this.props.headers}
         addKeyValueFields={this.props.addKeyValueFields}

@@ -13,7 +13,7 @@ class Scheduler extends Component {
     }
 
     return (
-      <Form.Group as={"fieldset"}>
+      <Form.Group as={"fieldset"} className="mt-4 mb-4">
         <Form.Label as="legend">Scheduler</Form.Label>
 
         <Row>

@@ -4,7 +4,7 @@ import { Col, Form, Row } from "react-bootstrap";
 class Body extends Component {
   render() {
     return (
-      <Form.Group as={"fieldset"}>
+      <Form.Group as={"fieldset"} className="mt-4 mb-4">
         <Form.Label as="legend">Body</Form.Label>
 
         <Row>
