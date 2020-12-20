@@ -62,8 +62,8 @@ const Home = () => (
               <Col>
                 <h4>API Client</h4>
                 <p>
-                  Easily send RESTful HTTP request and view responses within
-                  your dashboard.
+                  Easily send RESTful HTTP requests and view responses within
+                  your dashboard. GET, POST, DELETE, PUT, and PATCH are supported. Create any custom headers and parameters you need and send any payload if applicable.
                 </p>
               </Col>
             </Row>
@@ -128,7 +128,7 @@ const Home = () => (
               <Col>
                 <h4>Logs</h4>
                 <p>
-                  Keep track of past and future HTTP requests for view at a
+                  Keep track of past and future HTTP requests for viewing at a
                   later time.
                 </p>
               </Col>
@@ -176,11 +176,11 @@ const Home = () => (
         <Row className="mt-5">
           <Col md={{ span: 5 }} className="card-style p-4">
             <h4>Testing</h4>
-            <p>Test your APIs to ensure that it works.</p>
+            <p>Building API enpoints? Easily test these endpoints with API-Q to ensure they work as expected.</p>
           </Col>
           <Col md={{ span: 5 }} className="card-style p-4">
             <h4>Scheduling</h4>
-            <p>Schedule future HTTP requests to be made at a later time.</p>
+            <p>Want to send an HTTP request but not right now, without having to set up a server to receive the response? Schedule HTTP requests and API-Q will send them at a later date and time as scheduled.</p>
           </Col>
         </Row>
         <Row className="use-cases-style">
