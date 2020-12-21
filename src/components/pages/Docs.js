@@ -652,7 +652,7 @@ const Docs = () => {
             </p>
           </Row>
 
-          <Row id="moreTimeZones">
+          <Row id="moreTimezones">
             <Badge className="step" variant="info">
               More Timezones
             </Badge>
