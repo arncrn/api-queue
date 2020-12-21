@@ -144,7 +144,22 @@ p {
 }
 
 .sub-doc-item {
-  text-indent: 10%;
+  text-indent: 5%;
+}
+
+.docs-toc-button {
+  display: none !important;
+}
+
+.toc-docs-sidebar {
+  width: 100%;
+}
+
+/* Large devices (computers) */
+@media (min-width: 991.98px) { 
+  .toc-docs-sidebar-container {
+    display: flex !important;
+  }
 }
 
 /* Medium devices (tablets, 768px and up) */
@@ -155,6 +170,19 @@ p {
   }
   .card-link+.card-link {
     margin-left: 0 !important;
+  }
+
+  .toc-docs-sidebar-container {
+    display: none;
+  }
+
+  .docs-toc-button {
+    display: flex !important;
+  }
+
+  .toc-docs-sidebar {
+    width: 100%;
+    padding-bottom: 10%;
   }
 }
 
@@ -184,6 +212,19 @@ p {
     padding-top: 10px;
     padding-bottom: 10px;
   }
+
+  .toc-docs-sidebar-container {
+    display: none;
+  }
+
+  .docs-toc-button {
+    display: flex !important;
+  }
+
+  .toc-docs-sidebar {
+    width: 100%;
+    padding-bottom: 10%;
+  }
 }
 
 /* Extra small devices (portrait phones, less than 576px) */
@@ -199,5 +240,18 @@ p {
   .mobile-sidebar-style {
     padding-top: 10px;
     padding-bottom: 10px;
+  }
+
+  .toc-docs-sidebar-container {
+    display: none;
+  }
+
+  .docs-toc-button {
+    display: flex !important;
+  }
+
+  .toc-docs-sidebar {
+    width: 100%;
+    padding-bottom: 10%;
   }
 }

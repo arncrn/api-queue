@@ -3,12 +3,6 @@ import { ListGroup, Row, Col, Badge } from "react-bootstrap";
 import PopUp from "./PopUp.js";
 import HOC from "../../HOC.js";
 
-const calcDate = function (date) {
-  let [year, month, day] = date.split('-');
-
-  return `${month.padStart(2, "0")}-${day.padStart(2, "0")}-${year}`
-};
-
 class Past extends Component {
   constructor(props) {
     super(props);
