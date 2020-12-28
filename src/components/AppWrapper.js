@@ -65,7 +65,13 @@ class AppWrapper extends React.Component {
       return response.json();
     })
     .then((response) => {
-        this.setState({ appData: response }, ()=> {this.forceUpdate()});
+        this.setState({ appData: response }, ()=> {
+          this.forceUpdate()
+          setTimeout(() => {
+            let newRequest = document.querySelector('.glowing');
+            if (newRequest) newRequest.classList.remove('glowing');
+          }, 15000);
+        });
       }).catch((error) => {
         console.log(error);
       });

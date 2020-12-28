@@ -87,12 +87,15 @@ class Past extends Component {
         <ListGroup>
           {this.props.appData.map((req) => {
             let [sent_time, sent_date] = this.getSentTimeValues(req.timeSent, req.timeZone);
+            let timeNow = new Date().getTime();
+            let secondsSinceRequest = (timeNow - new Date(req.timeSent)) / 1000;
+
             return (
               <ListGroup.Item
                 action
                 data-id={req.id}
                 key={req.id}
-                // href={`#link1${req.id}`}
+                className={secondsSinceRequest < 30 && "glowing"}
                 onClick={this.handleClick}
               >
                 <Row>
