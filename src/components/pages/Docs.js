@@ -645,7 +645,7 @@ const Docs = () => {
 
           <Row id="recurringRequests">
             <Badge className="step mb-2" variant="info">
-              • Scheduling Recurring Requests
+              Scheduling Recurring Requests
             </Badge>
           </Row>
           <Row>
@@ -658,7 +658,7 @@ const Docs = () => {
 
           <Row id="moreTimezones">
             <Badge className="step mb-2" variant="info">
-              • More Timezones
+              More Timezones
             </Badge>
           </Row>
           <Row>
@@ -670,7 +670,7 @@ const Docs = () => {
 
           <Row id="userScripts">
             <Badge className="step mb-2" variant="info">
-              • User-Provided Scripts
+              User-Provided Scripts
             </Badge>
           </Row>
           <Row>
@@ -686,7 +686,7 @@ const Docs = () => {
 
           <Row id="cronJob">
             <Badge className="step mb-2" variant="info">
-              • Cron Job Scheduling
+              Cron Job Scheduling
             </Badge>
           </Row>
           <Row>
@@ -700,7 +700,7 @@ const Docs = () => {
 
           <Row id="testing">
             <Badge className="step mb-2" variant="info">
-              • Testing Suite
+              Testing Suite
             </Badge>
           </Row>
           <Row>
@@ -712,7 +712,7 @@ const Docs = () => {
 
           <Row id="settings">
             <Badge className="step mb-2" variant="info">
-              • Settings
+              Settings
             </Badge>
           </Row>
           <Row>
@@ -728,7 +728,7 @@ const Docs = () => {
 
           <Row id="email">
             <Badge className="step mb-2" variant="info">
-              • Email Sending
+              Email Sending
             </Badge>
           </Row>
           <Row>
@@ -741,7 +741,7 @@ const Docs = () => {
           </Row>
           <Row id="email">
             <Badge className="step mb-2" variant="info">
-              • Oauth Authentication
+              Oauth Authentication
             </Badge>
           </Row>
           <Row>
@@ -758,7 +758,7 @@ const Docs = () => {
           </Row>
           <Row id="email">
             <Badge className="step mb-2" variant="info">
-              • SEO
+              SEO
             </Badge>
           </Row>
           <Row>

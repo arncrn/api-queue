@@ -45,7 +45,7 @@ class Url extends Component {
           <Col lg={10} xs={9}>
             <InputGroup>
               <InputGroup.Prepend>
-                <InputGroup.Text>URL</InputGroup.Text>
+                <InputGroup.Text>url</InputGroup.Text>
               </InputGroup.Prepend>
               <Form.Control
                 type="text"
