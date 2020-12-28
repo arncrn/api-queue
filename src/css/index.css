@@ -141,6 +141,7 @@ p {
   font-size: 95% !important;
   white-space: break-spaces !important;
   text-align: left !important;
+  line-height: 2;
 }
 
 .sub-doc-item {

@@ -38,7 +38,7 @@ const Docs = () => {
         <Col className="docs-toc-button justify-content-center mb-4">
           <Button onClick={showToc}>Table of Content</Button>
         </Col>
-        
+
         <Col lg="4" className="toc-docs-sidebar-container" ref={tocRef}>
           <ListGroup variant="flush" className="mr-4 toc-docs-sidebar">
             <ListGroup.Item
@@ -238,8 +238,8 @@ const Docs = () => {
               and notably, scheduling the sending of a request at a later time
               (hence the name, API-"queue"). This saves the developer time and
               hassle from having to setup their own server to receive a
-              response. API-Q is sort of like a slimmed down and better-looking
-              Postman, but with a scheduler.
+              response. API-Q is sort of like a slimmed down and easier to use
+              version of Postman, but with a scheduler.
             </p>
           </Row>
 
@@ -248,7 +248,7 @@ const Docs = () => {
           </Row>
 
           <Row id="signUp">
-            <Badge className="step" variant="info">
+            <Badge className="step mb-2" variant="info">
               Step 1: Sign Up
             </Badge>
           </Row>
@@ -269,14 +269,14 @@ const Docs = () => {
 
             <p>
               If you do sign up, be sure to choose a password that you can
-              easily remember. Since this a demonstration site we've chosen not
-              to implement a basic settings page at this time and we have not
-              implemented a way to reset your password should you forget it.
+              easily remember. Since this is a demonstration site we've chosen
+              not to implement a basic settings page at this time and we have
+              not implemented a way to reset your password should you forget it.
             </p>
           </Row>
 
           <Row id="sendRequest">
-            <Badge className="step" variant="info">
+            <Badge className="step mb-2" variant="info">
               Step 2: Send a Request!
             </Badge>
           </Row>
@@ -309,7 +309,7 @@ const Docs = () => {
           </Row>
 
           <Row id="sendRequestNow">
-            <Badge className="step" variant="info">
+            <Badge className="step mb-2" variant="info">
               Sending Requests Now
             </Badge>
           </Row>
@@ -335,7 +335,7 @@ const Docs = () => {
           </Row>
 
           <Row id="scheduleRequest">
-            <Badge className="step" variant="info">
+            <Badge className="step mb-2" variant="info">
               Scheduling Future Requests
             </Badge>
           </Row>
@@ -360,7 +360,7 @@ const Docs = () => {
           </Row>
 
           <Row id="viewRequest">
-            <Badge className="step" variant="info">
+            <Badge className="step mb-2" variant="info">
               Viewing a Request
             </Badge>
           </Row>
@@ -400,7 +400,7 @@ const Docs = () => {
           </Row>
 
           <Row id="deleteRequest">
-            <Badge className="step" variant="info">
+            <Badge className="step mb-2" variant="info">
               Deleting a Request
             </Badge>
           </Row>
@@ -417,7 +417,7 @@ const Docs = () => {
           </Row>
 
           <Row id="example">
-            <Badge className="step" variant="info">
+            <Badge className="step mb-2" variant="info">
               Playing with an actual API endpoint
             </Badge>
           </Row>
@@ -455,7 +455,7 @@ const Docs = () => {
           </Row>
 
           <Row id="stack">
-            <Badge className="step" variant="info">
+            <Badge className="step mb-2" variant="info">
               Stack
             </Badge>
           </Row>
@@ -468,7 +468,7 @@ const Docs = () => {
           </Row>
 
           <Row id="postgres">
-            <Badge className="step" variant="info">
+            <Badge className="step mb-2" variant="info">
               Postgres and Data Wrangling
             </Badge>
           </Row>
@@ -507,7 +507,7 @@ const Docs = () => {
           </Row>
 
           <Row id="react">
-            <Badge className="step" variant="info">
+            <Badge className="step mb-2" variant="info">
               React
             </Badge>
           </Row>
@@ -554,13 +554,16 @@ const Docs = () => {
           </Row>
 
           <Row id="asynchroncity">
-            <Badge className="step" variant="info">
+            <Badge className="step mb-2" variant="info">
               Asynchroncity
             </Badge>
           </Row>
           <Row>
             <p>
-              <strong>TODO......</strong>What I have in mind here is discussing
+              Asynchronicity was an area that we encountered issues with initially and because of that, it was something we had to keep in mind while building out our application further. All API calls and DB queries made are I/O bounded operations. Part of I/O bounded work involves waiting for the operation to complete. To help us work with asynchronous code, we made use of Javascript async/await syntax. Async and await allowed us to code in a more predictable manner regardless of timing. An issue we initially encountered in this area was sending a response back to the client with the result of a DB query without waiting for the DB update transaction to complete first. This resulted in inconsistent data returned.
+            </p>
+            <p>
+            <strong>TODO......add more?</strong>What I have in mind here is discussing
               the challenges of ensuring that everything is happening when it is
               supposed to, and only after certain other things have happened.
               When we logged all 8 major steps of the process, from getting the
@@ -570,7 +573,7 @@ const Docs = () => {
           </Row>
 
           <Row id="datesTimes">
-            <Badge className="step" variant="info">
+            <Badge className="step mb-2" variant="info">
               Dates and Times and Timezones, Oh My
             </Badge>
           </Row>
@@ -587,7 +590,7 @@ const Docs = () => {
           </Row>
 
           <Row id="scheduling">
-            <Badge className="step" variant="info">
+            <Badge className="step mb-2" variant="info">
               Scheduling Requests
             </Badge>
           </Row>
@@ -607,12 +610,13 @@ const Docs = () => {
               they may have given us payload to send with their request as well.
             </p>
             <p>
-              With more traffic, we'll refactor this by implementing a cron job.
+              With more traffic, we can possibly improve performance by
+              refactoring this to use a cron job as a separate service.
             </p>
           </Row>
 
           <Row id="server">
-            <Badge className="step" variant="info">
+            <Badge className="step mb-2" variant="info">
               Server Structure
             </Badge>
           </Row>
@@ -628,20 +632,20 @@ const Docs = () => {
           <Row>
             <p>
               API-Q in its current form is really just a demonstration of our
-              capabilities. It was meant to be fun project and one where we
+              capabilities. It was meant to be a fun project and one where we
               could explore and gain more experience with some particular
               technologies and perhaps also build something useful. It is a
               minimum viable product in terms of features. A user can send some
-              requests now and schedule some requests for later. I we think
-              we've packaged that up in a relatively intuitive implementation.
-              But there are many features we're capable of adding in the future
+              requests now and schedule some requests for later. I think we've
+              packaged that up in a relatively intuitive implementation. But
+              there are many features we're capable of adding in the future
               should warrant them.
             </p>
           </Row>
 
           <Row id="recurringRequests">
-            <Badge className="step" variant="info">
-              Scheduling Recurring Requests
+            <Badge className="step mb-2" variant="info">
+              • Scheduling Recurring Requests
             </Badge>
           </Row>
           <Row>
@@ -653,8 +657,8 @@ const Docs = () => {
           </Row>
 
           <Row id="moreTimezones">
-            <Badge className="step" variant="info">
-              More Timezones
+            <Badge className="step mb-2" variant="info">
+              • More Timezones
             </Badge>
           </Row>
           <Row>
@@ -665,8 +669,8 @@ const Docs = () => {
           </Row>
 
           <Row id="userScripts">
-            <Badge className="step" variant="info">
-              User-Provided Scripts
+            <Badge className="step mb-2" variant="info">
+              • User-Provided Scripts
             </Badge>
           </Row>
           <Row>
@@ -681,8 +685,8 @@ const Docs = () => {
           </Row>
 
           <Row id="cronJob">
-            <Badge className="step" variant="info">
-              Cron Job Scheduling
+            <Badge className="step mb-2" variant="info">
+              • Cron Job Scheduling
             </Badge>
           </Row>
           <Row>
@@ -695,8 +699,8 @@ const Docs = () => {
           </Row>
 
           <Row id="testing">
-            <Badge className="step" variant="info">
-              Testing Suite
+            <Badge className="step mb-2" variant="info">
+              • Testing Suite
             </Badge>
           </Row>
           <Row>
@@ -707,8 +711,8 @@ const Docs = () => {
           </Row>
 
           <Row id="settings">
-            <Badge className="step" variant="info">
-              Settings
+            <Badge className="step mb-2" variant="info">
+              • Settings
             </Badge>
           </Row>
           <Row>
@@ -723,8 +727,8 @@ const Docs = () => {
           </Row>
 
           <Row id="email">
-            <Badge className="step" variant="info">
-              Email Sending
+            <Badge className="step mb-2" variant="info">
+              • Email Sending
             </Badge>
           </Row>
           <Row>
@@ -733,6 +737,33 @@ const Docs = () => {
               notifications a user indicates they want to receive, perhaps when
               a request is sent on their behalf or if a response is received for
               one of their requests.
+            </p>
+          </Row>
+          <Row id="email">
+            <Badge className="step mb-2" variant="info">
+              • Oauth Authentication
+            </Badge>
+          </Row>
+          <Row>
+            <p>
+              Some 3rd party API may require authentication by including an
+              additional HTTP header with some secret token. Right now our
+              application supports basic authentication where a user can provide
+              a custom header and its value where the value can be some API key.
+              We currently do not have support for Oauth 1.0 where it requires
+              signing a request with keys and tokens. A hashing algorithm is
+              required to sign a request. This is an area we can definitely
+              explore in the future.
+            </p>
+          </Row>
+          <Row id="email">
+            <Badge className="step mb-2" variant="info">
+              • SEO
+            </Badge>
+          </Row>
+          <Row>
+            <p>
+              Our application is a single page with javascript loaded to insert content onto the web page. The front end is built using React and React router. For this reason, search engines will experience difficulty indexing any content on any of the pages.
             </p>
           </Row>
         </Col>
