@@ -148,26 +148,10 @@ const Docs = () => {
             <ListGroup.Item
               action
               className="sub-doc-item"
-              data-name="asynchroncity"
-              onClick={handleClick}
-            >
-              Dates and Times
-            </ListGroup.Item>
-            <ListGroup.Item
-              action
-              className="sub-doc-item"
               data-name="scheduling"
               onClick={handleClick}
             >
               Scheduling Requests
-            </ListGroup.Item>
-            <ListGroup.Item
-              action
-              className="sub-doc-item"
-              data-name="server"
-              onClick={handleClick}
-            >
-              Server Structure?
             </ListGroup.Item>
 
             <ListGroup.Item
@@ -256,14 +240,14 @@ const Docs = () => {
             <p>
               This is really just a demo account for you to play around and
               explore what we've built. You won't get any emails. You won't even
-              get an initial confirmation email. Or use the dummy credentials by
+              get an initial confirmation email. Or, don't sign up at all and just use the dummy credentials by
               clicking the yellow button.
             </p>
             <div>
               <Image
                 src="images/signup.png"
                 fluid
-                className="shadow p-3 mb-5 bg-white rounded ml-3 mr-3"
+                className="shadow p-3 mb-5 bg-white rounded"
               />
             </div>
 
@@ -327,7 +311,7 @@ const Docs = () => {
               means we sent the request right now on your behalf. You should see
               a summary of the request and the response we received on your
               behalf in the <strong>Past</strong> tab, located to left in the
-              sidebar. The type of request you made is in Blue, the status code
+              sidebar. The type of request you made is in blue, the status code
               of the response is in red or green (depending on whether it was
               successful or not), and the status text is in gray. You'll also
               see the date and time that the request was sent.
@@ -486,7 +470,7 @@ const Docs = () => {
               powerful, relational database management system. In a way, our
               database isn't very complicated. We only have two tables,{" "}
               <code>users</code> and <code>requests</code>. So there really
-              wasn't a need to make the database decision more complicated then
+              wasn't a need to make the database decision more complicated than
               it needed to be. We did however encounter some challenges
               "wrangling" the data into the forms we needed to work with.
               Different parts of our frontend expect data in various forms and
@@ -562,31 +546,6 @@ const Docs = () => {
             <p>
               Asynchronicity was an area that we encountered issues with initially and because of that, it was something we had to keep in mind while building out our application further. All API calls and DB queries made are I/O bounded operations. Part of I/O bounded work involves waiting for the operation to complete. To help us work with asynchronous code, we made use of Javascript async/await syntax. Async and await allowed us to code in a more predictable manner regardless of timing. An issue we initially encountered in this area was sending a response back to the client with the result of a DB query without waiting for the DB update transaction to complete first. This resulted in inconsistent data returned.
             </p>
-            <p>
-            <strong>TODO......add more?</strong>What I have in mind here is discussing
-              the challenges of ensuring that everything is happening when it is
-              supposed to, and only after certain other things have happened.
-              When we logged all 8 major steps of the process, from getting the
-              request from the user, to storing it in DB, to sending it, to
-              retrieving and consuming it on the frontend.
-            </p>
-          </Row>
-
-          <Row id="datesTimes">
-            <Badge className="step mb-2" variant="info">
-              Dates and Times and Timezones, Oh My
-            </Badge>
-          </Row>
-          <Row>
-            <p>
-              We could have chosen to work on anything but we just had to choose
-              something involving dates and times{" "}
-              <span role="img" aria-label="emoji">
-                🤷‍♂️
-              </span>
-              . Still have to talk about this a little more.
-              <strong>[TODO]</strong>.
-            </p>
           </Row>
 
           <Row id="scheduling">
@@ -596,7 +555,14 @@ const Docs = () => {
           </Row>
           <Row>
             <p>
-              In concept, it's simple. In implementation, because dates, it was
+              We could have chosen to work on anything but we just had to choose
+              something involving dates and times{" "}
+              <span role="img" aria-label="emoji">
+                🤷‍♂️
+              </span>.
+            </p>
+            <p>
+              In concept, it's simple. In implementation, because, well...dates, it was
               a little tricky to figure out. But basically we're using a{" "}
               <code>setInterval</code> function which runs another function
               about every 30 seconds. What that function does is query our{" "}
@@ -607,22 +573,11 @@ const Docs = () => {
               later then the time now. Then we use Axios and generate some
               details for each request that needs to go out; our users can
               specify their own headers and parameters if they so choose, and
-              they may have given us payload to send with their request as well.
+              they may have given us a payload to send with their request as well.
             </p>
             <p>
               With more traffic, we can possibly improve performance by
               refactoring this to use a cron job as a separate service.
-            </p>
-          </Row>
-
-          <Row id="server">
-            <Badge className="step mb-2" variant="info">
-              Server Structure
-            </Badge>
-          </Row>
-          <Row>
-            <p>
-              <strong>[question]</strong> Anything you guys want to say here?
             </p>
           </Row>
 
@@ -636,10 +591,10 @@ const Docs = () => {
               could explore and gain more experience with some particular
               technologies and perhaps also build something useful. It is a
               minimum viable product in terms of features. A user can send some
-              requests now and schedule some requests for later. I think we've
+              requests now and schedule some requests for later. We think we've
               packaged that up in a relatively intuitive implementation. But
               there are many features we're capable of adding in the future
-              should warrant them.
+              should demand warrant them.
             </p>
           </Row>
 
@@ -652,7 +607,7 @@ const Docs = () => {
             <p>
               A user can currently only schedule a request for a single point in
               the future. It'd be nice to let them send one, say, every Tuesday
-              at 6pm CST.
+              at 6pm CST, or every three days, etc.
             </p>
           </Row>
 
@@ -679,7 +634,7 @@ const Docs = () => {
               be nice to let them also upload a script of their writing that
               executes at the time we receive a response to their request.
               Perhaps their code could perform some processing and then hit
-              another endpoing they control, or perhaps some other third party
+              another endpoint they control, or perhaps some other third party
               API.
             </p>
           </Row>
@@ -693,7 +648,7 @@ const Docs = () => {
             <p>
               Right now we're using a <code>setInterval</code> function on our
               main server to handle checking for and sending future scheduled
-              requests. With more user traffic, it would make sense break out
+              requests. With more user traffic, it would make sense to break out
               this functionality with a cron job operating on a separate server.
             </p>
           </Row>
@@ -746,7 +701,7 @@ const Docs = () => {
           </Row>
           <Row>
             <p>
-              Some 3rd party API may require authentication by including an
+              Some 3rd party API's may require authentication by including an
               additional HTTP header with some secret token. Right now our
               application supports basic authentication where a user can provide
               a custom header and its value where the value can be some API key.

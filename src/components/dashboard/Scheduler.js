@@ -16,14 +16,6 @@ class Scheduler extends Component {
       <Form.Group as={"fieldset"} className="mt-4 mb-4">
         <Form.Label as="legend">Scheduler</Form.Label>
 
-        {/* <Row>
-          <Col>
-            <Badge variant='light'>
-              Enable the scheduler to send it later rather than right now.
-            </Badge>
-          </Col>
-        </Row> */}
-
         <Accordion className='mt-1'>
           <Card>
             <Card.Header>

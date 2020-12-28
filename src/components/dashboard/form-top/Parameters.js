@@ -6,14 +6,7 @@ class Parameters extends Component {
     return (
       <Form.Group as={"fieldset"} className="mt-1 mb-1">
         <Form.Label as="legend">Query Parameters</Form.Label>
-        {/* <Row>
-          <Col>
-            <Badge variant="light">
-              When we send your request, your parameters will get appended to
-              the URL above.
-            </Badge>
-          </Col>
-        </Row> */}
+        
         <Row>
           {this.props.parameters.map((param) => {
             return (

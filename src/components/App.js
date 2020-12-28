@@ -3,6 +3,7 @@ import Sidebar from "./dashboard/sidebar/Sidebar";
 import { Container, Row, Col, Alert } from "react-bootstrap";
 import SharedForm from "./dashboard/SharedForm.js";
 import HOC from "./HOC.js";
+import UserGuide from "./dashboard/form-top/UserGuide.js";
 
 class App extends Component {
   constructor(props) {
@@ -41,6 +42,7 @@ class App extends Component {
             />
           </Col>
           <Col lg={9} md={8} as={"main"} className="border">
+            <UserGuide/>
             <SharedForm
               handleSubmit={this.props.handleSubmit}
               hostpath={this.props.hostpath}
