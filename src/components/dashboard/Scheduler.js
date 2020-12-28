@@ -16,15 +16,15 @@ class Scheduler extends Component {
       <Form.Group as={"fieldset"} className="mt-4 mb-4">
         <Form.Label as="legend">Scheduler</Form.Label>
 
-        <Row>
+        {/* <Row>
           <Col>
             <Badge variant='light'>
               Enable the scheduler to send it later rather than right now.
             </Badge>
           </Col>
-        </Row>
+        </Row> */}
 
-        <Accordion className='mt-3'>
+        <Accordion className='mt-1'>
           <Card>
             <Card.Header>
               <Accordion.Toggle as={Button} variant="outline-info" eventKey="0" onClick={this.props.toggleScheduler}>
