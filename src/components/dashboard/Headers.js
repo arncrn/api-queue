@@ -7,14 +7,6 @@ class Headers extends Component {
       <Form.Group as={"fieldset"} className="mt-4 mb-4">
         <Form.Label as="legend">Headers</Form.Label>
 
-        {/* <Row>
-          <Col>
-            <Badge variant="light">
-              Your headers take precedent over any default we may have used.
-            </Badge>
-          </Col>
-        </Row> */}
-
         <Row>
           {this.props.headers.map((header) => {
             return (

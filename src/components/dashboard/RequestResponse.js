@@ -97,7 +97,7 @@ class RequestResponse extends Component {
       <>
         <Row>
           <Col>
-            Toggle to see the details for the request you made or the response to it.
+            <p>You can toggle Request/Response to see the details for the request you made, or the response to it (after toggling, click on the Headers/Body to see details).</p>
           </Col>
         </Row>
         <Row className="mt-3">

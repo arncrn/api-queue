@@ -46,6 +46,8 @@ class PopUp extends Component {
               <Row>
                 <Col lg={12} as={"main"} className="border">
                   {(this.props.requestObject.response && this.props.requestObject.response.status) &&<RequestResponse requestObject={this.props.requestObject} />}
+                  <hr></hr>
+                  <p>Below is another form. It's just like the main form, except now it is pre-populated with information from this specific request you're looking at (the one we sent for you). You can send a duplicate out again, or edit it and then send, or even schedule it for later.</p>
                   <SharedForm
                     reqId={this.props.reqId}
                     handleDelete={this.props.handleDelete}
