@@ -66,6 +66,10 @@ dt {
   margin-right: 5px;
 } */
 
+.glowing {
+  background-color: lightgoldenrodyellow;
+}
+
 .scroll-box {
   max-height: 1350px;
   overflow-y: scroll;
