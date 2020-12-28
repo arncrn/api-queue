@@ -228,7 +228,7 @@ const Docs = () => {
           </ListGroup>
         </Col>
 
-        <Col lg="8">
+        <Col  lg={{ offset: 1, span: 6}}>
           <Row>
             <h2>Overview</h2>
           </Row>
@@ -263,7 +263,7 @@ const Docs = () => {
               <Image
                 src="images/signup.png"
                 fluid
-                className="shadow p-3 mb-5 bg-white rounded"
+                className="shadow p-3 mb-5 bg-white rounded ml-3 mr-3"
               />
             </div>
 

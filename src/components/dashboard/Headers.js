@@ -7,19 +7,19 @@ class Headers extends Component {
       <Form.Group as={"fieldset"} className="mt-4 mb-4">
         <Form.Label as="legend">Headers</Form.Label>
 
-        <Row>
+        {/* <Row>
           <Col>
             <Badge variant="light">
               Your headers take precedent over any default we may have used.
             </Badge>
           </Col>
-        </Row>
+        </Row> */}
 
         <Row>
           {this.props.headers.map((header) => {
             return (
               <Fragment key={header.id}>
-                <Col xs={5} className="mt-3">
+                <Col xs={5} className="mt-1">
                   <InputGroup>
                     <InputGroup.Prepend>
                       <InputGroup.Text>key</InputGroup.Text>
@@ -36,7 +36,7 @@ class Headers extends Component {
                   </InputGroup>
                 </Col>
 
-                <Col xs={5} className="mt-3">
+                <Col xs={5} className="mt-1">
                   <InputGroup>
                     <InputGroup.Prepend>
                       <InputGroup.Text>value</InputGroup.Text>
@@ -52,7 +52,7 @@ class Headers extends Component {
                     />
                   </InputGroup>
                 </Col>
-                <Col xs={2} className="mt-3">
+                <Col xs={2} className="mt-1">
                   <Button
                     variant="outline-info"
                     data-row-id={header.id}

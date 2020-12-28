@@ -156,6 +156,11 @@ p {
   width: 100%;
 }
 
+/* .guide-container {
+  border: 1px solid goldenrod;
+  padding: 1%;
+} */
+
 /* Large devices (computers) */
 @media (min-width: 991.98px) { 
   .toc-docs-sidebar-container {
