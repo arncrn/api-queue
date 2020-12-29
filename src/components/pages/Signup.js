@@ -111,7 +111,7 @@ const Signup = (props) => {
             md={{ span: 8, offset: 2 }}
             sm={{ span: 10, offset: 1 }}
             xs={{ span: 10, offset: 1 }}
-            className="shadow p-5 mt-5 mb-5 rounded"
+            className="shadow p-5 mb-5 rounded"
           >
             <p>Ok, just select a default time zone and you are good to go.</p>
 

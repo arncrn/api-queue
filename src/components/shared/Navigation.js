@@ -3,7 +3,7 @@ import { Nav, Navbar, Image, Row, Container } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
 const Navigation = (props) => (
-  <Container style={{backgroundColor: "rgba(0,0,0,0)"}} className="pt-3">
+  <Container style={{backgroundColor: "rgba(0,0,0,0)"}} className="pt-3 nav-container">
     <Row className="justify-content-center mb-">
       <Navbar className="flex-column">
         <div className="logo mb-3">

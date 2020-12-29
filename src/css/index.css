@@ -271,7 +271,7 @@ p {
 }
 
 /* Extra small devices (portrait phones, less than 576px) */
-@media (max-width: 575.98px) { 
+@media (min-width: 300px) and (max-width: 575.98px) { 
   .use-cases-style {
     margin-top: 0 !important;
   }
@@ -296,5 +296,19 @@ p {
   .toc-docs-sidebar {
     width: 100%;
     padding-bottom: 10%;
+  }
+
+  #uncontrolled-tab-tab-guide, #uncontrolled-tab-tab-example, #uncontrolled-tab-tab-scheduling, #uncontrolled-tab-tab-parametersHeaders, #uncontrolled-tab-tab-questions {
+    width: 100%;
+  }
+
+  .nav-container {
+    padding: 0 !important;
+  }
+}
+
+@media (max-width: 320px) { 
+  .nav-container .nav-link {
+    font-size: 16px;
   }
 }
