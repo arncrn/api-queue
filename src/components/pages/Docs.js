@@ -36,7 +36,7 @@ const Docs = () => {
     <Container className="container-style pb-5">
       <Row className="pt-5 pr-5 pl-5 pb-5">
         <Col className="docs-toc-button justify-content-center mb-4">
-          <Button onClick={showToc}>Table of Content's</Button>
+          <Button onClick={showToc}>Table of Contents</Button>
         </Col>
 
         <Col lg="4" className="toc-docs-sidebar-container" ref={tocRef}>
