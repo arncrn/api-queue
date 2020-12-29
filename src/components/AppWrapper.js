@@ -70,7 +70,7 @@ class AppWrapper extends React.Component {
           setTimeout(() => {
             let newRequest = document.querySelector('.glowing');
             if (newRequest) newRequest.classList.remove('glowing');
-          }, 15000);
+          }, 5000);
         });
       }).catch((error) => {
         console.log(error);

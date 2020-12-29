@@ -1,12 +1,12 @@
-import React, { useRef } from "react";
+import React, { useRef, useEffect } from "react";
 import {  Col, Row, Tab, Tabs, Button } from "react-bootstrap";
 
 const UserGuide = () => {
-  const guideRef = useRef(null);
-  const buttonRef = useRef(null);
+  const guideRef = useRef('none');
+  const buttonRef = useRef('Show user guide');
 
   function showGuide() {
-    if (guideRef.current.style.display === "" || guideRef.current.style.display === "block") {
+    if (guideRef.current.style.display === "block") {
       guideRef.current.style.display = "none";
       buttonRef.current.textContent = "Show user guide";
     } else {
@@ -18,10 +18,10 @@ const UserGuide = () => {
   return (
     <Row className="mt-3 user-guide-container">
       <Col className="text-center">
-        <Button variant="warning" ref={buttonRef} onClick={showGuide}>Hide user guide</Button>
+        <Button variant="warning" ref={buttonRef} onClick={showGuide}>Show user guide</Button>
       </Col>
 
-      <Col className="coltab-container mt-3" ref={guideRef}>
+      <Col className="coltab-container mt-3 hide-guide" ref={guideRef}>
         <Tabs defaultActiveKey="guide" className="tabs-container justify-content-center" id="uncontrolled-tab">
           <Tab eventKey="guide" title="Basic Steps">
             <br></br>

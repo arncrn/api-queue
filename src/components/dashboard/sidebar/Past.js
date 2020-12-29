@@ -95,7 +95,7 @@ class Past extends Component {
                 action
                 data-id={req.id}
                 key={req.id}
-                className={secondsSinceRequest < 30 && "glowing"}
+                className={secondsSinceRequest < 5 && "glowing"}
                 onClick={this.handleClick}
               >
                 <Row>
