@@ -56,7 +56,7 @@ const UserGuide = () => {
               3. Select a time, a time zone, and a date. Try something just a couple minutes from now in your current time zone, so you don't have to wait too long to check if it sent.
                 </p>
             <p>
-              4. Hit Send. As an example, if you specified 10:57 AM, wait until 10:58 AM, refresh the page, and check the Future tab on the left. A summary of your sent request is displaying for you.
+              4. Hit Send. Your request is now in the Future tab. As an example, if you specified 10:57 AM, wait until 10:58 AM, refresh the page, and check the Past tab on the left. A summary of your sent request is displaying for you.
                 </p>
           </Tab>
           <Tab eventKey="example" title="Example">

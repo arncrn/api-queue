@@ -67,8 +67,12 @@ class RequestResponse extends Component {
     let contentType = rawRequest.headers["Content-Type"];
     if (contentType && rawRequest.body) {
       if (contentType.includes("application/json")) {
-        let parsed = JSON.parse(rawRequest.body);
-        return JSON.stringify(parsed, null, 2);
+        try {
+          let parsed = JSON.parse(rawRequest.body);
+          return JSON.stringify(parsed, null, 2);
+        } catch {
+          return rawRequest.body
+        }
       } else if (contentType.includes("text/html")) {
         return html(rawRequest.body);
       } else if (contentType.includes("text/plain")) {
