@@ -66,6 +66,10 @@ dt {
   margin-right: 5px;
 } */
 
+.hide-guide {
+  display: none;
+}
+
 .glowing {
   background-color: lightgoldenrodyellow;
 }
