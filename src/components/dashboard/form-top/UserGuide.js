@@ -1,11 +1,28 @@
-import React, { Component } from "react";
-import { Form, Col, Row, Badge, InputGroup, Card, Tab, Tabs } from "react-bootstrap";
+import React, { useRef } from "react";
+import {  Col, Row, Tab, Tabs, Button } from "react-bootstrap";
 
-export default function UserGuide() {
+const UserGuide = () => {
+  const guideRef = useRef(null);
+  const buttonRef = useRef(null);
+
+  function showGuide() {
+    if (guideRef.current.style.display === "" || guideRef.current.style.display === "block") {
+      guideRef.current.style.display = "none";
+      buttonRef.current.textContent = "Show user guide";
+    } else {
+      guideRef.current.style.display = "block";
+      buttonRef.current.textContent = "Hide user guide";
+    }
+  }
+
   return (
-    <Row className="mt-3">
-      <Col>
-        <Tabs defaultActiveKey="guide" id="uncontrolled-tab-example">
+    <Row className="mt-3 user-guide-container">
+      <Col className="text-center">
+        <Button variant="warning" ref={buttonRef} onClick={showGuide}>Hide user guide</Button>
+      </Col>
+
+      <Col className="coltab-container mt-3" ref={guideRef}>
+        <Tabs defaultActiveKey="guide" className="tabs-container justify-content-center" id="uncontrolled-tab">
           <Tab eventKey="guide" title="Basic Steps">
             <br></br>
             <p>
@@ -82,11 +99,9 @@ export default function UserGuide() {
                 </p>
           </Tab>
         </Tabs>
-        <hr></hr>
       </Col>
     </Row>
   )
 }
 
-
-
+export default UserGuide;

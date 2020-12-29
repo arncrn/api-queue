@@ -88,7 +88,7 @@ dt {
   box-shadow: 0px 3px 8px 0px rgba(94, 94, 123, 0.5);
   border-radius: 8px;
   max-width: 1150px;
-  width: 93%;
+  width: 93% !important;
 }
 
 .logo {
@@ -156,6 +156,35 @@ p {
   width: 100%;
 }
 
+.user-guide-container {
+  padding: 15px 15px 0 15px;
+  flex-direction: column;
+}
+
+.coltab-container {
+  border: 4px dotted rgba(71,179,200,0.1);
+  border-radius: 10px;
+  padding-top: 5px;
+  background-color: rgba(71,179,200,0.1);
+}
+
+.tabs-container {
+  border: none !important;
+}
+
+#uncontrolled-tab-tab-guide, #uncontrolled-tab-tab-example, #uncontrolled-tab-tab-scheduling, #uncontrolled-tab-tab-parametersHeaders, #uncontrolled-tab-tab-questions {
+  color: #adadad;
+  border: none !important;
+  font-weight: bold;
+  outline-style: none;
+  background-color: transparent;
+}
+
+.tabs-container .nav-link.active {
+  color: #0056b3 !important;
+  font-weight: bold;
+}
+
 /* .guide-container {
   border: 1px solid goldenrod;
   padding: 1%;
@@ -170,6 +199,10 @@ p {
 
 /* Medium devices (tablets, 768px and up) */
 @media (min-width: 768px) and (max-width: 991.98px) {
+  .coltab-container {
+    height: 100%;
+  }
+  
   .card-link {
     display: block;
     line-height: 2;
