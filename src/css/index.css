@@ -275,7 +275,7 @@ p {
 }
 
 /* Extra small devices (portrait phones, less than 576px) */
-@media (min-width: 300px) and (max-width: 575.98px) { 
+@media (max-width: 575.98px) { 
   .use-cases-style {
     margin-top: 0 !important;
   }
@@ -308,6 +308,14 @@ p {
 
   .nav-container {
     padding: 0 !important;
+  }
+
+  .url-container > div {
+    margin-bottom: 3%;
+  }
+
+  .url-container + .row {
+    margin-top: 0 !important;
   }
 }
 

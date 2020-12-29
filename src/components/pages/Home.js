@@ -13,7 +13,7 @@ const Home = () => (
       className="text-center">
         <h2>Schedule a request at a later time</h2>
         <p className="mt-3">
-          Request queue helps you schedule HTTP requests for later, without
+          API-Q helps you schedule HTTP requests for later, without
           servers, DevOps, or infrastructure
         </p>
         <Button as={Link} to={"/signup"} className="mt-3">

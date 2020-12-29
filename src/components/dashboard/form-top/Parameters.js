@@ -11,7 +11,7 @@ class Parameters extends Component {
           {this.props.parameters.map((param) => {
             return (
               <Fragment key={param.id}>
-                <Col xs={5} className="mt-1">
+                <Col xs={10} lg={5} className="mt-1">
                   <InputGroup>
                     <InputGroup.Prepend>
                       <InputGroup.Text>key</InputGroup.Text>
@@ -27,7 +27,7 @@ class Parameters extends Component {
                   </InputGroup>
                 </Col>
 
-                <Col xs={5} className="mt-1">
+                <Col xs={10} lg={5} className="mt-1">
                   <InputGroup>
                     <InputGroup.Prepend>
                       <InputGroup.Text>value</InputGroup.Text>
@@ -42,7 +42,7 @@ class Parameters extends Component {
                     />
                   </InputGroup>
                 </Col>
-                <Col xs={2} className="mt-1">
+                <Col xs={1} className="mt-1 mb-2 pl-1">
                   <Button
                     variant="outline-info"
                     data-row-id={param.id}
@@ -56,7 +56,7 @@ class Parameters extends Component {
             );
           })}
 
-          <Col lg={3} className="mt-3">
+          <Col className="mt-2">
             <Button
               variant="outline-info"
               onClick={this.props.addKeyValueFields}

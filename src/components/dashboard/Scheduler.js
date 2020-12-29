@@ -27,10 +27,10 @@ class Scheduler extends Component {
             <Accordion.Collapse eventKey="0">
               <Card.Body>
                 <Row className="justify-content-center">
-                  <Col xs={3}>
+                  <Col xs={12} md={3}>
                     <Form.Control as="input" type="time" name='time' defaultValue={this.props.time} onChange={this.props.handleChange}></Form.Control>
                   </Col>
-                  <Col xs={3}>
+                  <Col xs={12} md={3}>
                     <Form.Control as="select" defaultValue={this.props.timezone} name='timeZone' onChange={this.props.handleChange} custom>
                       <option value="AKST">Alaska Time</option>
                       <option value="PST">Pacific Time</option>

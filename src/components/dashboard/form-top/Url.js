@@ -17,8 +17,8 @@ class Url extends Component {
   render() {
     return (
       <Form.Group as={"fieldset"}>
-        <Row className="mt-3">
-          <Col lg={2} xs={3}>
+        <Row className="mt-3 url-container">
+          <Col lg={2} sm={3}>
             <Form.Control
               as="select"
               name="httpVerb"
@@ -34,7 +34,7 @@ class Url extends Component {
             </Form.Control>
           </Col>
 
-          <Col lg={10} xs={9}>
+          <Col lg={10} sm={9}>
             <InputGroup>
               <InputGroup.Prepend>
                 <InputGroup.Text>url</InputGroup.Text>
