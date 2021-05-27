@@ -8,7 +8,8 @@ const Signup = (props) => {
   const [timezone, setTimeZone] = useState("AKST");
   const [signupSuccess, setSignupSuccess] = useState(false);
   const [alertMessage, setAlertMessage] = useState("");
-  const [goTimezone, setGoTimeZone] = useState("AKST");
+  // const [goTimezone, setGoTimeZone] = useState("AKST");
+  const [goTimezone, setGoTimeZone] = useState("AKDT");
   const [skipSignup, setSkipSignup] = useState(false);
 
   function toRedirect() {
@@ -125,11 +126,16 @@ const Signup = (props) => {
                   onChange={handleGoTimeZoneChange}
                   custom
                 >
-                  <option value="AKST">Alaska Time</option>
+                  {/* <option value="AKST">Alaska Time</option>
                   <option value="PST">Pacific Time</option>
                   <option value="MST">Mountain Time</option>
                   <option value="CST">Central Time</option>
-                  <option value="EST">Eastern Time</option>
+                  <option value="EST">Eastern Time</option> */}
+                  <option value="AKDT">Alaska Time</option>
+                  <option value="PDT">Pacific Time</option>
+                  <option value="MDT">Mountain Time</option>
+                  <option value="CDT">Central Time</option>
+                  <option value="EDT">Eastern Time</option>
                 </Form.Control>
               </Form.Group>
 
@@ -186,11 +192,16 @@ const Signup = (props) => {
                   onChange={handleTimeZoneChange}
                   custom
                 >
-                  <option value="AKST">Alaska Time</option>
+                  {/* <option value="AKST">Alaska Time</option>
                   <option value="PST">Pacific Time</option>
                   <option value="MST">Mountain Time</option>
                   <option value="CST">Central Time</option>
-                  <option value="EST">Eastern Time</option>
+                  <option value="EST">Eastern Time</option> */}
+                  <option value="AKDT">Alaska Time</option>
+                  <option value="PDT">Pacific Time</option>
+                  <option value="MDT">Mountain Time</option>
+                  <option value="CDT">Central Time</option>
+                  <option value="EDT">Eastern Time</option>
                 </Form.Control>
               </Form.Group>
 

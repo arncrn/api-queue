@@ -15,12 +15,19 @@ class Past extends Component {
   }
 
   getTimeZoneString = (timeZone) => {
+    // switch (timeZone) {
+    //   case 'AKST': return 'America/Anchorage';
+    //   case 'PST': return  'America/Los_Angeles';
+    //   case 'MST': return 'America/Boise';
+    //   case 'CST': return 'America/Chicago';
+    //   case 'EST': return 'America/New_York'
+    // }
     switch (timeZone) {
-      case 'AKST': return 'America/Anchorage';
-      case 'PST': return  'America/Los_Angeles';
-      case 'MST': return 'America/Boise';
-      case 'CST': return 'America/Chicago';
-      case 'EST': return 'America/New_York'
+      case 'AKDT': return 'America/Anchorage';
+      case 'PDT': return  'America/Los_Angeles';
+      case 'MDT': return 'America/Boise';
+      case 'CDT': return 'America/Chicago';
+      case 'EDT': return 'America/New_York'
     }
   }
   

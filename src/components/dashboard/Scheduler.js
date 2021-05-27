@@ -32,11 +32,16 @@ class Scheduler extends Component {
                   </Col>
                   <Col xs={12} md={3}>
                     <Form.Control as="select" defaultValue={this.props.timezone} name='timeZone' onChange={this.props.handleChange} custom>
-                      <option value="AKST">Alaska Time</option>
+                      {/* <option value="AKST">Alaska Time</option>
                       <option value="PST">Pacific Time</option>
                       <option value="MST">Mountain Time</option>
                       <option value="CST">Central Time</option>
-                      <option value="EST">Eastern Time</option>
+                      <option value="EST">Eastern Time</option> */}
+                      <option value="AKDT">Alaska Time</option>
+                      <option value="PDT">Pacific Time</option>
+                      <option value="MDT">Mountain Time</option>
+                      <option value="CDT">Central Time</option>
+                      <option value="EDT">Eastern Time</option>
                     </Form.Control>
                   </Col>
                 </Row>
